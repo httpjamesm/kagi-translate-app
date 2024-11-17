@@ -317,11 +317,4 @@
       color: #5ba7d1;
     }
   }
-
-  :global(body) {
-    background: #f5f5f5;
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  }
 </style>
