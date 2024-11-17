@@ -15,6 +15,7 @@
   let sourceText = $state("");
   let translatedText = $state("");
   let debounceTimer: number;
+  let isLoading = $state(false);
 
   const doLanguageDetection = async () => {
     try {
@@ -29,7 +30,7 @@
   };
 
   const doTranslation = async () => {
-    console.log("doTranslation");
+    isLoading = true;
     try {
       await invoke("set_session_token", {
         sessionToken: window.localStorage.getItem("kagiSession") || "",
@@ -42,6 +43,8 @@
       });
     } catch (e) {
       console.error(e);
+    } finally {
+      isLoading = false;
     }
   };
 
@@ -118,7 +121,15 @@
 
     <div class="translated-text">
       <div class="language-label">{targetLanguage}</div>
-      <div class="text-content">{translatedText}</div>
+      {#if isLoading}
+        <div class="skeleton-loader">
+          <div class="skeleton-line" />
+          <div class="skeleton-line" />
+          <div class="skeleton-line" />
+        </div>
+      {:else}
+        <div class="text-content">{translatedText}</div>
+      {/if}
       <div class="actions">
         <button class="icon-button favorite">
           <IconStar size={20} />
@@ -312,6 +323,36 @@
 
     &.active {
       color: #5ba7d1;
+    }
+  }
+
+  .skeleton-loader {
+    padding: 0.5rem 0;
+  }
+
+  .skeleton-line {
+    height: 1.25rem;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+    border-radius: 0.25rem;
+    margin-bottom: 0.75rem;
+
+    &:nth-child(2) {
+      width: 85%;
+    }
+
+    &:nth-child(3) {
+      width: 65%;
+    }
+  }
+
+  @keyframes loading {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
     }
   }
 </style>
