@@ -8,6 +8,8 @@
   } from "@tabler/icons-svelte";
   import { invoke } from "@tauri-apps/api/core";
   import { languages } from "$lib/constants/languages";
+  import LayoutSidebarLeftExpand from "@tabler/icons-svelte/icons/layout-sidebar-left-expand";
+  import { onMount } from "svelte";
 
   let sourceLanguage = "Automatic";
   let targetLanguage = "German";
@@ -56,10 +58,34 @@
     }, 500);
   };
 
-  $: if (sourceText) {
-    console.log("source text detected");
-    debounce();
-  }
+  $effect(() => {
+    if (sourceText) {
+      console.log("source text detected");
+      debounce();
+    }
+  });
+
+  // retrieve languages from local storage on page load
+  const loadLanguages = () => {
+    const savedSourceLanguage = window.localStorage.getItem("sourceLanguage");
+    const savedTargetLanguage = window.localStorage.getItem("targetLanguage");
+    if (savedSourceLanguage) {
+      sourceLanguage = savedSourceLanguage;
+    }
+    if (savedTargetLanguage) {
+      targetLanguage = savedTargetLanguage;
+    }
+  };
+
+  onMount(() => {
+    loadLanguages();
+  });
+
+  // save languages to local storage when they change
+  $effect(() => {
+    window.localStorage.setItem("sourceLanguage", sourceLanguage);
+    window.localStorage.setItem("targetLanguage", targetLanguage);
+  });
 </script>
 
 <div class="container">
