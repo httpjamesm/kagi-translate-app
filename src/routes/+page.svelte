@@ -8,14 +8,13 @@
   } from "@tabler/icons-svelte";
   import { invoke } from "@tauri-apps/api/core";
   import { languages } from "$lib/constants/languages";
-  import LayoutSidebarLeftExpand from "@tabler/icons-svelte/icons/layout-sidebar-left-expand";
   import { onMount } from "svelte";
 
-  let sourceLanguage = "Automatic";
-  let targetLanguage = "German";
-  let sourceText = "";
-  let translatedText = "";
-  let debounceTimer: NodeJS.Timeout;
+  let sourceLanguage = $state("Automatic");
+  let targetLanguage = $state("German");
+  let sourceText = $state("");
+  let translatedText = $state("");
+  let debounceTimer: number;
 
   const doLanguageDetection = async () => {
     try {
