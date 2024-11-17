@@ -173,7 +173,13 @@
         <div class="skeleton-line" />
       </div>
     {:else}
-      <div class="text-content">{translatedText}</div>
+      <div class="text-content">
+        {#if translatedText}
+          {translatedText}
+        {:else}
+          <span class="placeholder">Translation will appear here</span>
+        {/if}
+      </div>
     {/if}
     <div class="actions">
       <button class="icon-button favorite" on:click={toggleFavorite}>
@@ -253,6 +259,10 @@
   .text-content {
     font-size: 1.25rem;
     line-height: 1.4;
+
+    .placeholder {
+      color: #999;
+    }
 
     &:is(textarea) {
       width: 100%;
