@@ -6,6 +6,7 @@
     IconCopy,
     IconHeart,
     IconX,
+    IconArrowsExchange,
   } from "@tabler/icons-svelte";
   import { invoke } from "@tauri-apps/api/core";
   import { languages } from "$lib/constants/languages";
@@ -135,6 +136,14 @@
       checkIsCurrentTranslationFavorited();
     }
   });
+
+  const swapLanguages = () => {
+    if (sourceLanguage !== "Automatic") {
+      const temp = sourceLanguage;
+      sourceLanguage = targetLanguage;
+      targetLanguage = temp;
+    }
+  };
 </script>
 
 <div class="language-selector">
@@ -145,6 +154,14 @@
       </option>
     {/each}
   </select>
+
+  <button
+    class="swap-button"
+    onclick={swapLanguages}
+    disabled={sourceLanguage === "Automatic"}
+  >
+    <IconArrowsExchange size={20} />
+  </button>
 
   <select bind:value={targetLanguage} class="language-select">
     {#each languages.filter((l) => l !== "Automatic") as language}
@@ -263,7 +280,7 @@
     background-size: 1.25rem;
     padding-right: 2.5rem;
     transition: all 0.2s ease;
-    width: 48%;
+    width: 42%;
 
     &:hover {
       border-color: #cbd5e0;
@@ -407,6 +424,32 @@
     }
     100% {
       background-position: -200% 0;
+    }
+  }
+
+  .swap-button {
+    background: none;
+    border: none;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    &:hover {
+      background: #f0f0f0;
+    }
+
+    &:active {
+      transform: scale(0.95);
     }
   }
 </style>
