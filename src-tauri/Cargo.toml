@@ -27,3 +27,5 @@ anyhow-tauri = "1.0.0"
 anyhow = "1.0.93"
 scraper = "0.21.0"
 tauri-plugin-sql = { version = "2", features = ["sqlite"] }
+tauri-plugin-clipboard = "2.1.11"
+tauri-plugin-clipboard-manager = "2.0.2"

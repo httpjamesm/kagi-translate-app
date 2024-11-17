@@ -1,13 +1,17 @@
 <script lang="ts">
   import {
-    IconMicrophone,
     IconStar,
     IconPlayerPlay,
+    IconClipboard,
+    IconCopy,
+    IconHeart,
+    IconX,
   } from "@tabler/icons-svelte";
   import { invoke } from "@tauri-apps/api/core";
   import { languages } from "$lib/constants/languages";
   import { onMount } from "svelte";
   import Database from "@tauri-apps/plugin-sql";
+  import { readText, writeText } from "@tauri-apps/plugin-clipboard-manager";
 
   let sourceLanguage = $state("Automatic");
   let targetLanguage = $state("German");
@@ -158,8 +162,40 @@
       bind:value={sourceText}
     ></textarea>
     <div class="actions">
-      <button class="icon-button mic">
-        <IconMicrophone size={20} color="white" />
+      {#if sourceText}
+        <button class="icon-button">
+          <IconX
+            size={20}
+            onclick={() => {
+              sourceText = "";
+              translatedText = "";
+            }}
+          />
+        </button>
+      {/if}
+      <button class="icon-button">
+        <IconCopy
+          size={20}
+          onclick={async () => {
+            try {
+              await writeText(sourceText);
+            } catch (e) {
+              console.error(e);
+            }
+          }}
+        />
+      </button>
+      <button
+        class="icon-button"
+        onclick={async () => {
+          try {
+            sourceText = await readText();
+          } catch (e) {
+            console.error(e);
+          }
+        }}
+      >
+        <IconClipboard size={20} />
       </button>
     </div>
   </div>
@@ -182,11 +218,21 @@
       </div>
     {/if}
     <div class="actions">
-      <button class="icon-button favorite" on:click={toggleFavorite}>
-        <IconStar size={20} color={isFavorited ? "#5ba7d1" : undefined} />
+      <button class="icon-button">
+        <IconCopy
+          size={20}
+          onclick={async () => {
+            try {
+              await writeText(translatedText);
+            } catch (e) {
+              console.error(e);
+            }
+          }}
+        />
       </button>
-      <button class="icon-button play">
-        <IconPlayerPlay size={20} />
+
+      <button class="icon-button" onclick={toggleFavorite}>
+        <IconHeart size={20} color={isFavorited ? "#5ba7d1" : undefined} />
       </button>
     </div>
   </div>
@@ -321,14 +367,14 @@
     justify-content: center;
     cursor: pointer;
 
-    &.mic {
+    &.primary {
       background: #5ba7d1;
     }
 
     &:hover {
       background: #f0f0f0;
 
-      &.mic {
+      &.primary {
         background: darken(#5ba7d1, 5%);
       }
     }
