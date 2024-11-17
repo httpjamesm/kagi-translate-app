@@ -3,12 +3,11 @@
     IconMicrophone,
     IconStar,
     IconPlayerPlay,
-    IconLanguage,
-    IconHeart,
   } from "@tabler/icons-svelte";
   import { invoke } from "@tauri-apps/api/core";
   import { languages } from "$lib/constants/languages";
   import { onMount } from "svelte";
+  import Database from "@tauri-apps/plugin-sql";
 
   let sourceLanguage = $state("Automatic");
   let targetLanguage = $state("German");
@@ -16,6 +15,8 @@
   let translatedText = $state("");
   let debounceTimer: number;
   let isLoading = $state(false);
+  let isFavorited = $state(false);
+  let db: any;
 
   const doLanguageDetection = async () => {
     try {
@@ -76,8 +77,9 @@
     }
   };
 
-  onMount(() => {
+  onMount(async () => {
     loadLanguages();
+    db = await Database.load("sqlite:kagi-translate.db");
   });
 
   // save languages to local storage when they change
@@ -85,86 +87,106 @@
     window.localStorage.setItem("sourceLanguage", sourceLanguage);
     window.localStorage.setItem("targetLanguage", targetLanguage);
   });
+
+  const toggleFavorite = async () => {
+    try {
+      if (!isFavorited) {
+        await db.execute(
+          `INSERT INTO favorites (source_text, translated_text, source_language, target_language) 
+           VALUES ($1, $2, $3, $4)`,
+          [sourceText, translatedText, sourceLanguage, targetLanguage]
+        );
+        isFavorited = true;
+      } else {
+        await db.execute(
+          `DELETE FROM favorites 
+           WHERE source_text = $1 
+           AND translated_text = $2 
+           AND source_language = $3 
+           AND target_language = $4`,
+          [sourceText, translatedText, sourceLanguage, targetLanguage]
+        );
+        isFavorited = false;
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const checkIsCurrentTranslationFavorited = async () => {
+    const result = await db.select(
+      `SELECT COUNT(*) as count FROM favorites 
+         WHERE source_text = $1 
+         AND translated_text = $2 
+         AND source_language = $3 
+         AND target_language = $4`,
+      [sourceText, translatedText, sourceLanguage, targetLanguage]
+    );
+    isFavorited = result[0].count > 0;
+  };
+
+  // Add effect to check if current translation is favorited
+  $effect(() => {
+    if (db && sourceText && translatedText) {
+      checkIsCurrentTranslationFavorited();
+    }
+  });
 </script>
 
-<div class="container">
-  <div class="language-selector">
-    <select bind:value={sourceLanguage} class="language-select">
-      {#each languages as language}
-        <option value={language}>
-          {language === "Automatic" ? "Detect" : language}
-        </option>
-      {/each}
-    </select>
+<div class="language-selector">
+  <select bind:value={sourceLanguage} class="language-select">
+    {#each languages as language}
+      <option value={language}>
+        {language === "Automatic" ? "Detect" : language}
+      </option>
+    {/each}
+  </select>
 
-    <select bind:value={targetLanguage} class="language-select">
-      {#each languages.filter((l) => l !== "Automatic") as language}
-        <option value={language}>{language}</option>
-      {/each}
-    </select>
-  </div>
+  <select bind:value={targetLanguage} class="language-select">
+    {#each languages.filter((l) => l !== "Automatic") as language}
+      <option value={language}>{language}</option>
+    {/each}
+  </select>
+</div>
 
-  <div class="translation-area">
-    <div class="source-text">
-      <div class="language-label">{sourceLanguage}</div>
-      <textarea
-        class="text-content"
-        placeholder="Enter text"
-        bind:value={sourceText}
-      ></textarea>
-      <div class="actions">
-        <button class="icon-button mic">
-          <IconMicrophone size={20} color="white" />
-        </button>
-      </div>
-    </div>
-
-    <div class="translated-text">
-      <div class="language-label">{targetLanguage}</div>
-      {#if isLoading}
-        <div class="skeleton-loader">
-          <div class="skeleton-line" />
-          <div class="skeleton-line" />
-          <div class="skeleton-line" />
-        </div>
-      {:else}
-        <div class="text-content">{translatedText}</div>
-      {/if}
-      <div class="actions">
-        <button class="icon-button favorite">
-          <IconStar size={20} />
-        </button>
-        <button class="icon-button play">
-          <IconPlayerPlay size={20} />
-        </button>
-      </div>
+<div class="translation-area">
+  <div class="source-text">
+    <div class="language-label">{sourceLanguage}</div>
+    <textarea
+      class="text-content"
+      placeholder="Enter text"
+      bind:value={sourceText}
+    ></textarea>
+    <div class="actions">
+      <button class="icon-button mic">
+        <IconMicrophone size={20} color="white" />
+      </button>
     </div>
   </div>
 
-  <nav class="bottom-nav">
-    <button class="nav-button translate active">
-      <IconLanguage size={24} />
-      Translate
-    </button>
-    <button class="nav-button favorites">
-      <IconHeart size={24} />
-      Favorites
-    </button>
-  </nav>
+  <div class="translated-text">
+    <div class="language-label">{targetLanguage}</div>
+    {#if isLoading}
+      <div class="skeleton-loader">
+        <div class="skeleton-line" />
+        <div class="skeleton-line" />
+        <div class="skeleton-line" />
+      </div>
+    {:else}
+      <div class="text-content">{translatedText}</div>
+    {/if}
+    <div class="actions">
+      <button class="icon-button favorite" on:click={toggleFavorite}>
+        <IconStar size={20} color={isFavorited ? "#5ba7d1" : undefined} />
+      </button>
+      <button class="icon-button play">
+        <IconPlayerPlay size={20} />
+      </button>
+    </div>
+  </div>
 </div>
 
 <style lang="scss">
-  .container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    box-sizing: border-box;
-    height: 100vh;
-  }
-
   .language-selector {
     display: flex;
     gap: 1rem;
@@ -299,30 +321,6 @@
       &.mic {
         background: darken(#5ba7d1, 5%);
       }
-    }
-  }
-
-  .bottom-nav {
-    display: flex;
-    justify-content: space-around;
-    padding: 1rem;
-    background: white;
-    border-radius: 0.75rem;
-  }
-
-  .nav-button {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.25rem;
-    background: none;
-    border: none;
-    color: #666;
-    font-size: 0.875rem;
-    cursor: pointer;
-
-    &.active {
-      color: #5ba7d1;
     }
   }
 

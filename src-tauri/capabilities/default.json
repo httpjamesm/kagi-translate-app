@@ -6,9 +6,9 @@
   "permissions": [
     "core:default",
     "shell:allow-open",
-    {
-      "identifier": "http:default",
-      "allow": [{ "url": "https://translate.kagi.com" }]
-    }
+    "http:default",
+    "sql:default",
+    "sql:allow-execute",
+    "sql:allow-select"
   ]
 }

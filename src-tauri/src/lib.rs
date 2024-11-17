@@ -6,6 +6,7 @@ use scraper::{Html, Selector};
 use serde_json::json;
 use tauri::Manager;
 use tauri_plugin_http::reqwest;
+use tauri_plugin_sql::{Migration, MigrationKind};
 
 #[derive(serde::Deserialize)]
 struct DetectLanguageResponse {
@@ -95,13 +96,35 @@ fn set_session_token(state: tauri::State<'_, Arc<Mutex<AppState>>>, session_toke
     state.lock().unwrap().session_token = Some(session_token.to_string());
 }
 
+
 struct AppState {
     session_token: Option<String>,
+}
+
+fn get_migrations() -> Vec<Migration> {
+    vec![Migration {
+        version: 1,
+        description: "create_favorites_table",
+        sql: "CREATE TABLE IF NOT EXISTS favorites (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                source_text TEXT NOT NULL,
+                translated_text TEXT NOT NULL,
+                source_language TEXT NOT NULL,
+                target_language TEXT NOT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            );",
+        kind: MigrationKind::Up,
+    }]
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
+        .plugin(
+            tauri_plugin_sql::Builder::default()
+                .add_migrations("sqlite:kagi-translate.db", get_migrations())
+                .build(),
+        )
         .setup(|app| {
             let state = AppState {
                 session_token: None,
@@ -116,7 +139,7 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             detect_language,
             get_translation,
-            set_session_token
+            set_session_token,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

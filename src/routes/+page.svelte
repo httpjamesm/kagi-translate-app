@@ -7,7 +7,7 @@
     if (!sessionToken) {
       goto("/login");
     } else {
-      goto("/translate");
+      goto("/app/translate");
     }
   };
 
