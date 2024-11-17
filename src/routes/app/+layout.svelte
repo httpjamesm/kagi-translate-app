@@ -5,7 +5,9 @@
 </script>
 
 <div class="app-layout">
-  {@render children?.()}
+  <div class="content">
+    {@render children?.()}
+  </div>
   <BottomNav />
 </div>
 
@@ -19,5 +21,11 @@
     gap: 1rem;
     box-sizing: border-box;
     height: 100vh;
+    max-height: 100vh;
+
+    .content {
+      flex: 1;
+      overflow-y: auto;
+    }
   }
 </style>
