@@ -6,6 +6,8 @@
     const sessionToken = window.localStorage.getItem("kagiSession");
     if (!sessionToken) {
       goto("/login");
+    } else {
+      goto("/translate");
     }
   };
 
