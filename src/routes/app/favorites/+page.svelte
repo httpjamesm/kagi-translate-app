@@ -46,21 +46,23 @@
 </script>
 
 <div class="favorites-list">
-  {#each favorites as favorite}
+  {#each favorites as favorite (favorite.id)}
     <div class="favorite-item">
-      <div class="languages">
-        <span>{favorite.source_language}</span>
-        <span>→</span>
-        <span>{favorite.target_language}</span>
+      <div class="item-header">
+        <div class="languages">
+          <span>{favorite.source_language}</span>
+          <span>→</span>
+          <span>{favorite.target_language}</span>
+        </div>
+        <IconButton
+          icon={IconTrash}
+          onclick={() => deleteFavorite(favorite.id)}
+        />
       </div>
       <div class="texts">
         <p class="source">{favorite.source_text}</p>
         <p class="translated">{favorite.translated_text}</p>
       </div>
-      <IconButton
-        icon={IconTrash}
-        onclick={() => deleteFavorite(favorite.id)}
-      />
     </div>
   {/each}
 </div>
@@ -77,15 +79,18 @@
     border-radius: 0.5rem;
     padding: 1rem;
     margin-bottom: 1rem;
-    position: relative;
-  }
 
-  .languages {
-    display: flex;
-    gap: 0.5rem;
-    color: var(--text-secondary);
-    font-size: 0.875rem;
-    margin-bottom: 0.5rem;
+    .item-header {
+      display: flex;
+      justify-content: space-between;
+
+      .languages {
+        display: flex;
+        gap: 0.5rem;
+        color: var(--text-secondary);
+        font-size: 0.875rem;
+      }
+    }
   }
 
   .texts {
