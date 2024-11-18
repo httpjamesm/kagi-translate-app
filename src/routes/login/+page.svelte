@@ -11,7 +11,7 @@
       ""
     );
     window.localStorage.setItem("kagiSession", token);
-    goto("/translate");
+    goto("/app/translate");
   };
 </script>
 
@@ -23,7 +23,18 @@
     <div class="steps">
       <div class="step">
         <div class="step-number">1</div>
-        <div class="step-text">Log into kagi.com</div>
+        <div class="step-text">
+          Log into <a
+            href="#"
+            onclick={() => {
+              try {
+                open("https://kagi.com");
+              } catch (e) {
+                console.error(e);
+              }
+            }}>kagi.com</a
+          >
+        </div>
       </div>
       <div class="step">
         <div class="step-number">2</div>
