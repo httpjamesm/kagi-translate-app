@@ -220,6 +220,9 @@
               } catch {}
               sourceText = "";
               translatedText = "";
+              // reset saved state
+              window.localStorage.removeItem("sourceText");
+              window.localStorage.removeItem("translatedText");
             }}
           />
         </button>
