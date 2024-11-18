@@ -3,6 +3,7 @@
   import Database from "@tauri-apps/plugin-sql";
   import { onMount } from "svelte";
   import { selectionFeedback } from "@tauri-apps/plugin-haptics";
+  import IconButton from "$lib/components/IconButton.svelte";
 
   interface Favorite {
     id: number;
@@ -56,9 +57,10 @@
         <p class="source">{favorite.source_text}</p>
         <p class="translated">{favorite.translated_text}</p>
       </div>
-      <button class="delete-button" onclick={() => deleteFavorite(favorite.id)}>
-        <IconTrash size={20} />
-      </button>
+      <IconButton
+        icon={IconTrash}
+        onclick={() => deleteFavorite(favorite.id)}
+      />
     </div>
   {/each}
 </div>
@@ -96,24 +98,6 @@
       color: var(--text-primary);
       font-size: 1.1rem;
       margin: 0;
-    }
-  }
-
-  .delete-button {
-    position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
-    background: none;
-    border: none;
-    padding: 0.5rem;
-    cursor: pointer;
-    color: var(--text-secondary);
-    border-radius: 50%;
-    transition: all 0.2s ease;
-
-    &:hover {
-      background: var(--button-hover);
-      color: #ff4444;
     }
   }
 </style>

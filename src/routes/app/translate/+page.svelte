@@ -12,6 +12,8 @@
   import { writeText } from "@tauri-apps/plugin-clipboard-manager";
   import { selectionFeedback } from "@tauri-apps/plugin-haptics";
   import LanguageSelectionModal from "$lib/components/LanguageSelectionModal.svelte";
+  import IconButton from "$lib/components/IconButton.svelte";
+  import CopyButton from "$lib/components/CopyButton.svelte";
 
   let sourceLanguage = $state("Automatic");
   let targetLanguage = $state("German");
@@ -165,13 +167,11 @@
       : sourceLanguage}
   </button>
 
-  <button
-    class="icon-button"
+  <IconButton
+    icon={IconArrowsExchange}
     onclick={swapLanguages}
     disabled={sourceLanguage === "Automatic"}
-  >
-    <IconArrowsExchange size={20} />
-  </button>
+  />
 
   <button class="language-button" onclick={() => (showTargetModal = true)}>
     {targetLanguage}
@@ -211,37 +211,20 @@
     ></textarea>
     <div class="actions">
       {#if sourceText}
-        <button class="icon-button">
-          <IconX
-            size={20}
-            onclick={async () => {
-              try {
-                await selectionFeedback();
-              } catch {}
-              sourceText = "";
-              translatedText = "";
-              // reset saved state
-              window.localStorage.removeItem("sourceText");
-              window.localStorage.removeItem("translatedText");
-            }}
-          />
-        </button>
-      {/if}
-      <button class="icon-button">
-        <IconCopy
-          size={20}
+        <IconButton
+          icon={IconX}
           onclick={async () => {
             try {
               await selectionFeedback();
             } catch {}
-            try {
-              await writeText(sourceText);
-            } catch (e) {
-              console.error(e);
-            }
+            sourceText = "";
+            translatedText = "";
+            window.localStorage.removeItem("sourceText");
+            window.localStorage.removeItem("translatedText");
           }}
         />
-      </button>
+      {/if}
+      <CopyButton text={sourceText} />
     </div>
   </div>
 
@@ -249,9 +232,9 @@
     <div class="language-label">{targetLanguage}</div>
     {#if isLoading}
       <div class="skeleton-loader">
-        <div class="skeleton-line" />
-        <div class="skeleton-line" />
-        <div class="skeleton-line" />
+        <div class="skeleton-line"></div>
+        <div class="skeleton-line"></div>
+        <div class="skeleton-line"></div>
       </div>
     {:else}
       <div class="text-content">
@@ -263,29 +246,13 @@
       </div>
     {/if}
     <div class="actions">
-      <button class="icon-button">
-        <IconCopy
-          size={20}
-          onclick={async () => {
-            try {
-              await selectionFeedback();
-            } catch {}
-            try {
-              await writeText(translatedText);
-            } catch (e) {
-              console.error(e);
-            }
-          }}
-        />
-      </button>
-
-      <button
-        class="icon-button"
-        onclick={toggleFavorite}
+      <CopyButton text={translatedText} />
+      <IconButton
+        icon={IconHeart}
+        color={isFavorited ? "#5ba7d1" : undefined}
         disabled={translatedText.length === 0}
-      >
-        <IconHeart size={20} color={isFavorited ? "#5ba7d1" : undefined} />
-      </button>
+        onclick={toggleFavorite}
+      />
     </div>
   </div>
 </div>
@@ -410,36 +377,6 @@
       &::placeholder {
         color: #999;
       }
-    }
-  }
-
-  .icon-button {
-    background: none;
-    border: none;
-    width: 2.5rem;
-    height: 2.5rem;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    color: var(--text-secondary);
-
-    &.primary {
-      background: #5ba7d1;
-    }
-
-    &:not(:disabled):hover {
-      background: var(--button-hover);
-
-      &.primary {
-        background: var(--primary-hover);
-      }
-    }
-
-    &:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
     }
   }
 
