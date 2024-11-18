@@ -144,9 +144,11 @@
 
   const swapLanguages = () => {
     if (sourceLanguage !== "Automatic") {
-      const temp = sourceLanguage;
+      const tempSource = sourceLanguage;
       sourceLanguage = targetLanguage;
-      targetLanguage = temp;
+      targetLanguage = tempSource;
+      // swap translations too
+      sourceText = translatedText;
     }
   };
 </script>
