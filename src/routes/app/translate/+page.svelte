@@ -41,6 +41,7 @@
   const doTranslation = async () => {
     isLoading = true;
     try {
+      if (sourceText.length === 0) return;
       await invoke("set_session_token", {
         sessionToken: window.localStorage.getItem("kagiSession") || "",
       });
