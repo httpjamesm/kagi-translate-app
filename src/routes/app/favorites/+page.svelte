@@ -46,25 +46,31 @@
 </script>
 
 <div class="favorites-list">
-  {#each favorites as favorite (favorite.id)}
-    <div class="favorite-item">
-      <div class="item-header">
-        <div class="languages">
-          <span>{favorite.source_language}</span>
-          <span>→</span>
-          <span>{favorite.target_language}</span>
-        </div>
-        <IconButton
-          icon={IconTrash}
-          onclick={() => deleteFavorite(favorite.id)}
-        />
-      </div>
-      <div class="texts">
-        <p class="source">{favorite.source_text}</p>
-        <p class="translated">{favorite.translated_text}</p>
-      </div>
+  {#if favorites.length === 0}
+    <div class="empty-state">
+      <p>Press the heart button on translations to add them here</p>
     </div>
-  {/each}
+  {:else}
+    {#each favorites as favorite (favorite.id)}
+      <div class="favorite-item">
+        <div class="item-header">
+          <div class="languages">
+            <span>{favorite.source_language}</span>
+            <span>→</span>
+            <span>{favorite.target_language}</span>
+          </div>
+          <IconButton
+            icon={IconTrash}
+            onclick={() => deleteFavorite(favorite.id)}
+          />
+        </div>
+        <div class="texts">
+          <p class="source">{favorite.source_text}</p>
+          <p class="translated">{favorite.translated_text}</p>
+        </div>
+      </div>
+    {/each}
+  {/if}
 </div>
 
 <style lang="scss">
@@ -102,6 +108,19 @@
     .translated {
       color: var(--text-primary);
       font-size: 1.1rem;
+      margin: 0;
+    }
+  }
+
+  .empty-state {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+
+    p {
+      color: var(--text-secondary);
+      text-align: center;
       margin: 0;
     }
   }
