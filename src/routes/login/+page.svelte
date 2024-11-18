@@ -72,6 +72,17 @@
     <p class="disclaimer">
       <small>This app is unofficial and not affiliated with Kagi Inc.</small>
     </p>
+    <p>
+      <small
+        >Created by <a
+          href="#"
+          onclick={() =>
+            open(
+              "https://httpjames.space?ref=space.httpjames.kagi-translate-app"
+            )}>http.james</a
+        ></small
+      >
+    </p>
   </div>
 </div>
 
@@ -156,11 +167,6 @@
   .step-text {
     font-size: 1rem;
     color: var(--text-primary);
-
-    a {
-      color: var(--primary);
-      text-decoration: none;
-    }
   }
 
   .input-area {
