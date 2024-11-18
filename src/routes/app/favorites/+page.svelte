@@ -29,7 +29,7 @@
         ? `SELECT * FROM favorites WHERE source_text LIKE $1 OR translated_text LIKE $1 ORDER BY created_at DESC`
         : `SELECT * FROM favorites ORDER BY created_at DESC`;
 
-      const params = searchQuery ? [`%${searchQuery}%`] : [];
+      const params = searchQuery.length > 0 ? [`%${searchQuery}%`] : [];
       favorites = await db.select(query, params);
     } catch (e) {
       console.error(e);
