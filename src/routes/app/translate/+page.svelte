@@ -435,6 +435,7 @@
 
   .skeleton-loader {
     padding: 0.5rem 0;
+    flex: 1;
   }
 
   .skeleton-line {
