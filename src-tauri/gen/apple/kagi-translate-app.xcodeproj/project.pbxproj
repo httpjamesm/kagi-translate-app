@@ -1,0 +1,463 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 54;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0ED51167667F291B29CE5B59 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5CC282164F3A39CDD1D83D6C /* Assets.xcassets */; };
+		1C8D9FC546A1A48BF027C8C9 /* libapp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8952741E334A748669B0E764 /* libapp.a */; };
+		73A865F8E0E553DD046BBAD9 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6D82AEA0FD2BBBD20620C79 /* QuartzCore.framework */; };
+		812D002B6FECA2C1E1993CAF /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = 368C6A3B85E502C3AB6FF653 /* main.mm */; };
+		8C986908566A8E660C77DCA2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26ABD0F4D227BF74B3831919 /* UIKit.framework */; };
+		8F92A38A7ACB743269A0DD48 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C08E4EB5B30A27D046EB3C36 /* CoreGraphics.framework */; };
+		B40CA8562E6A699EB711B4E8 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7995CCB344176AD1B83A1F8 /* Security.framework */; };
+		C0C131EA504DF08DECB786AD /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 492DCBFBBF87107ECB6ACAF7 /* MetalKit.framework */; };
+		D781794E734AFA857E7C9E1E /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 14271FB2CC22A54330991EEC /* assets */; };
+		D79CD95830809C3049B2671B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 40AF298F741597B2431B9017 /* LaunchScreen.storyboard */; };
+		E694DE5CD480C8BE163E9BCF /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 168A72CB3209EC9804DFAB1C /* Metal.framework */; };
+		F44062BF0A49FF0379550646 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B631FCBE55696B56B9A3357 /* WebKit.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		1182EA17784A4F8C1AFEF930 /* bindings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bindings.h; sourceTree = "<group>"; };
+		14271FB2CC22A54330991EEC /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = SOURCE_ROOT; };
+		168A72CB3209EC9804DFAB1C /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
+		26ABD0F4D227BF74B3831919 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		322EA02E409811CF78CE671F /* kagi-translate-app_iOS.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = "kagi-translate-app_iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		368C6A3B85E502C3AB6FF653 /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
+		40AF298F741597B2431B9017 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		492DCBFBBF87107ECB6ACAF7 /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
+		5CC282164F3A39CDD1D83D6C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		6B631FCBE55696B56B9A3357 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		73BC92DF0D4465401C853398 /* main.rs */ = {isa = PBXFileReference; path = main.rs; sourceTree = "<group>"; };
+		7B1D24B099DA6C0CECE302AF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		8952741E334A748669B0E764 /* libapp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libapp.a; sourceTree = "<group>"; };
+		A7995CCB344176AD1B83A1F8 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		AF192924839A891149A3F8C0 /* lib.rs */ = {isa = PBXFileReference; path = lib.rs; sourceTree = "<group>"; };
+		C08E4EB5B30A27D046EB3C36 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		D6D82AEA0FD2BBBD20620C79 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		F0EDA51FABE1174D034CD62D /* kagi-translate-app_iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "kagi-translate-app_iOS.entitlements"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		794CAAB1068F98317AE1C65A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1C8D9FC546A1A48BF027C8C9 /* libapp.a in Frameworks */,
+				8F92A38A7ACB743269A0DD48 /* CoreGraphics.framework in Frameworks */,
+				E694DE5CD480C8BE163E9BCF /* Metal.framework in Frameworks */,
+				C0C131EA504DF08DECB786AD /* MetalKit.framework in Frameworks */,
+				73A865F8E0E553DD046BBAD9 /* QuartzCore.framework in Frameworks */,
+				B40CA8562E6A699EB711B4E8 /* Security.framework in Frameworks */,
+				8C986908566A8E660C77DCA2 /* UIKit.framework in Frameworks */,
+				F44062BF0A49FF0379550646 /* WebKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2E3DB4F983789070623F9DB9 /* kagi-translate-app_iOS */ = {
+			isa = PBXGroup;
+			children = (
+				7B1D24B099DA6C0CECE302AF /* Info.plist */,
+				F0EDA51FABE1174D034CD62D /* kagi-translate-app_iOS.entitlements */,
+			);
+			path = "kagi-translate-app_iOS";
+			sourceTree = "<group>";
+		};
+		306B48B08998732A2CC2A91F /* kagi-translate-app */ = {
+			isa = PBXGroup;
+			children = (
+				368C6A3B85E502C3AB6FF653 /* main.mm */,
+				CB903EB05934BA11247AC176 /* bindings */,
+			);
+			path = "kagi-translate-app";
+			sourceTree = "<group>";
+		};
+		315EE775B587FD7EE9BA2C69 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				AF192924839A891149A3F8C0 /* lib.rs */,
+				73BC92DF0D4465401C853398 /* main.rs */,
+			);
+			name = src;
+			path = ../../src;
+			sourceTree = "<group>";
+		};
+		362EBFB33EE8B45795FC36E4 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				306B48B08998732A2CC2A91F /* kagi-translate-app */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		71E6B20B7C779B800A459F91 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C08E4EB5B30A27D046EB3C36 /* CoreGraphics.framework */,
+				8952741E334A748669B0E764 /* libapp.a */,
+				168A72CB3209EC9804DFAB1C /* Metal.framework */,
+				492DCBFBBF87107ECB6ACAF7 /* MetalKit.framework */,
+				D6D82AEA0FD2BBBD20620C79 /* QuartzCore.framework */,
+				A7995CCB344176AD1B83A1F8 /* Security.framework */,
+				26ABD0F4D227BF74B3831919 /* UIKit.framework */,
+				6B631FCBE55696B56B9A3357 /* WebKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		73B370044A2DE9E893D4B77C = {
+			isa = PBXGroup;
+			children = (
+				14271FB2CC22A54330991EEC /* assets */,
+				5CC282164F3A39CDD1D83D6C /* Assets.xcassets */,
+				40AF298F741597B2431B9017 /* LaunchScreen.storyboard */,
+				B7275C57DB37C40052BE2CF6 /* Externals */,
+				2E3DB4F983789070623F9DB9 /* kagi-translate-app_iOS */,
+				362EBFB33EE8B45795FC36E4 /* Sources */,
+				315EE775B587FD7EE9BA2C69 /* src */,
+				71E6B20B7C779B800A459F91 /* Frameworks */,
+				A1FC8BD428A7772C63397994 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A1FC8BD428A7772C63397994 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				322EA02E409811CF78CE671F /* kagi-translate-app_iOS.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B7275C57DB37C40052BE2CF6 /* Externals */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Externals;
+			sourceTree = "<group>";
+		};
+		CB903EB05934BA11247AC176 /* bindings */ = {
+			isa = PBXGroup;
+			children = (
+				1182EA17784A4F8C1AFEF930 /* bindings.h */,
+			);
+			path = bindings;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		AB88D027622FC4B230B977CA /* kagi-translate-app_iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = ABA03CE221B79EA29202CB3E /* Build configuration list for PBXNativeTarget "kagi-translate-app_iOS" */;
+			buildPhases = (
+				3623DEDFB2FF0965C67A17FB /* Build Rust Code */,
+				8CB08738E3CF151B301D9827 /* Sources */,
+				88966DE368B328426D1A6510 /* Resources */,
+				794CAAB1068F98317AE1C65A /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "kagi-translate-app_iOS";
+			productName = "kagi-translate-app_iOS";
+			productReference = 322EA02E409811CF78CE671F /* kagi-translate-app_iOS.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		CC74C62C200A5B5E48057C2D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+				};
+			};
+			buildConfigurationList = 76467FC00197E6A303B683DB /* Build configuration list for PBXProject "kagi-translate-app" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 73B370044A2DE9E893D4B77C;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				AB88D027622FC4B230B977CA /* kagi-translate-app_iOS */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		88966DE368B328426D1A6510 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0ED51167667F291B29CE5B59 /* Assets.xcassets in Resources */,
+				D79CD95830809C3049B2671B /* LaunchScreen.storyboard in Resources */,
+				D781794E734AFA857E7C9E1E /* assets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3623DEDFB2FF0965C67A17FB /* Build Rust Code */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Build Rust Code";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(SRCROOT)/Externals/x86_64/${CONFIGURATION}/libapp.a",
+				"$(SRCROOT)/Externals/arm64/${CONFIGURATION}/libapp.a",
+				"$(SRCROOT)/Externals/arm64-sim/${CONFIGURATION}/libapp.a",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "bun tauri ios xcode-script -v --platform ${PLATFORM_DISPLAY_NAME:?} --sdk-root ${SDKROOT:?} --framework-search-paths \"${FRAMEWORK_SEARCH_PATHS:?}\" --header-search-paths \"${HEADER_SEARCH_PATHS:?}\" --gcc-preprocessor-definitions \"${GCC_PREPROCESSOR_DEFINITIONS:-}\" --configuration ${CONFIGURATION:?} ${FORCE_COLOR} ${ARCHS:?}";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8CB08738E3CF151B301D9827 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				812D002B6FECA2C1E1993CAF /* main.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		58FBEE675B3CAC2B4BBCE694 /* debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = debug;
+		};
+		B1E5BA316EE7BCA703FC7980 /* release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ARCHS = (
+					arm64,
+					"arm64-sim",
+				);
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "kagi-translate-app_iOS/kagi-translate-app_iOS.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_BITCODE = NO;
+				"EXCLUDED_ARCHS[sdk=iphoneos*]" = "arm64-sim x86_64";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\".\"",
+				);
+				INFOPLIST_FILE = "kagi-translate-app_iOS/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				"LIBRARY_SEARCH_PATHS[arch=arm64-sim]" = "$(inherited) $(PROJECT_DIR)/Externals/arm64-sim/$(CONFIGURATION) $(SDKROOT)/usr/lib/swift $(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME) $(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)";
+				"LIBRARY_SEARCH_PATHS[arch=arm64]" = "$(inherited) $(PROJECT_DIR)/Externals/arm64/$(CONFIGURATION) $(SDKROOT)/usr/lib/swift $(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME) $(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)";
+				"LIBRARY_SEARCH_PATHS[arch=x86_64]" = "$(inherited) $(PROJECT_DIR)/Externals/x86_64/$(CONFIGURATION) $(SDKROOT)/usr/lib/swift $(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME) $(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = space.httpjames.kagi-translate-app;
+				PRODUCT_NAME = "Kagi Translate";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "arm64  arm64-sim";
+			};
+			name = release;
+		};
+		C5FCE108E29BD3A295CD5235 /* release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = release;
+		};
+		ECA39AC96E328A1D9DFA13E8 /* debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ARCHS = (
+					arm64,
+					"arm64-sim",
+				);
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "kagi-translate-app_iOS/kagi-translate-app_iOS.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_BITCODE = NO;
+				"EXCLUDED_ARCHS[sdk=iphoneos*]" = "arm64-sim x86_64";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\".\"",
+				);
+				INFOPLIST_FILE = "kagi-translate-app_iOS/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				"LIBRARY_SEARCH_PATHS[arch=arm64-sim]" = "$(inherited) $(PROJECT_DIR)/Externals/arm64-sim/$(CONFIGURATION) $(SDKROOT)/usr/lib/swift $(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME) $(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)";
+				"LIBRARY_SEARCH_PATHS[arch=arm64]" = "$(inherited) $(PROJECT_DIR)/Externals/arm64/$(CONFIGURATION) $(SDKROOT)/usr/lib/swift $(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME) $(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)";
+				"LIBRARY_SEARCH_PATHS[arch=x86_64]" = "$(inherited) $(PROJECT_DIR)/Externals/x86_64/$(CONFIGURATION) $(SDKROOT)/usr/lib/swift $(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME) $(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = space.httpjames.kagi-translate-app;
+				PRODUCT_NAME = "Kagi Translate";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "arm64  arm64-sim";
+			};
+			name = debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		76467FC00197E6A303B683DB /* Build configuration list for PBXProject "kagi-translate-app" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				58FBEE675B3CAC2B4BBCE694 /* debug */,
+				C5FCE108E29BD3A295CD5235 /* release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = debug;
+		};
+		ABA03CE221B79EA29202CB3E /* Build configuration list for PBXNativeTarget "kagi-translate-app_iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ECA39AC96E328A1D9DFA13E8 /* debug */,
+				B1E5BA316EE7BCA703FC7980 /* release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = CC74C62C200A5B5E48057C2D /* Project object */;
+}
