@@ -78,7 +78,7 @@
   }
 
   .login-card {
-    background: white;
+    background: var(--surface);
     padding: 2rem;
     border-radius: 0.75rem;
     width: 100%;
@@ -88,11 +88,11 @@
   h1 {
     margin: 0;
     font-size: 1.5rem;
-    color: #333;
+    color: var(--text-primary);
   }
 
   .subtitle {
-    color: #666;
+    color: var(--text-secondary);
     margin: 0.5rem 0 2rem;
   }
 
@@ -110,7 +110,7 @@
   }
 
   .step-number {
-    background: #5ba7d1;
+    background: var(--primary);
     color: white;
     width: 2rem;
     height: 2rem;
@@ -124,12 +124,17 @@
 
   .step-text {
     font-size: 1rem;
-    color: #333;
+    color: var(--text-primary);
+
+    a {
+      color: var(--primary);
+      text-decoration: none;
+    }
   }
 
   .input-area {
-    background: white;
-    border: 1px solid #e2e8f0;
+    background: var(--surface);
+    border: 1px solid var(--border);
     border-radius: 0.5rem;
     padding: 0.75rem 1rem;
     margin-bottom: 1rem;
@@ -145,6 +150,8 @@
       border: none;
       font-size: 1rem;
       outline: none;
+      background: transparent;
+      color: var(--text-primary);
 
       &::placeholder {
         color: #999;
@@ -154,7 +161,7 @@
 
   .submit-button {
     width: 100%;
-    background: #5ba7d1;
+    background: var(--primary);
     color: white;
     border: none;
     padding: 0.75rem;
@@ -164,11 +171,11 @@
     transition: background 0.2s ease;
 
     &:hover {
-      background: darken(#5ba7d1, 5%);
+      background: var(--primary-hover);
     }
 
     &:disabled {
-      background: #ccc;
+      background: var(--border);
       cursor: not-allowed;
     }
   }

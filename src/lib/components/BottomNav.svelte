@@ -38,6 +38,7 @@
     padding: 1rem;
     background: var(--surface);
     border-radius: 0.75rem;
+    box-sizing: border-box;
 
     .nav-button {
       display: flex;
