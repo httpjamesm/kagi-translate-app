@@ -1,6 +1,5 @@
 <script lang="ts">
   import {
-    IconClipboard,
     IconCopy,
     IconHeart,
     IconX,
@@ -10,7 +9,7 @@
   import { languages } from "$lib/constants/languages";
   import { onMount } from "svelte";
   import Database from "@tauri-apps/plugin-sql";
-  import { readText, writeText } from "@tauri-apps/plugin-clipboard-manager";
+  import { writeText } from "@tauri-apps/plugin-clipboard-manager";
   import { selectionFeedback } from "@tauri-apps/plugin-haptics";
   import LanguageSelectionModal from "$lib/components/LanguageSelectionModal.svelte";
 
@@ -239,21 +238,6 @@
             }
           }}
         />
-      </button>
-      <button
-        class="icon-button"
-        onclick={async () => {
-          try {
-            await selectionFeedback();
-          } catch {}
-          try {
-            sourceText = await readText();
-          } catch (e) {
-            console.error(e);
-          }
-        }}
-      >
-        <IconClipboard size={20} />
       </button>
     </div>
   </div>
