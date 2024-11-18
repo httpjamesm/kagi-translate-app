@@ -345,6 +345,19 @@
     background: var(--surface);
     border-radius: 0.5rem;
     padding: 1rem;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+
+    .language-label {
+      align-self: flex-start;
+    }
+
+    .actions {
+      align-self: flex-end;
+    }
   }
 
   .language-label {
@@ -357,6 +370,8 @@
     font-size: 1.25rem;
     line-height: 1.4;
     color: var(--text-primary);
+    max-height: 40vh;
+    overflow-y: auto;
 
     .placeholder {
       color: var(--text-placeholder);
