@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { IconTrash } from "@tabler/icons-svelte";
+  import { IconArrowRight, IconTrash } from "@tabler/icons-svelte";
   import Database from "@tauri-apps/plugin-sql";
   import { onMount } from "svelte";
   import { selectionFeedback } from "@tauri-apps/plugin-haptics";
@@ -56,7 +56,9 @@
         <div class="item-header">
           <div class="languages">
             <span>{favorite.source_language}</span>
-            <span>→</span>
+            <span>
+              <IconArrowRight size={16} />
+            </span>
             <span>{favorite.target_language}</span>
           </div>
           <IconButton
@@ -92,9 +94,14 @@
 
       .languages {
         display: flex;
+        align-items: center;
         gap: 0.5rem;
         color: var(--text-secondary);
         font-size: 0.875rem;
+        span {
+          display: flex;
+          align-items: center;
+        }
       }
     }
   }
