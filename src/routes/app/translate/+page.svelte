@@ -26,6 +26,7 @@
   let showSourceModal = $state(false);
   let showTargetModal = $state(false);
   let detectedLanguage = $state("");
+  let previousText = $state("");
 
   const doLanguageDetection = async () => {
     try {
@@ -39,6 +40,7 @@
   };
 
   const doTranslation = async () => {
+    if (isLoading) return;
     isLoading = true;
     try {
       if (sourceText.length === 0) return;
@@ -58,18 +60,16 @@
     }
   };
 
-  const debounce = () => {
+  $effect(() => {
+    if (sourceText === previousText) return;
+    if (isLoading) return;
+
+    previousText = sourceText;
     clearTimeout(debounceTimer);
     debounceTimer = setTimeout(() => {
       doLanguageDetection();
       doTranslation();
     }, 500);
-  };
-
-  $effect(() => {
-    if (sourceText) {
-      debounce();
-    }
   });
 
   // retrieve languages from local storage on page load
@@ -155,22 +155,18 @@
       const tempSource = sourceLanguage;
       sourceLanguage = targetLanguage;
       targetLanguage = tempSource;
-      // swap translations too
       sourceText = translatedText;
     }
   };
-
-  $effect(() => {
-    // re-translate on language change
-    if (sourceLanguage && targetLanguage) {
-      doTranslation();
-    }
-  });
 </script>
 
 <div class="translate-container">
   <div class="language-selector">
-    <button class="language-button" onclick={() => (showSourceModal = true)}>
+    <button
+      class="language-button"
+      onclick={() => (showSourceModal = true)}
+      disabled={isLoading}
+    >
       {sourceLanguage === "Automatic"
         ? `Detect (${detectedLanguage || "Auto"})`
         : sourceLanguage}
@@ -179,10 +175,14 @@
     <IconButton
       icon={IconArrowsExchange}
       onclick={swapLanguages}
-      disabled={sourceLanguage === "Automatic"}
+      disabled={sourceLanguage === "Automatic" || isLoading}
     />
 
-    <button class="language-button" onclick={() => (showTargetModal = true)}>
+    <button
+      class="language-button"
+      onclick={() => (showTargetModal = true)}
+      disabled={isLoading}
+    >
       {targetLanguage}
     </button>
   </div>
@@ -194,12 +194,14 @@
         class="text-content"
         placeholder="Enter text"
         bind:value={sourceText}
+        disabled={isLoading}
       ></textarea>
       <div class="actions">
         {#if sourceText}
           <IconButton
             icon={IconX}
             onclick={async () => {
+              if (isLoading) return;
               try {
                 await selectionFeedback();
               } catch {}
@@ -208,6 +210,7 @@
               window.localStorage.removeItem("sourceText");
               window.localStorage.removeItem("translatedText");
             }}
+            disabled={isLoading}
           />
         {/if}
         <CopyButton text={sourceText} />
@@ -307,6 +310,15 @@
         border-color: #5ba7d1;
         box-shadow: 0 0 0 3px rgba(91, 167, 209, 0.1);
       }
+
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        &:hover {
+          border-color: var(--border);
+          background-color: var(--surface);
+        }
+      }
     }
   }
 
@@ -372,6 +384,11 @@
 
       &::placeholder {
         color: var(--text-placeholder);
+      }
+
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
       }
     }
   }
