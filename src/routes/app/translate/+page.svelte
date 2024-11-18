@@ -280,7 +280,7 @@
       border-radius: 0.5rem;
       font-size: 1rem;
       cursor: pointer;
-      width: 42%;
+      width: 100%;
       text-align: left;
       transition: all 0.2s ease;
       color: var(--text-primary);
