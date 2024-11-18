@@ -2,6 +2,7 @@
   import { IconTrash } from "@tabler/icons-svelte";
   import Database from "@tauri-apps/plugin-sql";
   import { onMount } from "svelte";
+  import { selectionFeedback } from "@tauri-apps/plugin-haptics";
 
   interface Favorite {
     id: number;
@@ -31,6 +32,9 @@
   };
 
   const deleteFavorite = async (id: number) => {
+    try {
+      await selectionFeedback();
+    } catch {}
     try {
       await db.execute("DELETE FROM favorites WHERE id = $1", [id]);
       favorites = favorites.filter((f) => f.id !== id);
