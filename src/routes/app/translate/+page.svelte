@@ -154,7 +154,7 @@
 
   // Add effect to check if current translation is favorited
   $effect(() => {
-    if (db && sourceText && translatedText) {
+    if (sourceText && translatedText) {
       checkIsCurrentTranslationFavorited();
     }
   });
