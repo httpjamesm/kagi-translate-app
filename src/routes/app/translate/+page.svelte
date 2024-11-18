@@ -7,7 +7,7 @@
   } from "@tabler/icons-svelte";
   import { invoke } from "@tauri-apps/api/core";
   import { languages } from "$lib/constants/languages";
-  import { onMount } from "svelte";
+  import { onDestroy, onMount } from "svelte";
   import Database from "@tauri-apps/plugin-sql";
   import { writeText } from "@tauri-apps/plugin-clipboard-manager";
   import { selectionFeedback } from "@tauri-apps/plugin-haptics";
@@ -98,12 +98,6 @@
     db = await Database.load("sqlite:kagi-translate.db");
   });
 
-  // save languages to local storage when they change
-  $effect(() => {
-    window.localStorage.setItem("sourceLanguage", sourceLanguage);
-    window.localStorage.setItem("targetLanguage", targetLanguage);
-  });
-
   $effect(() => {
     if (sourceText || translatedText) {
       window.localStorage.setItem("sourceText", sourceText);
@@ -166,6 +160,15 @@
       sourceText = translatedText;
     }
   };
+
+  $effect(() => {
+    window.localStorage.setItem("sourceLanguage", sourceLanguage);
+    window.localStorage.setItem("targetLanguage", targetLanguage);
+  });
+
+  onDestroy(() => {
+    clearTimeout(debounceTimer);
+  });
 </script>
 
 <div class="translate-container">
@@ -262,6 +265,7 @@
   onSelect={(language) => {
     sourceLanguage = language;
     showSourceModal = false;
+    doTranslation();
   }}
   onClose={() => (showSourceModal = false)}
 />
@@ -274,6 +278,7 @@
   onSelect={(language) => {
     targetLanguage = language;
     showTargetModal = false;
+    doTranslation();
   }}
   onClose={() => (showTargetModal = false)}
 />
