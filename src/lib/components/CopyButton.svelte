@@ -24,5 +24,5 @@
 <IconButton
   icon={isCopied ? IconCheck : IconCopy}
   color={isCopied ? "#5ba7d1" : undefined}
-  on:click={copyText}
+  onclick={copyText}
 />
