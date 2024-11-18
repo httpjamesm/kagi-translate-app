@@ -2,13 +2,21 @@
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
   import { IconLanguage, IconHeart } from "@tabler/icons-svelte";
+  import { selectionFeedback } from "@tauri-apps/plugin-haptics";
+
+  const handleClick = async (path: string) => {
+    try {
+      await selectionFeedback();
+    } catch {}
+    goto(path);
+  };
 </script>
 
 <nav class="bottom-nav">
   <button
     class="nav-button translate"
     class:active={$page.url.pathname === "/app/translate"}
-    onclick={() => goto("/app/translate")}
+    onclick={() => handleClick("/app/translate")}
   >
     <IconLanguage size={24} />
     Translate
@@ -16,7 +24,7 @@
   <button
     class="nav-button favorites"
     class:active={$page.url.pathname === "/app/favorites"}
-    onclick={() => goto("/app/favorites")}
+    onclick={() => handleClick("/app/favorites")}
   >
     <IconHeart size={24} />
     Favorites
