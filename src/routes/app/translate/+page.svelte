@@ -348,7 +348,6 @@
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    align-items: center;
     width: 100%;
 
     .language-label {
