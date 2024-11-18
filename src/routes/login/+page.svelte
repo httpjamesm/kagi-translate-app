@@ -17,58 +17,63 @@
 </script>
 
 <div class="container">
-  <div class="login-card">
-    <h1>Welcome to Translator</h1>
-    <p class="subtitle">Please enter your Kagi session link to continue</p>
-
-    <div class="steps">
-      <div class="step">
-        <div class="step-number">1</div>
-        <div class="step-text">
-          Log into <a
-            href="#"
-            onclick={() => {
-              try {
-                open("https://kagi.com");
-              } catch (e) {
-                console.error(e);
-              }
-            }}>kagi.com</a
-          >
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-number">2</div>
-        <div class="step-text">
-          Open the three lines menu in the top right of the screen
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-number">3</div>
-        <div class="step-text">
-          Click "Copy" under the "Session Link" heading
-        </div>
-      </div>
+  <div class="login-container">
+    <div class="logo-container">
+      <img src="/logo.webp" alt="" />
+      <span>Kagi Translate</span>
     </div>
+    <div class="login-card">
+      <h1>Welcome to Kagi Translate</h1>
+      <p class="subtitle">Please enter your Kagi session link to continue</p>
 
-    <form onsubmit={handleSubmit}>
-      <div class="input-area">
-        <input
-          type="password"
-          placeholder="Paste your session link here"
-          bind:value={sessionToken}
-        />
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-text">
+            Log into <a
+              href="#"
+              onclick={() => {
+                try {
+                  open("https://kagi.com");
+                } catch (e) {
+                  console.error(e);
+                }
+              }}>kagi.com</a
+            >
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-text">
+            Open the three lines menu in the top right of the screen
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-text">
+            Click "Copy" under the "Session Link" heading
+          </div>
+        </div>
       </div>
-      <button class="submit-button" type="submit" disabled={!sessionToken}>
-        Continue to Translator
-      </button>
-    </form>
+
+      <form onsubmit={handleSubmit}>
+        <div class="input-area">
+          <input
+            type="password"
+            placeholder="Paste your session link here"
+            bind:value={sessionToken}
+          />
+        </div>
+        <button class="submit-button" type="submit" disabled={!sessionToken}>
+          Continue to Translator
+        </button>
+      </form>
+    </div>
   </div>
 </div>
 
 <style lang="scss">
   .container {
-    max-width: 800px;
     margin: 0 auto;
     padding: 1rem;
     display: flex;
@@ -76,6 +81,27 @@
     justify-content: center;
     min-height: 100vh;
     box-sizing: border-box;
+    width: 100%;
+  }
+
+  .login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .logo-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+
+    img {
+      width: 2rem;
+      height: 2rem;
+    }
   }
 
   .login-card {
@@ -84,6 +110,7 @@
     border-radius: 0.75rem;
     width: 100%;
     max-width: 500px;
+    box-sizing: border-box;
   }
 
   h1 {
