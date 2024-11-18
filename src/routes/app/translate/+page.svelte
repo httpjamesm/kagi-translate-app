@@ -162,7 +162,7 @@
 <div class="language-selector">
   <button class="language-button" onclick={() => (showSourceModal = true)}>
     {sourceLanguage === "Automatic"
-      ? `Detect (${detectedLanguage})`
+      ? `Detect (${detectedLanguage || "Auto"})`
       : sourceLanguage}
   </button>
 
