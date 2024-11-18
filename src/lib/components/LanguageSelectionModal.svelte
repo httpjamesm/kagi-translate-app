@@ -101,7 +101,7 @@
   }
 
   .modal {
-    background: white;
+    background: var(--surface);
     border-radius: 0.75rem;
     width: 100%;
     max-width: 24rem;
@@ -112,7 +112,7 @@
 
   .modal-header {
     padding: 1rem;
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 1px solid var(--border);
     display: flex;
     gap: 0.5rem;
     align-items: center;
@@ -123,9 +123,10 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    background: #f1f5f9;
+    background: var(--surface-hover);
     padding: 0.5rem;
     border-radius: 0.5rem;
+    color: var(--text-secondary);
 
     input {
       border: none;
@@ -133,9 +134,10 @@
       font-size: 1rem;
       width: 100%;
       outline: none;
+      color: var(--text-primary);
 
       &::placeholder {
-        color: #94a3b8;
+        color: var(--text-placeholder);
       }
     }
   }
@@ -157,17 +159,18 @@
     border-radius: 0.5rem;
     cursor: pointer;
     transition: all 0.2s ease;
+    color: var(--text-primary);
 
     &:hover {
-      background: #f1f5f9;
+      background: var(--surface-hover);
     }
 
     &.selected {
-      background: #5ba7d1;
+      background: var(--primary);
       color: white;
 
       &:hover {
-        background: darken(#5ba7d1, 5%);
+        background: var(--primary-hover);
       }
     }
   }
@@ -182,9 +185,10 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    color: var(--text-secondary);
 
     &:hover {
-      background: #f0f0f0;
+      background: var(--button-hover);
     }
   }
 </style>

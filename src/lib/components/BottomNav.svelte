@@ -28,7 +28,7 @@
     display: flex;
     justify-content: space-around;
     padding: 1rem;
-    background: white;
+    background: var(--surface);
     border-radius: 0.75rem;
 
     .nav-button {
@@ -38,12 +38,17 @@
       gap: 0.25rem;
       background: none;
       border: none;
-      color: #666;
+      color: var(--text-secondary);
       font-size: 0.875rem;
       cursor: pointer;
+      transition: color 0.2s ease;
+
+      &:hover {
+        color: var(--primary);
+      }
 
       &.active {
-        color: #5ba7d1;
+        color: var(--primary);
       }
     }
   }

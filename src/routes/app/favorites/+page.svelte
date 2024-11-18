@@ -71,7 +71,7 @@
   }
 
   .favorite-item {
-    background: white;
+    background: var(--surface);
     border-radius: 0.5rem;
     padding: 1rem;
     margin-bottom: 1rem;
@@ -81,19 +81,19 @@
   .languages {
     display: flex;
     gap: 0.5rem;
-    color: #666;
+    color: var(--text-secondary);
     font-size: 0.875rem;
     margin-bottom: 0.5rem;
   }
 
   .texts {
     .source {
-      color: #666;
+      color: var(--text-secondary);
       margin: 0 0 0.5rem 0;
     }
 
     .translated {
-      color: #333;
+      color: var(--text-primary);
       font-size: 1.1rem;
       margin: 0;
     }
@@ -107,11 +107,12 @@
     border: none;
     padding: 0.5rem;
     cursor: pointer;
-    color: #666;
+    color: var(--text-secondary);
     border-radius: 50%;
+    transition: all 0.2s ease;
 
     &:hover {
-      background: #f0f0f0;
+      background: var(--button-hover);
       color: #ff4444;
     }
   }

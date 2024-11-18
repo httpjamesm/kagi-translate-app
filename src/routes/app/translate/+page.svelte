@@ -299,8 +299,8 @@
     justify-content: space-between;
     align-items: center;
     .language-button {
-      background: white;
-      border: 1px solid #e2e8f0;
+      background: var(--surface);
+      border: 1px solid var(--border);
       padding: 0.75rem 1rem;
       border-radius: 0.5rem;
       font-size: 1rem;
@@ -308,10 +308,11 @@
       width: 42%;
       text-align: left;
       transition: all 0.2s ease;
+      color: var(--text-primary);
 
       &:hover {
-        border-color: #cbd5e0;
-        background-color: #f8fafc;
+        border-color: var(--border-hover);
+        background-color: var(--surface-hover);
       }
 
       &:focus {
@@ -331,13 +332,13 @@
 
   .source-text,
   .translated-text {
-    background: white;
+    background: var(--surface);
     border-radius: 0.5rem;
     padding: 1rem;
   }
 
   .language-label {
-    color: #666;
+    color: var(--text-secondary);
     font-size: 0.875rem;
     margin-bottom: 0.5rem;
   }
@@ -345,9 +346,10 @@
   .text-content {
     font-size: 1.25rem;
     line-height: 1.4;
+    color: var(--text-primary);
 
     .placeholder {
-      color: #999;
+      color: var(--text-placeholder);
     }
 
     &:is(textarea) {
@@ -364,7 +366,7 @@
       }
 
       &::placeholder {
-        color: #999;
+        color: var(--text-placeholder);
       }
     }
   }
@@ -406,16 +408,17 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    color: var(--text-secondary);
 
     &.primary {
       background: #5ba7d1;
     }
 
     &:hover {
-      background: #f0f0f0;
+      background: var(--button-hover);
 
       &.primary {
-        background: darken(#5ba7d1, 5%);
+        background: var(--primary-hover);
       }
     }
   }
@@ -426,7 +429,12 @@
 
   .skeleton-line {
     height: 1.25rem;
-    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background: linear-gradient(
+      90deg,
+      var(--skeleton-start) 25%,
+      var(--skeleton-mid) 50%,
+      var(--skeleton-start) 75%
+    );
     background-size: 200% 100%;
     animation: loading 1.5s infinite;
     border-radius: 0.25rem;
@@ -461,6 +469,7 @@
     justify-content: center;
     cursor: pointer;
     transition: all 0.2s ease;
+    color: var(--text-secondary);
 
     &:disabled {
       opacity: 0.5;
@@ -468,7 +477,7 @@
     }
 
     &:hover {
-      background: #f0f0f0;
+      background: var(--button-hover);
     }
 
     &:active {
