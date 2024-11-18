@@ -166,7 +166,7 @@
   </button>
 
   <button
-    class="swap-button"
+    class="icon-button"
     onclick={swapLanguages}
     disabled={sourceLanguage === "Automatic"}
   >
@@ -475,33 +475,6 @@
     }
     100% {
       background-position: -200% 0;
-    }
-  }
-
-  .swap-button {
-    background: none;
-    border: none;
-    width: 2.5rem;
-    height: 2.5rem;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    color: var(--text-secondary);
-
-    &:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    &:hover {
-      background: var(--button-hover);
-    }
-
-    &:active {
-      transform: scale(0.95);
     }
   }
 </style>
