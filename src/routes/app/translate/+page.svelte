@@ -352,6 +352,9 @@
     color: var(--text-primary);
     overflow-y: auto;
 
+    &.placeholder {
+      color: var(--text-placeholder);
+    }
     &:is(textarea) {
       width: 100%;
       border: none;
