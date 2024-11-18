@@ -1,6 +1,7 @@
 <script lang="ts">
   import { IconSearch, IconX } from "@tabler/icons-svelte";
   import { selectionFeedback } from "@tauri-apps/plugin-haptics";
+  import SearchBar from "./SearchBar.svelte";
 
   let {
     show,
@@ -57,15 +58,7 @@
       }}
     >
       <div class="modal-header">
-        <div class="search-box">
-          <IconSearch size={20} />
-          <input
-            type="text"
-            placeholder="Search languages"
-            bind:value={searchTerm}
-            autofocus
-          />
-        </div>
+        <SearchBar bind:searchQuery={searchTerm} searchItemsName="languages" />
         <button class="icon-button" onclick={handleClose}>
           <IconX size={20} />
         </button>
@@ -116,30 +109,6 @@
     display: flex;
     gap: 0.5rem;
     align-items: center;
-  }
-
-  .search-box {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: var(--surface-hover);
-    padding: 0.5rem;
-    border-radius: 0.5rem;
-    color: var(--text-secondary);
-
-    input {
-      border: none;
-      background: none;
-      font-size: 1rem;
-      width: 100%;
-      outline: none;
-      color: var(--text-primary);
-
-      &::placeholder {
-        color: var(--text-placeholder);
-      }
-    }
   }
 
   .language-list {
