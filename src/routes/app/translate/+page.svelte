@@ -1,7 +1,5 @@
 <script lang="ts">
   import {
-    IconStar,
-    IconPlayerPlay,
     IconClipboard,
     IconCopy,
     IconHeart,
@@ -13,6 +11,7 @@
   import { onMount } from "svelte";
   import Database from "@tauri-apps/plugin-sql";
   import { readText, writeText } from "@tauri-apps/plugin-clipboard-manager";
+  import { selectionFeedback } from "@tauri-apps/plugin-haptics";
 
   let sourceLanguage = $state("Automatic");
   let targetLanguage = $state("German");
@@ -94,6 +93,9 @@
   });
 
   const toggleFavorite = async () => {
+    try {
+      await selectionFeedback();
+    } catch {}
     try {
       if (!isFavorited) {
         await db.execute(
@@ -183,7 +185,10 @@
         <button class="icon-button">
           <IconX
             size={20}
-            onclick={() => {
+            onclick={async () => {
+              try {
+                await selectionFeedback();
+              } catch {}
               sourceText = "";
               translatedText = "";
             }}
@@ -195,6 +200,9 @@
           size={20}
           onclick={async () => {
             try {
+              await selectionFeedback();
+            } catch {}
+            try {
               await writeText(sourceText);
             } catch (e) {
               console.error(e);
@@ -205,6 +213,9 @@
       <button
         class="icon-button"
         onclick={async () => {
+          try {
+            await selectionFeedback();
+          } catch {}
           try {
             sourceText = await readText();
           } catch (e) {
@@ -239,6 +250,9 @@
         <IconCopy
           size={20}
           onclick={async () => {
+            try {
+              await selectionFeedback();
+            } catch {}
             try {
               await writeText(translatedText);
             } catch (e) {
