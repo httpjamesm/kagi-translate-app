@@ -27,6 +27,7 @@
   let showTargetModal = $state(false);
   let detectedLanguage = $state("");
   let previousText = $state("");
+  let currentTranslationId = $state(0);
 
   const doLanguageDetection = async () => {
     try {
@@ -40,31 +41,38 @@
   };
 
   const doTranslation = async () => {
-    if (isLoading) return;
+    const thisTranslationId = ++currentTranslationId;
     isLoading = true;
+
     try {
       if (sourceText.length === 0) return;
       await invoke("set_session_token", {
         sessionToken: window.localStorage.getItem("kagiSession") || "",
       });
 
-      translatedText = await invoke("get_translation", {
-        sourceLanguage: "Automatic",
-        targetLanguage: targetLanguage,
-        text: sourceText,
-      });
+      // Only update if this is still the most recent translation request
+      if (thisTranslationId === currentTranslationId) {
+        translatedText = await invoke("get_translation", {
+          sourceLanguage: "Automatic",
+          targetLanguage: targetLanguage,
+          text: sourceText,
+        });
+      }
     } catch (e) {
-      translatedText = "Failed to translate";
+      if (thisTranslationId === currentTranslationId) {
+        translatedText = "Failed to translate";
+      }
     } finally {
-      isLoading = false;
+      if (thisTranslationId === currentTranslationId) {
+        isLoading = false;
+      }
     }
   };
 
   $effect(() => {
     if (sourceText === previousText) return;
-    if (isLoading) return;
-
     previousText = sourceText;
+
     clearTimeout(debounceTimer);
     debounceTimer = setTimeout(() => {
       doLanguageDetection();
@@ -194,7 +202,6 @@
         class="text-content"
         placeholder="Enter text"
         bind:value={sourceText}
-        disabled={isLoading}
       ></textarea>
       <div class="actions">
         {#if sourceText}
