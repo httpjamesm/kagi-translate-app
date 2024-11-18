@@ -1,7 +1,19 @@
-# Tauri + SvelteKit + TypeScript
+# kagi-translate-app
 
-This template should help get you started developing with Tauri, SvelteKit and TypeScript in Vite.
+This is the unofficial mobile app for [Kagi Translate](https://translate.kagi.com).
 
-## Recommended IDE Setup
+## Screenshots
 
-[VS Code](https://code.visualstudio.com/) + [Svelte](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer).
+![Android Light Mode](./docs/kagi-translate-app-light-android.webp)
+
+![Android Dark Mode](./docs/kagi-translate-app-dark-android.webp)
+
+![iPadOS Light Mode](./docs/kagi-translate-app-light-ipados.webp)
+
+![iPadOS Dark Mode](./docs/kagi-translate-app-dark-ipados.webp)
+
+## Features
+
+- Supports Android and iOS
+- Easy access to Kagi Translate
+- Save and search through your favourite translations
