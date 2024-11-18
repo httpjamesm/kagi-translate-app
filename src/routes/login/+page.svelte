@@ -1,5 +1,6 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
+  import { open } from "@tauri-apps/plugin-shell";
 
   let sessionToken = $state("");
 
