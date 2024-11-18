@@ -355,7 +355,7 @@
     padding: 1rem;
     box-sizing: border-box;
     width: 100%;
-    min-height: 0;
+    min-height: fit-content;
 
     @media only screen and (min-width: 768px) {
       height: 100%;
@@ -364,10 +364,6 @@
 
   .language-label {
     align-self: flex-start;
-  }
-
-  .actions {
-    align-self: flex-end;
   }
 
   .text-content {

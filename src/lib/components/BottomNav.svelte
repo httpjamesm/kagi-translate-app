@@ -35,7 +35,7 @@
 
 <style lang="scss">
   .nav-wrapper {
-    padding: 0 1rem 1rem;
+    padding: 1rem;
     background: var(--background);
     flex-shrink: 0;
   }
@@ -43,7 +43,7 @@
   .bottom-nav {
     display: flex;
     justify-content: space-around;
-    padding: 1rem;
+    padding: 0.25rem 1rem;
     background: var(--surface);
     border-radius: 0.75rem;
     box-sizing: border-box;
