@@ -73,19 +73,20 @@
   });
 
   // retrieve languages from local storage on page load
-  const loadLanguages = () => {
+  const loadSavedState = () => {
     const savedSourceLanguage = window.localStorage.getItem("sourceLanguage");
     const savedTargetLanguage = window.localStorage.getItem("targetLanguage");
-    if (savedSourceLanguage) {
-      sourceLanguage = savedSourceLanguage;
-    }
-    if (savedTargetLanguage) {
-      targetLanguage = savedTargetLanguage;
-    }
+    const savedSourceText = window.localStorage.getItem("sourceText");
+    const savedTranslatedText = window.localStorage.getItem("translatedText");
+
+    if (savedSourceLanguage) sourceLanguage = savedSourceLanguage;
+    if (savedTargetLanguage) targetLanguage = savedTargetLanguage;
+    if (savedSourceText) sourceText = savedSourceText;
+    if (savedTranslatedText) translatedText = savedTranslatedText;
   };
 
   onMount(async () => {
-    loadLanguages();
+    loadSavedState();
     db = await Database.load("sqlite:kagi-translate.db");
   });
 
@@ -93,6 +94,13 @@
   $effect(() => {
     window.localStorage.setItem("sourceLanguage", sourceLanguage);
     window.localStorage.setItem("targetLanguage", targetLanguage);
+  });
+
+  $effect(() => {
+    if (sourceText || translatedText) {
+      window.localStorage.setItem("sourceText", sourceText);
+      window.localStorage.setItem("translatedText", translatedText);
+    }
   });
 
   const toggleFavorite = async () => {
