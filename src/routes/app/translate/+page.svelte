@@ -248,7 +248,7 @@
         <CopyButton text={translatedText} />
         <IconButton
           icon={IconHeart}
-          color={isFavorited ? "#5ba7d1" : undefined}
+          color={isFavorited ? "var(--primary)" : undefined}
           disabled={translatedText.length === 0}
           onclick={toggleFavorite}
         />
