@@ -13,9 +13,17 @@ struct DetectLanguageResponse {
     language: String,
 }
 
+fn get_user_agent(app: &tauri::AppHandle) -> String {
+    let config = app.config();
+    let identifier = config.identifier.clone();
+    let version = config.version.clone().unwrap_or("1.0.0".to_string());
+    format!("{}/{}", identifier, version)
+}
+
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 #[tauri::command]
 async fn detect_language(
+    app: tauri::AppHandle,
     state: tauri::State<'_, Arc<Mutex<AppState>>>,
     text: &str,
 ) -> TAResult<String> {
@@ -36,7 +44,7 @@ async fn detect_language(
         .post("https://translate.kagi.com/classify")
         .json(&json_body)
         .header("Cookie", format!("kagi_session={}", session_token,))
-        .header("User-Agent", "Kagi Translate App/0.1.0 (httpjames.space)")
+        .header("User-Agent", get_user_agent(&app))
         .send()
         .await
         .map_err(|e| anyhow!(e))?;
@@ -47,6 +55,7 @@ async fn detect_language(
 
 #[tauri::command]
 async fn get_translation(
+    app: tauri::AppHandle,
     state: tauri::State<'_, Arc<Mutex<AppState>>>,
     source_language: &str,
     target_language: &str,
@@ -70,7 +79,7 @@ async fn get_translation(
             ("model", "fast"),
         ])
         .header("Cookie", format!("kagi_session={}", session_token,))
-        .header("User-Agent", "Kagi Translate App/0.1.0 (httpjames.space)")
+        .header("User-Agent", get_user_agent(&app))
         .send()
         .await
         .map_err(|e| anyhow!(e))?;
