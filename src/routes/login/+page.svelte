@@ -19,7 +19,7 @@
 <div class="container">
   <div class="login-card">
     <h1>Welcome to Translator</h1>
-    <p class="subtitle">Please enter your Kagi session token to continue</p>
+    <p class="subtitle">Please enter your Kagi session link to continue</p>
 
     <div class="steps">
       <div class="step">
@@ -55,7 +55,7 @@
       <div class="input-area">
         <input
           type="password"
-          placeholder="Paste your session token here"
+          placeholder="Paste your session link here"
           bind:value={sessionToken}
         />
       </div>
