@@ -4,7 +4,7 @@
   import { selectionFeedback } from "@tauri-apps/plugin-haptics";
   import IconButton from "./IconButton.svelte";
 
-  let text = $props<string>();
+  let { text } = $props();
   let isCopied = $state(false);
 
   const copyText = async () => {
@@ -25,4 +25,5 @@
   icon={isCopied ? IconCheck : IconCopy}
   color={isCopied ? "#5ba7d1" : undefined}
   onclick={copyText}
+  disabled={text.length === 0}
 />
