@@ -279,7 +279,11 @@
         />
       </button>
 
-      <button class="icon-button" onclick={toggleFavorite}>
+      <button
+        class="icon-button"
+        onclick={toggleFavorite}
+        disabled={translatedText.length === 0}
+      >
         <IconHeart size={20} color={isFavorited ? "#5ba7d1" : undefined} />
       </button>
     </div>
@@ -425,12 +429,17 @@
       background: #5ba7d1;
     }
 
-    &:hover {
+    &:not(:disabled):hover {
       background: var(--button-hover);
 
       &.primary {
         background: var(--primary-hover);
       }
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
   }
 
