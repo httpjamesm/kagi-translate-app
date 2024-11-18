@@ -173,6 +173,7 @@
         align-items: center;
         gap: 0.5rem;
         color: var(--text-secondary);
+        height: fit-content;
         font-size: 0.875rem;
         span {
           display: flex;
