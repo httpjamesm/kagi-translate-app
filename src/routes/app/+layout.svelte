@@ -4,42 +4,28 @@
   let { children } = $props();
 </script>
 
-<div class="wrapper">
-  <div class="app-layout">
-    <div class="content">
-      {@render children?.()}
-    </div>
-    <BottomNav />
-  </div>
+<div class="app-container">
+  <main>
+    {@render children?.()}
+  </main>
+  <BottomNav />
 </div>
 
 <style lang="scss">
-  .wrapper {
-    height: 100vh;
-    max-height: 100vh;
-    box-sizing: border-box;
+  .app-container {
     display: flex;
-    justify-content: center;
-    width: 100%;
-    padding: 1rem;
-    .app-layout {
-      max-width: 800px;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      box-sizing: border-box;
-      height: calc(100% - 2rem);
+    flex-direction: column;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 
-      @media only screen and (min-width: 768px) {
-        max-width: 100%;
-      }
-
-      .content {
-        height: 100%;
-        overflow-y: auto;
-        min-height: 0;
-      }
+    main {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1rem;
     }
   }
 </style>

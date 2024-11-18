@@ -167,22 +167,80 @@
   });
 </script>
 
-<div class="language-selector">
-  <button class="language-button" onclick={() => (showSourceModal = true)}>
-    {sourceLanguage === "Automatic"
-      ? `Detect (${detectedLanguage || "Auto"})`
-      : sourceLanguage}
-  </button>
+<div class="translate-container">
+  <div class="language-selector">
+    <button class="language-button" onclick={() => (showSourceModal = true)}>
+      {sourceLanguage === "Automatic"
+        ? `Detect (${detectedLanguage || "Auto"})`
+        : sourceLanguage}
+    </button>
 
-  <IconButton
-    icon={IconArrowsExchange}
-    onclick={swapLanguages}
-    disabled={sourceLanguage === "Automatic"}
-  />
+    <IconButton
+      icon={IconArrowsExchange}
+      onclick={swapLanguages}
+      disabled={sourceLanguage === "Automatic"}
+    />
 
-  <button class="language-button" onclick={() => (showTargetModal = true)}>
-    {targetLanguage}
-  </button>
+    <button class="language-button" onclick={() => (showTargetModal = true)}>
+      {targetLanguage}
+    </button>
+  </div>
+
+  <div class="translation-area">
+    <div class="source-text">
+      <div class="language-label">{sourceLanguage}</div>
+      <textarea
+        class="text-content"
+        placeholder="Enter text"
+        bind:value={sourceText}
+      ></textarea>
+      <div class="actions">
+        {#if sourceText}
+          <IconButton
+            icon={IconX}
+            onclick={async () => {
+              try {
+                await selectionFeedback();
+              } catch {}
+              sourceText = "";
+              translatedText = "";
+              window.localStorage.removeItem("sourceText");
+              window.localStorage.removeItem("translatedText");
+            }}
+          />
+        {/if}
+        <CopyButton text={sourceText} />
+      </div>
+    </div>
+
+    <div class="translated-text">
+      <div class="language-label">{targetLanguage}</div>
+      {#if isLoading}
+        <div class="skeleton-loader">
+          <div class="skeleton-line"></div>
+          <div class="skeleton-line"></div>
+          <div class="skeleton-line"></div>
+        </div>
+      {:else}
+        <div class="text-content">
+          {#if translatedText}
+            {translatedText}
+          {:else}
+            <span class="placeholder">Translation will appear here</span>
+          {/if}
+        </div>
+      {/if}
+      <div class="actions">
+        <CopyButton text={translatedText} />
+        <IconButton
+          icon={IconHeart}
+          color={isFavorited ? "#5ba7d1" : undefined}
+          disabled={translatedText.length === 0}
+          onclick={toggleFavorite}
+        />
+      </div>
+    </div>
+  </div>
 </div>
 
 <LanguageSelectionModal
@@ -208,75 +266,28 @@
   }}
   onClose={() => (showTargetModal = false)}
 />
-<div class="translation-area">
-  <div class="source-text">
-    <div class="language-label">{sourceLanguage}</div>
-    <textarea
-      class="text-content"
-      placeholder="Enter text"
-      bind:value={sourceText}
-    ></textarea>
-    <div class="actions">
-      {#if sourceText}
-        <IconButton
-          icon={IconX}
-          onclick={async () => {
-            try {
-              await selectionFeedback();
-            } catch {}
-            sourceText = "";
-            translatedText = "";
-            window.localStorage.removeItem("sourceText");
-            window.localStorage.removeItem("translatedText");
-          }}
-        />
-      {/if}
-      <CopyButton text={sourceText} />
-    </div>
-  </div>
-
-  <div class="translated-text">
-    <div class="language-label">{targetLanguage}</div>
-    {#if isLoading}
-      <div class="skeleton-loader">
-        <div class="skeleton-line"></div>
-        <div class="skeleton-line"></div>
-        <div class="skeleton-line"></div>
-      </div>
-    {:else}
-      <div class="text-content">
-        {#if translatedText}
-          {translatedText}
-        {:else}
-          <span class="placeholder">Translation will appear here</span>
-        {/if}
-      </div>
-    {/if}
-    <div class="actions">
-      <CopyButton text={translatedText} />
-      <IconButton
-        icon={IconHeart}
-        color={isFavorited ? "#5ba7d1" : undefined}
-        disabled={translatedText.length === 0}
-        onclick={toggleFavorite}
-      />
-    </div>
-  </div>
-</div>
 
 <style lang="scss">
+  .translate-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    gap: 1rem;
+  }
+
   .language-selector {
     display: flex;
     gap: 1rem;
-    padding: 0.5rem 0;
     width: 100%;
     box-sizing: border-box;
     justify-content: space-between;
     align-items: center;
+
     .language-button {
       background: var(--surface);
       border: 1px solid var(--border);
       padding: 0.75rem 1rem;
+      box-sizing: border-box;
       border-radius: 0.5rem;
       font-size: 1rem;
       cursor: pointer;
@@ -300,65 +311,46 @@
 
   .translation-area {
     flex: 1;
+    min-height: 0;
     display: flex;
     flex-direction: column;
     gap: 1rem;
 
     @media only screen and (min-width: 768px) {
       flex-direction: row;
-      height: 100%;
     }
   }
 
   .source-text,
   .translated-text {
+    display: flex;
+    flex-direction: column;
     background: var(--surface);
     border-radius: 0.5rem;
     padding: 1rem;
     box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
     width: 100%;
+    min-height: 0;
 
-    @media (min-width: 768px) {
+    @media only screen and (min-width: 768px) {
       height: 100%;
-
-      .text-content {
-        flex: 1;
-        max-height: none;
-      }
-    }
-
-    .language-label {
-      align-self: flex-start;
-    }
-
-    .actions {
-      align-self: flex-end;
     }
   }
 
   .language-label {
-    color: var(--text-secondary);
-    font-size: 0.875rem;
-    margin-bottom: 0.5rem;
+    align-self: flex-start;
+  }
+
+  .actions {
+    align-self: flex-end;
   }
 
   .text-content {
+    flex: 1;
     font-size: 1.25rem;
     line-height: 1.4;
     color: var(--text-primary);
-    max-height: 40vh;
     overflow-y: auto;
-
-    @media (min-width: 768px) {
-      max-height: none;
-      height: 100%;
-    }
-
-    .placeholder {
-      color: var(--text-placeholder);
-    }
 
     &:is(textarea) {
       width: 100%;
@@ -393,6 +385,7 @@
     background: white;
     border-radius: 0.5rem;
     margin-bottom: 1rem;
+    box-sizing: border-box;
 
     input {
       flex: 1;
