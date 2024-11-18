@@ -1,8 +1,7 @@
 <script lang="ts">
-  import { IconLanguage, IconHeart, IconTrash } from "@tabler/icons-svelte";
+  import { IconTrash } from "@tabler/icons-svelte";
   import Database from "@tauri-apps/plugin-sql";
   import { onMount } from "svelte";
-  import { goto } from "$app/navigation";
 
   interface Favorite {
     id: number;
@@ -53,10 +52,7 @@
         <p class="source">{favorite.source_text}</p>
         <p class="translated">{favorite.translated_text}</p>
       </div>
-      <button
-        class="delete-button"
-        on:click={() => deleteFavorite(favorite.id)}
-      >
+      <button class="delete-button" onclick={() => deleteFavorite(favorite.id)}>
         <IconTrash size={20} />
       </button>
     </div>
