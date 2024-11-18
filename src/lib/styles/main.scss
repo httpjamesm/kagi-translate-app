@@ -44,3 +44,13 @@ body {
     color: var(--text-primary);
     touch-action: none;
 }
+
+input,
+textarea,
+select,
+button {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
