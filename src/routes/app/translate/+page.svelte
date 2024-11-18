@@ -12,6 +12,7 @@
   import Database from "@tauri-apps/plugin-sql";
   import { readText, writeText } from "@tauri-apps/plugin-clipboard-manager";
   import { selectionFeedback } from "@tauri-apps/plugin-haptics";
+  import LanguageSelectionModal from "$lib/components/LanguageSelectionModal.svelte";
 
   let sourceLanguage = $state("Automatic");
   let targetLanguage = $state("German");
@@ -21,6 +22,8 @@
   let isLoading = $state(false);
   let isFavorited = $state(false);
   let db: any;
+  let showSourceModal = $state(false);
+  let showTargetModal = $state(false);
 
   const doLanguageDetection = async () => {
     try {
@@ -149,13 +152,9 @@
 </script>
 
 <div class="language-selector">
-  <select bind:value={sourceLanguage} class="language-select">
-    {#each languages as language}
-      <option value={language}>
-        {language === "Automatic" ? "Detect" : language}
-      </option>
-    {/each}
-  </select>
+  <button class="language-button" onclick={() => (showSourceModal = true)}>
+    {sourceLanguage === "Automatic" ? "Detect" : sourceLanguage}
+  </button>
 
   <button
     class="swap-button"
@@ -165,13 +164,34 @@
     <IconArrowsExchange size={20} />
   </button>
 
-  <select bind:value={targetLanguage} class="language-select">
-    {#each languages.filter((l) => l !== "Automatic") as language}
-      <option value={language}>{language}</option>
-    {/each}
-  </select>
+  <button class="language-button" onclick={() => (showTargetModal = true)}>
+    {targetLanguage}
+  </button>
 </div>
 
+<LanguageSelectionModal
+  show={showSourceModal}
+  {languages}
+  includeAutomatic={true}
+  selectedLanguage={sourceLanguage}
+  onSelect={(language) => {
+    sourceLanguage = language;
+    showSourceModal = false;
+  }}
+  onClose={() => (showSourceModal = false)}
+/>
+
+<LanguageSelectionModal
+  show={showTargetModal}
+  {languages}
+  includeAutomatic={false}
+  selectedLanguage={targetLanguage}
+  onSelect={(language) => {
+    targetLanguage = language;
+    showTargetModal = false;
+  }}
+  onClose={() => (showTargetModal = false)}
+/>
 <div class="translation-area">
   <div class="source-text">
     <div class="language-label">{sourceLanguage}</div>
@@ -278,38 +298,27 @@
     box-sizing: border-box;
     justify-content: space-between;
     align-items: center;
-  }
-
-  .language-select {
-    background: white;
-    border: 1px solid #e2e8f0;
-    padding: 0.75rem 1rem;
-    border-radius: 0.5rem;
-    font-size: 1rem;
-    cursor: pointer;
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23666666'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 1rem center;
-    background-size: 1.25rem;
-    padding-right: 2.5rem;
-    transition: all 0.2s ease;
-    width: 42%;
-
-    &:hover {
-      border-color: #cbd5e0;
-      background-color: #f8fafc;
-    }
-
-    &:focus {
-      outline: none;
-      border-color: #5ba7d1;
-      box-shadow: 0 0 0 3px rgba(91, 167, 209, 0.1);
-    }
-
-    option {
-      padding: 0.5rem;
+    .language-button {
+      background: white;
+      border: 1px solid #e2e8f0;
+      padding: 0.75rem 1rem;
+      border-radius: 0.5rem;
       font-size: 1rem;
+      cursor: pointer;
+      width: 42%;
+      text-align: left;
+      transition: all 0.2s ease;
+
+      &:hover {
+        border-color: #cbd5e0;
+        background-color: #f8fafc;
+      }
+
+      &:focus {
+        outline: none;
+        border-color: #5ba7d1;
+        box-shadow: 0 0 0 3px rgba(91, 167, 209, 0.1);
+      }
     }
   }
 
