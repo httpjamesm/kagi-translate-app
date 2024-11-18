@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { IconArrowRight, IconTrash } from "@tabler/icons-svelte";
+  import { IconArrowRight, IconTrash, IconSearch } from "@tabler/icons-svelte";
   import Database from "@tauri-apps/plugin-sql";
   import { onMount } from "svelte";
   import { selectionFeedback } from "@tauri-apps/plugin-haptics";
@@ -15,6 +15,7 @@
   }
 
   let favorites = $state<Favorite[]>([]);
+  let searchQuery = $state("");
   let db: any;
 
   onMount(async () => {
@@ -24,13 +25,30 @@
 
   const loadFavorites = async () => {
     try {
-      favorites = await db.select(
-        "SELECT * FROM favorites ORDER BY created_at DESC"
-      );
+      const query = searchQuery
+        ? `SELECT * FROM favorites WHERE source_text LIKE $1 OR translated_text LIKE $1 ORDER BY created_at DESC`
+        : `SELECT * FROM favorites ORDER BY created_at DESC`;
+
+      const params = searchQuery ? [`%${searchQuery}%`] : [];
+      favorites = await db.select(query, params);
     } catch (e) {
       console.error(e);
     }
   };
+
+  $effect(() => {
+    if (db) {
+      loadFavorites();
+    }
+  });
+
+  $effect(() => {
+    if (searchQuery) {
+      loadFavorites();
+    } else {
+      loadFavorites();
+    }
+  });
 
   const deleteFavorite = async (id: number) => {
     try {
@@ -45,10 +63,25 @@
   };
 </script>
 
+<div class="search-container">
+  <div class="search-input">
+    <input
+      type="text"
+      placeholder="Search favorites..."
+      bind:value={searchQuery}
+    />
+    <IconSearch size={20} class="search-icon" />
+  </div>
+</div>
+
 <div class="favorites-list">
   {#if favorites.length === 0}
     <div class="empty-state">
-      <p>Press the heart button on translations to add them here</p>
+      <p>
+        {searchQuery
+          ? "No favorites found matching your search"
+          : "Press the heart button on translations to add them here"}
+      </p>
     </div>
   {:else}
     {#each favorites as favorite (favorite.id)}
@@ -76,6 +109,49 @@
 </div>
 
 <style lang="scss">
+  .search-container {
+    padding: 1rem 0;
+    box-sizing: border-box;
+    width: 100%;
+
+    .search-input {
+      position: relative;
+      width: 100%;
+      padding: 0.5rem 1rem;
+
+      border-radius: 0.5rem;
+      box-sizing: border-box;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+
+      .search-icon {
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-secondary);
+      }
+
+      input {
+        width: 100%;
+        font-size: 1rem;
+        outline: none;
+        transition: border-color 0.2s;
+        height: 100%;
+        background: transparent;
+        border: none;
+        color: var(--text-primary);
+
+        &::placeholder {
+          color: var(--text-secondary);
+        }
+      }
+    }
+  }
+
   .favorites-list {
     flex: 1;
     overflow-y: auto;
