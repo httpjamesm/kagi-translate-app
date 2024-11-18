@@ -69,6 +69,9 @@
         </button>
       </form>
     </div>
+    <p class="disclaimer">
+      <small>This app is unofficial and not affiliated with Kagi Inc.</small>
+    </p>
   </div>
 </div>
 
@@ -206,5 +209,10 @@
       background: var(--border);
       cursor: not-allowed;
     }
+  }
+
+  .disclaimer {
+    text-align: center;
+    color: var(--text-secondary);
   }
 </style>
