@@ -16,42 +16,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bf9c4c59-96be-416c-8ab7-9a944c4eb694" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-20x20@1x.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-20x20@1x.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-20x20@2x-1.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-20x20@2x-1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-20x20@2x.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-20x20@2x.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-20x20@3x.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-20x20@3x.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-29x29@1x.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-29x29@1x.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-29x29@2x-1.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-29x29@2x-1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-29x29@2x.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-29x29@2x.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-29x29@3x.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-29x29@3x.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-40x40@1x.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-40x40@1x.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-40x40@2x-1.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-40x40@2x-1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-40x40@2x.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-40x40@2x.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-40x40@3x.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-40x40@3x.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-512@2x.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-512@2x.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-60x60@2x.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-60x60@2x.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-60x60@3x.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-60x60@3x.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-76x76@1x.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-76x76@1x.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-76x76@2x.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-76x76@2x.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-83.5x83.5@2x.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/AppIcon-83.5x83.5@2x.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/icons/128x128.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/icons/128x128.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/icons/128x128@2x.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/icons/128x128@2x.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/icons/32x32.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/icons/32x32.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/icons/Square107x107Logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/icons/Square107x107Logo.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/icons/Square142x142Logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/icons/Square142x142Logo.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/icons/Square150x150Logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/icons/Square150x150Logo.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/icons/Square284x284Logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/icons/Square284x284Logo.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/icons/Square30x30Logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/icons/Square30x30Logo.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/icons/Square310x310Logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/icons/Square310x310Logo.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/icons/Square44x44Logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/icons/Square44x44Logo.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/icons/Square71x71Logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/icons/Square71x71Logo.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/icons/Square89x89Logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/icons/Square89x89Logo.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/icons/StoreLogo.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/icons/StoreLogo.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/icons/icon.icns" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/icons/icon.icns" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/icons/icon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/icons/icon.ico" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/icons/icon.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/icons/icon.png" afterDir="false" />
-    </list>
+    <list default="true" id="bf9c4c59-96be-416c-8ab7-9a944c4eb694" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -82,7 +47,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="_Designer_Tab" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 1
