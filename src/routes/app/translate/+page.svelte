@@ -24,16 +24,16 @@
   let db: any;
   let showSourceModal = $state(false);
   let showTargetModal = $state(false);
+  let detectedLanguage = $state("");
 
   const doLanguageDetection = async () => {
     try {
-      console.log("doLanguageDetection");
-      const language = await invoke("detect_language", {
+      const language: string = await invoke("detect_language", {
         text: sourceText,
       });
-      console.log(language);
+      detectedLanguage = language;
     } catch (e) {
-      console.error(e);
+      detectedLanguage = "";
     }
   };
 
@@ -50,14 +50,13 @@
         text: sourceText,
       });
     } catch (e) {
-      console.error(e);
+      translatedText = "Failed to translate";
     } finally {
       isLoading = false;
     }
   };
 
   const debounce = () => {
-    console.log("debouncedDetection");
     clearTimeout(debounceTimer);
     debounceTimer = setTimeout(() => {
       doLanguageDetection();
@@ -67,7 +66,6 @@
 
   $effect(() => {
     if (sourceText) {
-      console.log("source text detected");
       debounce();
     }
   });
@@ -163,7 +161,9 @@
 
 <div class="language-selector">
   <button class="language-button" onclick={() => (showSourceModal = true)}>
-    {sourceLanguage === "Automatic" ? "Detect" : sourceLanguage}
+    {sourceLanguage === "Automatic"
+      ? `Detect (${detectedLanguage})`
+      : sourceLanguage}
   </button>
 
   <button
