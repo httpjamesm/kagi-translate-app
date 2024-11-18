@@ -31,8 +31,12 @@
       box-sizing: border-box;
       height: calc(100% - 2rem);
 
+      @media only screen and (min-width: 768px) {
+        max-width: 100%;
+      }
+
       .content {
-        flex: 1;
+        height: 100%;
         overflow-y: auto;
         min-height: 0;
       }

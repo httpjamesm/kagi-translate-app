@@ -303,6 +303,11 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
+
+    @media only screen and (min-width: 768px) {
+      flex-direction: row;
+      height: 100%;
+    }
   }
 
   .source-text,
@@ -314,6 +319,15 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+
+    @media (min-width: 768px) {
+      height: 100%;
+
+      .text-content {
+        flex: 1;
+        max-height: none;
+      }
+    }
 
     .language-label {
       align-self: flex-start;
@@ -336,6 +350,11 @@
     color: var(--text-primary);
     max-height: 40vh;
     overflow-y: auto;
+
+    @media (min-width: 768px) {
+      max-height: none;
+      height: 100%;
+    }
 
     .placeholder {
       color: var(--text-placeholder);
