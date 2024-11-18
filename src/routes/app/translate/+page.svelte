@@ -158,6 +158,13 @@
       sourceText = translatedText;
     }
   };
+
+  $effect(() => {
+    // re-translate on language change
+    if (sourceLanguage && targetLanguage) {
+      doTranslation();
+    }
+  });
 </script>
 
 <div class="language-selector">
