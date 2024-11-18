@@ -114,7 +114,14 @@
         await db.execute(
           `INSERT INTO favorites (source_text, translated_text, source_language, target_language) 
            VALUES ($1, $2, $3, $4)`,
-          [sourceText, translatedText, sourceLanguage, targetLanguage]
+          [
+            sourceText,
+            translatedText,
+            sourceLanguage === "Automatic"
+              ? detectedLanguage || "Unknown"
+              : sourceLanguage,
+            targetLanguage,
+          ]
         );
         isFavorited = true;
       } else {
