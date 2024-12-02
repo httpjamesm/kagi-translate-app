@@ -50,6 +50,11 @@
   <div class="settings-container">
     <div class="section">
       <h2>Kagi Session Token</h2>
+      <p>
+        Obtain your session token by navigating to the three lines menu and
+        clicking "Copy" under the "Session Link" heading on
+        <a href="https://kagi.com" target="_blank">kagi.com</a>.
+      </p>
       <div class="input-area">
         <input
           type={isTokenVisible ? "text" : "password"}
