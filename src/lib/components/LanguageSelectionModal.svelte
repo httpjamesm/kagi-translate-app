@@ -2,6 +2,7 @@
   import { IconSearch, IconX } from "@tabler/icons-svelte";
   import { selectionFeedback } from "@tauri-apps/plugin-haptics";
   import SearchBar from "./SearchBar.svelte";
+  import { fade, fly, slide } from "svelte/transition";
 
   let {
     show,
@@ -50,8 +51,9 @@
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 {#if show}
   <!-- svelte-ignore a11y_click_events_have_key_events -->
-  <div class="modal-backdrop" onclick={handleClose}>
+  <div class="modal-backdrop" onclick={handleClose} transition:fade>
     <div
+      transition:slide
       class="modal"
       onclick={(e) => {
         e.stopPropagation();
