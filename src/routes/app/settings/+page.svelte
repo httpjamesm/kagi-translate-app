@@ -45,8 +45,6 @@
 </script>
 
 <div class="container">
-  <h1>Settings</h1>
-
   <div class="settings-container">
     <div class="section">
       <h2>Kagi Session Token</h2>
@@ -83,12 +81,6 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-  }
-
-  h1 {
-    margin: 0 0 1.5rem 0;
-    font-size: 1.5rem;
-    color: var(--text-primary);
   }
 
   .settings-container {
