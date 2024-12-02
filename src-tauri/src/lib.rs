@@ -10,7 +10,29 @@ use tauri_plugin_sql::{Migration, MigrationKind};
 
 #[derive(serde::Deserialize)]
 struct DetectLanguageResponse {
+    iso: String,
     language: String,
+}
+
+#[derive(serde::Deserialize)]
+struct TranslationResponse {
+    r#type: String,
+    status: i32,
+    data: String,
+}
+
+#[derive(serde::Deserialize)]
+struct TranslationData {
+    success: i32,
+    completion: i32,
+}
+
+#[derive(serde::Deserialize)]
+#[serde(untagged)]
+enum TranslationDataItem {
+    Stats(TranslationData),
+    Bool(bool),
+    Text(String),
 }
 
 fn get_user_agent(app: &tauri::AppHandle) -> String {
@@ -41,7 +63,7 @@ async fn detect_language(
         .ok_or_else(|| anyhow!("No login cookie"))?;
 
     let response = client
-        .post("https://translate.kagi.com/classify")
+        .post("https://translate.kagi.com/api/detect")
         .json(&json_body)
         .header("Cookie", format!("kagi_session={}", session_token,))
         .header("User-Agent", get_user_agent(&app))
@@ -71,12 +93,11 @@ async fn get_translation(
         .ok_or_else(|| anyhow!("No login cookie"))?;
 
     let response = client
-        .post("https://translate.kagi.com")
+        .post("https://translate.kagi.com/?/translate")
         .form(&[
             ("source", source_language),
             ("target", target_language),
             ("text", text),
-            ("model", "fast"),
         ])
         .header("Cookie", format!("kagi_session={}", session_token,))
         .header("User-Agent", get_user_agent(&app))
@@ -84,20 +105,16 @@ async fn get_translation(
         .await
         .map_err(|e| anyhow!(e))?;
 
-    let html_content = response.text().await.map_err(|e| anyhow!(e))?;
+    let translation_response: TranslationResponse =
+        response.json().await.map_err(|e| anyhow!(e))?;
+    let data: Vec<TranslationDataItem> =
+        serde_json::from_str(&translation_response.data).map_err(|e| anyhow!(e))?;
 
-    let document = Html::parse_document(&html_content);
-
-    let selector = Selector::parse("textarea#translation-output")
-        .map_err(|e| format!("{}", e))
-        .map_err(|e| anyhow!(e))?;
-
-    if let Some(textarea) = document.select(&selector).next() {
-        let content = textarea.text().collect::<String>();
-        return Ok(content);
+    if let Some(TranslationDataItem::Text(translation)) = data.get(2) {
+        Ok(translation.clone())
+    } else {
+        Err(anyhow!("Failed to parse translation response").into())
     }
-
-    Err(anyhow!("No translation found").into())
 }
 
 #[tauri::command]
