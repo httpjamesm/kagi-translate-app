@@ -98,7 +98,7 @@
     border-radius: 0.75rem;
     width: 100%;
     max-width: 24rem;
-    max-height: 80vh;
+    height: 32rem;
     display: flex;
     flex-direction: column;
   }
@@ -109,14 +109,17 @@
     display: flex;
     gap: 0.5rem;
     align-items: center;
+    flex-shrink: 0;
   }
 
   .language-list {
+    flex: 1;
     overflow-y: auto;
     padding: 0.5rem;
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
+    min-height: 0;
   }
 
   .language-option {
