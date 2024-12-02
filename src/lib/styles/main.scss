@@ -12,6 +12,8 @@
     --button-hover: #f0f0f0;
     --skeleton-start: #f0f0f0;
     --skeleton-mid: #e0e0e0;
+    --error: #dc2626;
+    --error-hover: #b91c1c;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -29,6 +31,8 @@
         --button-hover: #404040;
         --skeleton-start: #333333;
         --skeleton-mid: #404040;
+        --error: #ef4444;
+        --error-hover: #dc2626;
     }
 }
 

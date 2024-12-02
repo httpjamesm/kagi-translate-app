@@ -1,7 +1,7 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
-  import { IconLanguage, IconHeart } from "@tabler/icons-svelte";
+  import { IconLanguage, IconHeart, IconSettings } from "@tabler/icons-svelte";
   import { selectionFeedback } from "@tauri-apps/plugin-haptics";
 
   const handleClick = async (path: string) => {
@@ -29,6 +29,14 @@
     >
       <IconHeart size={24} />
       Favorites
+    </button>
+    <button
+      class="nav-button settings"
+      class:active={$page.url.pathname === "/app/settings"}
+      onclick={() => handleClick("/app/settings")}
+    >
+      <IconSettings size={24} />
+      Settings
     </button>
   </nav>
 </div>
