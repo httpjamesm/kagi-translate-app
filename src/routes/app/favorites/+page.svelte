@@ -6,6 +6,8 @@
   import IconButton from "$lib/components/IconButton.svelte";
   import SearchBar from "$lib/components/SearchBar.svelte";
   import { t } from "$lib/translations";
+  import { languages } from "$lib/constants/languages";
+
   interface Favorite {
     id: number;
     source_text: string;
@@ -83,11 +85,17 @@
       <div class="favorite-item">
         <div class="item-header">
           <div class="languages">
-            <span>{favorite.source_language}</span>
+            <span
+              >{languages.find((l) => l.apiName === favorite.source_language)
+                ?.displayName}</span
+            >
             <span>
               <IconArrowRight size={16} />
             </span>
-            <span>{favorite.target_language}</span>
+            <span>
+              {languages.find((l) => l.apiName === favorite.target_language)
+                ?.displayName}
+            </span>
           </div>
           <IconButton
             icon={IconTrash}
