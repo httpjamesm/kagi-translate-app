@@ -1,15 +1,9 @@
 <script lang="ts">
-  import {
-    IconCopy,
-    IconHeart,
-    IconX,
-    IconArrowsExchange,
-  } from "@tabler/icons-svelte";
+  import { IconHeart, IconX, IconArrowsExchange } from "@tabler/icons-svelte";
   import { invoke } from "@tauri-apps/api/core";
   import { languages } from "$lib/constants/languages";
   import { onDestroy, onMount } from "svelte";
   import Database from "@tauri-apps/plugin-sql";
-  import { writeText } from "@tauri-apps/plugin-clipboard-manager";
   import { selectionFeedback } from "@tauri-apps/plugin-haptics";
   import LanguageSelectionModal from "$lib/components/LanguageSelectionModal.svelte";
   import IconButton from "$lib/components/IconButton.svelte";
