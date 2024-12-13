@@ -95,8 +95,8 @@ async fn get_translation(
     let response = client
         .post("https://translate.kagi.com/?/translate")
         .form(&[
-            ("source", source_language),
-            ("target", target_language),
+            ("from", source_language),
+            ("to", target_language),
             ("text", text),
         ])
         .header("Cookie", format!("kagi_session={}", session_token,))
