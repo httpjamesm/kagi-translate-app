@@ -37,5 +37,6 @@
   "auto": "Auto",
   "detect": "Detect",
   "translationWillAppearHere": "Translation will appear here",
-  "failedToTranslate": "Failed to translate"
+  "failedToTranslate": "Failed to translate",
+  "languages": "languages"
 }

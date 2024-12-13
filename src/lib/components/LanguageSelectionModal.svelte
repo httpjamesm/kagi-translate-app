@@ -3,6 +3,7 @@
   import { selectionFeedback } from "@tauri-apps/plugin-haptics";
   import SearchBar from "./SearchBar.svelte";
   import { fade, fly, slide } from "svelte/transition";
+  import { t } from "$lib/translations";
 
   let {
     show,
@@ -60,7 +61,10 @@
       }}
     >
       <div class="modal-header">
-        <SearchBar bind:searchQuery={searchTerm} searchItemsName="languages" />
+        <SearchBar
+          bind:searchQuery={searchTerm}
+          searchItemsName={$t("common.languages")}
+        />
         <button class="icon-button" onclick={handleClose}>
           <IconX size={20} />
         </button>
