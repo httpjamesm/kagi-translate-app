@@ -1,0 +1,41 @@
+{
+  "bottomNav": {
+    "translate": "Translate",
+    "favorites": "Favorites",
+    "settings": "Settings"
+  },
+  "search": "Search",
+  "favorites": {
+    "noFavoritesSearchResults": "No favorites found matching your search",
+    "noFavorites": "Press the heart button on translations to add them here"
+  },
+  "settings": {
+    "resetAppData": {
+      "title": "Reset App Data",
+      "description": "This will clear all your favorites and settings.",
+      "button": "Reset App Data",
+      "confirm": "Are you sure you want to reset all app data? This will clear your favorites and settings."
+    },
+    "sessionToken": {
+      "title": "Kagi Session Token",
+      "description": "Obtain your session token by navigating to the three lines menu and clicking 'Copy' under the 'Session Link' heading on",
+      "placeholder": "Enter your Kagi session token"
+    }
+  },
+  "login": {
+    "title": "Welcome to Kagi Translate",
+    "subtitle": "Please enter your Kagi session link to continue",
+    "logInto": "Log into",
+    "openThreeLinesMenu": "Open the three lines menu in the top right of the screen",
+    "copySessionLink": "Click 'Copy' under the 'Session Link' heading",
+    "continueToTranslator": "Continue to Translator",
+    "disclaimer": "This app is unofficial and not affiliated with Kagi Inc.",
+    "createdBy": "Created by",
+    "pasteSessionLink": "Paste your session link here"
+  },
+  "automatic": "Automatic",
+  "auto": "Auto",
+  "detect": "Detect",
+  "translationWillAppearHere": "Translation will appear here",
+  "failedToTranslate": "Failed to translate"
+}

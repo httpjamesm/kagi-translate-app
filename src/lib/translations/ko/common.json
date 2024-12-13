@@ -1,0 +1,41 @@
+{
+  "bottomNav": {
+    "translate": "번역",
+    "favorites": "즐겨찾기",
+    "settings": "설정"
+  },
+  "search": "검색",
+  "favorites": {
+    "noFavoritesSearchResults": "검색 결과에 일치하는 즐겨찾기가 없습니다.",
+    "noFavorites": "여기에 추가하려면 번역의 하트 버튼을 누르세요"
+  },
+  "settings": {
+    "resetAppData": {
+      "title": "앱 데이터 초기화",
+      "description": "이 작업을 수행하면 모든 즐겨찾기 및 설정이 삭제됩니다.",
+      "button": "앱 데이터 초기화",
+      "confirm": "모든 앱 데이터를 초기화하시겠습니까? 이 작업을 수행하면 즐겨찾기와 설정이 삭제됩니다."
+    },
+    "sessionToken": {
+      "title": "Kagi 세션 토큰",
+      "description": "세션 링크에 있는 '복사'를 클릭하여 세션 토큰을 가져옵니다.",
+      "placeholder": "Kagi 세션 토큰을 입력하세요"
+    }
+  },
+  "login": {
+    "title": "Kagi 번역에 오신 것을 환영합니다",
+    "subtitle": "계속하려면 Kagi 세션 링크를 입력하세요",
+    "logInto": "로그인",
+    "openThreeLinesMenu": "화면 오른쪽 상단의 세 줄 메뉴를 열어주세요",
+    "copySessionLink": "'세션 링크' 제목 아래의 '복사'를 클릭하세요",
+    "continueToTranslator": "번역기로 이동",
+    "disclaimer": "이 앱은 비공식이며 Kagi Inc.와는 제휴하지 않습니다.",
+    "createdBy": "제작자",
+    "pasteSessionLink": "여기에 세션 링크를 붙여넣으세요"
+  },
+  "automatic": "자동",
+  "auto": "자동",
+  "detect": "감지",
+  "translationWillAppearHere": "번역 결과는 여기에 표시됩니다.",
+  "failedToTranslate": "번역에 실패했습니다"
+}

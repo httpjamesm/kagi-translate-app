@@ -8,6 +8,7 @@
   import LanguageSelectionModal from "$lib/components/LanguageSelectionModal.svelte";
   import IconButton from "$lib/components/IconButton.svelte";
   import CopyButton from "$lib/components/CopyButton.svelte";
+  import { t } from "$lib/translations";
 
   let sourceLanguage = $state("Automatic");
   let targetLanguage = $state("German");
@@ -58,7 +59,7 @@
       }
     } catch (e) {
       if (thisTranslationId === currentTranslationId) {
-        translatedText = "Failed to translate";
+        translatedText = $t("common.failedToTranslate");
       }
     } finally {
       if (thisTranslationId === currentTranslationId) {
@@ -184,7 +185,7 @@
       disabled={isLoading}
     >
       {sourceLanguage === "Automatic"
-        ? `Detect (${detectedLanguage || "Auto"})`
+        ? `${$t("common.detect")} (${detectedLanguage || $t("common.auto")})`
         : sourceLanguage}
     </button>
 
@@ -245,7 +246,9 @@
           {#if translatedText}
             {translatedText}
           {:else}
-            <span class="placeholder">Translation will appear here</span>
+            <span class="placeholder"
+              >{$t("common.translationWillAppearHere")}</span
+            >
           {/if}
         </div>
       {/if}

@@ -1,6 +1,6 @@
 <script lang="ts">
   import { IconSearch } from "@tabler/icons-svelte";
-
+  import { t } from "$lib/translations";
   let {
     searchQuery = $bindable(""),
     searchItemsName,
@@ -11,7 +11,7 @@
   <div class="search-input">
     <input
       type="text"
-      placeholder="Search {searchItemsName}..."
+      placeholder="{$t('common.search')} {searchItemsName}..."
       bind:value={searchQuery}
     />
     <IconSearch size={20} class="search-icon" />

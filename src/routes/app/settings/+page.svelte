@@ -4,6 +4,8 @@
   import { invoke } from "@tauri-apps/api/core";
   import { IconTrash } from "@tabler/icons-svelte";
   import { onMount } from "svelte";
+  import { t } from "$lib/translations";
+
   let sessionToken = $state("");
   let isTokenVisible = $state(false);
   let db: Database | null = null;
@@ -19,11 +21,7 @@
   };
 
   const resetAppData = async () => {
-    if (
-      !confirm(
-        "Are you sure you want to reset all app data? This will clear your favorites and settings."
-      )
-    ) {
+    if (!confirm($t("common.settings.resetAppData.confirm"))) {
       return;
     }
 
@@ -47,16 +45,12 @@
 <div class="container">
   <div class="settings-container">
     <div class="section">
-      <h2>Kagi Session Token</h2>
-      <p>
-        Obtain your session token by navigating to the three lines menu and
-        clicking "Copy" under the "Session Link" heading on
-        <a href="https://kagi.com" target="_blank">kagi.com</a>.
-      </p>
+      <h2>{$t("common.settings.sessionToken.title")}</h2>
+      <p>{$t("common.settings.sessionToken.description")}</p>
       <div class="input-area">
         <input
           type={isTokenVisible ? "text" : "password"}
-          placeholder="Enter your Kagi session token"
+          placeholder={$t("common.settings.sessionToken.placeholder")}
           bind:value={sessionToken}
           oninput={handleTokenUpdate}
           onfocus={() => (isTokenVisible = true)}
@@ -66,11 +60,11 @@
     </div>
 
     <div class="section">
-      <h2>Reset App Data</h2>
-      <p>This will clear all your favorites and settings.</p>
+      <h2>{$t("common.settings.resetAppData.title")}</h2>
+      <p>{$t("common.settings.resetAppData.description")}</p>
       <button class="danger-button" onclick={resetAppData}>
         <IconTrash size={18} />
-        Reset App Data
+        {$t("common.settings.resetAppData.button")}
       </button>
     </div>
   </div>

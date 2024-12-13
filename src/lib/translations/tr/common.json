@@ -1,0 +1,41 @@
+{
+  "bottomNav": {
+    "translate": "Çevir",
+    "favorites": "Favoriler",
+    "settings": "Ayarlar"
+  },
+  "search": "Ara",
+  "favorites": {
+    "noFavoritesSearchResults": "Aradığınız kriterlere uyan favori bulunamadı",
+    "noFavorites": "Çevirileri buraya eklemek için kalp simgesini tıklayın"
+  },
+  "settings": {
+    "resetAppData": {
+      "title": "Uygulama Verilerini Sıfırla",
+      "description": "Bu işlem tüm favorilerinizi ve ayarlarınızı silecektir.",
+      "button": "Uygulama Verilerini Sıfırla",
+      "confirm": "Tüm uygulama verilerini sıfırlamak istediğinizden emin misiniz? Bu işlem favorilerinizi ve ayarlarınızı silecektir."
+    },
+    "sessionToken": {
+      "title": "Kagi Oturum Kimliği",
+      "description": "Oturum kimliğinizi, ekranın sağ üst köşesindeki üç çizgi menüsüne giderek ve \"Oturum Bağlantısı\" başlığı altındaki \"Kopyala\" düğmesine tıklayarak edinin",
+      "placeholder": "Kagi oturum kimliğinizi girin"
+    }
+  },
+  "login": {
+    "title": "Kagi Çeviri'ye Hoş Geldiniz",
+    "subtitle": "Devam etmek için Kagi oturum bağlantınızı girin",
+    "logInto": "Giriş Yap",
+    "openThreeLinesMenu": "Ekranın sağ üst köşesindeki üç çizgi menüsünü açın",
+    "copySessionLink": "\"Oturum Bağlantısı\" başlığı altındaki \"Kopyala\" düğmesine tıklayın",
+    "continueToTranslator": "Çevirmene Devam Et",
+    "disclaimer": "Bu uygulama resmi değildir ve Kagi Inc. ile ilişkili değildir.",
+    "createdBy": "Tarafından Oluşturuldu",
+    "pasteSessionLink": "Oturum bağlantınızı buraya yapıştırın"
+  },
+  "automatic": "Otomatik",
+  "auto": "Otomatik",
+  "detect": "Algıla",
+  "translationWillAppearHere": "Çeviri burada görünecektir",
+  "failedToTranslate": "Çeviri başarısız oldu"
+}

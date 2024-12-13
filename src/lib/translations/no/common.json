@@ -1,0 +1,41 @@
+{
+  "bottomNav": {
+    "translate": "Oversätt",
+    "favorites": "Favoritter",
+    "settings": "Innstillinger"
+  },
+  "search": "Søk",
+  "favorites": {
+    "noFavoritesSearchResults": "Ingen favoritter funnet som samsvarer med søket ditt",
+    "noFavorites": "Trykk på hjerteknappen på oversettelsene for å legge dem til her"
+  },
+  "settings": {
+    "resetAppData": {
+      "title": "Tilbakestill appdata",
+      "description": "Dette vil slette alle dine favoritter og innstillinger.",
+      "button": "Tilbakestill appdata",
+      "confirm": "Er du sikker på at du vil tilbakestille alle appdata? Dette vil slette dine favoritter og innstillinger."
+    },
+    "sessionToken": {
+      "title": "Kagi-økt-token",
+      "description": "Hent økt-tokenet ditt ved å navigere til menyen med tre linjer og klikke \"Kopier\" under overskriften \"Øktlenke\" på",
+      "placeholder": "Skriv inn ditt Kagi-økt-token"
+    }
+  },
+  "login": {
+    "title": "Velkommen til Kagi Translate",
+    "subtitle": "Skriv inn Kagi-øktlenken din for å fortsette",
+    "logInto": "Logg inn på",
+    "openThreeLinesMenu": "Åpne menyen med tre linjer øverst til høyre på skjermen",
+    "copySessionLink": "Klikk \"Kopier\" under overskriften \"Øktlenke\"",
+    "continueToTranslator": "Fortsett til oversetter",
+    "disclaimer": "Denne appen er uoffisiell og er ikke tilknyttet Kagi Inc.",
+    "createdBy": "Opprettet av",
+    "pasteSessionLink": "Lim inn øktlenken din her"
+  },
+  "automatic": "Automatisk",
+  "auto": "Auto",
+  "detect": "Oppdag",
+  "translationWillAppearHere": "Oversættelsen vil vises her",
+  "failedToTranslate": "Kunne ikke oversette"
+}

@@ -1,6 +1,7 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   import { open } from "@tauri-apps/plugin-shell";
+  import { t } from "$lib/translations";
 
   let sessionToken = $state("");
 
@@ -23,14 +24,15 @@
       <span>Kagi Translate</span>
     </div>
     <div class="login-card">
-      <h1>Welcome to Kagi Translate</h1>
-      <p class="subtitle">Please enter your Kagi session link to continue</p>
+      <h1>{$t("common.login.title")}</h1>
+      <p class="subtitle">{$t("common.login.subtitle")}</p>
 
       <div class="steps">
         <div class="step">
           <div class="step-number">1</div>
           <div class="step-text">
-            Log into <a
+            {$t("common.login.logInto")}
+            <a
               href="#"
               onclick={() => {
                 try {
@@ -45,14 +47,12 @@
         <div class="step">
           <div class="step-number">2</div>
           <div class="step-text">
-            Open the three lines menu in the top right of the screen
+            {$t("common.login.openThreeLinesMenu")}
           </div>
         </div>
         <div class="step">
           <div class="step-number">3</div>
-          <div class="step-text">
-            Click "Copy" under the "Session Link" heading
-          </div>
+          <div class="step-text">{$t("common.login.copySessionLink")}</div>
         </div>
       </div>
 
@@ -60,21 +60,22 @@
         <div class="input-area">
           <input
             type="password"
-            placeholder="Paste your session link here"
+            placeholder={$t("common.login.pasteSessionLink")}
             bind:value={sessionToken}
           />
         </div>
         <button class="submit-button" type="submit" disabled={!sessionToken}>
-          Continue to Translator
+          {$t("common.login.continueToTranslator")}
         </button>
       </form>
     </div>
     <p class="disclaimer">
-      <small>This app is unofficial and not affiliated with Kagi Inc.</small>
+      <small>{$t("common.login.disclaimer")}</small>
     </p>
     <p>
       <small
-        >Created by <a
+        >{$t("common.login.createdBy")}
+        <a
           href="#"
           onclick={() =>
             open(

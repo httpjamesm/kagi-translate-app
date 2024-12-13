@@ -1,0 +1,41 @@
+{
+  "bottomNav": {
+    "translate": "Vertalen",
+    "favorites": "Favorieten",
+    "settings": "Instellingen"
+  },
+  "search": "Zoeken",
+  "favorites": {
+    "noFavoritesSearchResults": "Geen favorieten gevonden die aan uw zoekopdracht voldoen",
+    "noFavorites": "Druk op het hartpictogram op vertalingen om ze hier toe te voegen"
+  },
+  "settings": {
+    "resetAppData": {
+      "title": "App-gegevens resetten",
+      "description": "Hiermee worden alle uw favorieten en instellingen gewist.",
+      "button": "App-gegevens resetten",
+      "confirm": "Weet u zeker dat u alle app-gegevens wilt resetten? Hiermee worden uw favorieten en instellingen gewist."
+    },
+    "sessionToken": {
+      "title": "Kagi Sessietoken",
+      "description": "Uw sessietoken verkrijgt u door het menu met de drie lijnen te openen en op 'Kopiëren' te klikken onder de kop 'Sessie-link' op",
+      "placeholder": "Voer uw Kagi sessietoken in"
+    }
+  },
+  "login": {
+    "title": "Welkom bij Kagi Vertalen",
+    "subtitle": "Voer uw Kagi sessie-link in om verder te gaan",
+    "logInto": "Aanmelden bij",
+    "openThreeLinesMenu": "Open het menu met de drie lijnen in de rechterbovenhoek van het scherm",
+    "copySessionLink": "Klik op 'Kopiëren' onder de kop 'Sessie-link'",
+    "continueToTranslator": "Doorgaan naar Vertaler",
+    "disclaimer": "Deze app is niet-officieel en is niet gelieerd aan Kagi Inc.",
+    "createdBy": "Gemaakt door",
+    "pasteSessionLink": "Plak hier uw sessie-link"
+  },
+  "automatic": "Automatisch",
+  "auto": "Auto",
+  "detect": "Detecteren",
+  "translationWillAppearHere": "Vertaling verschijnt hier",
+  "failedToTranslate": "Vertaling mislukt"
+}

@@ -3,6 +3,7 @@
   import { page } from "$app/stores";
   import { IconLanguage, IconHeart, IconSettings } from "@tabler/icons-svelte";
   import { selectionFeedback } from "@tauri-apps/plugin-haptics";
+  import { t } from "$lib/translations";
 
   const handleClick = async (path: string) => {
     try {
@@ -20,7 +21,7 @@
       onclick={() => handleClick("/app/translate")}
     >
       <IconLanguage size={24} />
-      Translate
+      {$t("common.translate")}
     </button>
     <button
       class="nav-button favorites"
@@ -28,7 +29,7 @@
       onclick={() => handleClick("/app/favorites")}
     >
       <IconHeart size={24} />
-      Favorites
+      {$t("common.favorites")}
     </button>
     <button
       class="nav-button settings"
@@ -36,7 +37,7 @@
       onclick={() => handleClick("/app/settings")}
     >
       <IconSettings size={24} />
-      Settings
+      {$t("common.settings")}
     </button>
   </nav>
 </div>

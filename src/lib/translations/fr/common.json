@@ -1,0 +1,41 @@
+{
+  "bottomNav": {
+    "translate": "Traduire",
+    "favorites": "Favoris",
+    "settings": "Paramètres"
+  },
+  "search": "Rechercher",
+  "favorites": {
+    "noFavoritesSearchResults": "Aucun favoris trouvé correspondant à votre recherche",
+    "noFavorites": "Appuyez sur le bouton cœur sur les traductions pour les ajouter ici"
+  },
+  "settings": {
+    "resetAppData": {
+      "title": "Réinitialiser les données de l'application",
+      "description": "Cela effacera tous vos favoris et vos paramètres.",
+      "button": "Réinitialiser les données de l'application",
+      "confirm": "Êtes-vous sûr de vouloir réinitialiser toutes les données de l'application ? Cela effacera vos favoris et vos paramètres."
+    },
+    "sessionToken": {
+      "title": "Jeton de session Kagi",
+      "description": "Obtenez votre jeton de session en accédant au menu à trois lignes et en cliquant sur \"Copier\" sous le titre \"Lien de session\" sur",
+      "placeholder": "Entrez votre jeton de session Kagi"
+    }
+  },
+  "login": {
+    "title": "Bienvenue sur Kagi Translate",
+    "subtitle": "Veuillez entrer votre lien de session Kagi pour continuer",
+    "logInto": "Se connecter à",
+    "openThreeLinesMenu": "Ouvrez le menu à trois lignes en haut à droite de l'écran",
+    "copySessionLink": "Cliquez sur \"Copier\" sous le titre \"Lien de session\"",
+    "continueToTranslator": "Continuer vers le Traducteur",
+    "disclaimer": "Cette application est non officielle et n'est pas affiliée à Kagi Inc.",
+    "createdBy": "Créé par",
+    "pasteSessionLink": "Collez votre lien de session ici"
+  },
+  "automatic": "Automatique",
+  "auto": "Auto",
+  "detect": "Détecter",
+  "translationWillAppearHere": "La traduction apparaîtra ici",
+  "failedToTranslate": "Traduction échouée"
+}

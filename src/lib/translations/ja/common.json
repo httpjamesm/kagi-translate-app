@@ -1,0 +1,41 @@
+{
+  "bottomNav": {
+    "translate": "翻訳",
+    "favorites": "お気に入り",
+    "settings": "設定"
+  },
+  "search": "検索",
+  "favorites": {
+    "noFavoritesSearchResults": "検索結果に一致するお気に入りは見つかりませんでした",
+    "noFavorites": "翻訳のハートボタンを押して、ここに追加してください"
+  },
+  "settings": {
+    "resetAppData": {
+      "title": "アプリデータをリセット",
+      "description": "これにより、すべての登録翻訳と設定がクリアされます。",
+      "button": "アプリデータをリセット",
+      "confirm": "アプリのすべてのデータをリセットしてもよろしいですか？これにより、お気に入りや設定がクリアされます。"
+    },
+    "sessionToken": {
+      "title": "Kagi セッショントークン",
+      "description": "セッショントークンは、画面右上の3つの線のメニューを開き、 \"セッションリンク\" の下にある「コピー」をクリックすることで取得できます。",
+      "placeholder": "Kagiセッショントークンを入力してください"
+    }
+  },
+  "login": {
+    "title": "Kagi翻訳へようこそ",
+    "subtitle": "続行するには、Kagiセッションリンクを入力してください",
+    "logInto": "ログイン",
+    "openThreeLinesMenu": "画面右上の3つの線のメニューを開きます",
+    "copySessionLink": "\"セッションリンク\"の項目の下の「コピー」をクリックします",
+    "continueToTranslator": "翻訳者へ",
+    "disclaimer": "このアプリは非公式であり、Kagi Inc.とは提携していません",
+    "createdBy": "作成者",
+    "pasteSessionLink": "セッションリンクをここに貼り付けてください"
+  },
+  "automatic": "自動",
+  "auto": "自動",
+  "detect": "検出",
+  "translationWillAppearHere": "翻訳はここに表示されます",
+  "failedToTranslate": "翻訳に失敗しました"
+}

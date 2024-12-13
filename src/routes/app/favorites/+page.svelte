@@ -1,11 +1,11 @@
 <script lang="ts">
-  import { IconArrowRight, IconTrash, IconSearch } from "@tabler/icons-svelte";
+  import { IconArrowRight, IconTrash } from "@tabler/icons-svelte";
   import Database from "@tauri-apps/plugin-sql";
   import { onMount } from "svelte";
   import { selectionFeedback } from "@tauri-apps/plugin-haptics";
   import IconButton from "$lib/components/IconButton.svelte";
   import SearchBar from "$lib/components/SearchBar.svelte";
-
+  import { t } from "$lib/translations";
   interface Favorite {
     id: number;
     source_text: string;
@@ -71,8 +71,8 @@
     <div class="empty-state">
       <p>
         {searchQuery
-          ? "No favorites found matching your search"
-          : "Press the heart button on translations to add them here"}
+          ? $t("common.favorites.noFavoritesSearchResults")
+          : $t("common.favorites.noFavorites")}
       </p>
     </div>
   {:else}
