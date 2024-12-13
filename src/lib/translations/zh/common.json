@@ -1,13 +1,13 @@
 {
   "bottomNav": {
     "translate": "翻译",
-    "favorites": "收藏",
+    "favorites": "收藏夹",
     "settings": "设置"
   },
   "search": "搜索",
   "favorites": {
-    "noFavoritesSearchResults": "没有找到与搜索结果相符的收藏夹",
-    "noFavorites": "请点击翻译上的爱心按钮将其添加到此处"
+    "noFavoritesSearchResults": "未找到与搜索匹配的收藏夹",
+    "noFavorites": "按翻译上的心形按钮添加至此处"
   },
   "settings": {
     "resetAppData": {
@@ -18,24 +18,25 @@
     },
     "sessionToken": {
       "title": "Kagi 会话令牌",
-      "description": "通过导航到屏幕右上角的三行菜单，然后点击“会话链接”标题下的“复制”来获取您的会话令牌",
+      "description": "导航到屏幕右上方的三条线菜单，点击“复制”在“会话链接”标题下获取会话令牌",
       "placeholder": "输入您的 Kagi 会话令牌"
     }
   },
   "login": {
     "title": "欢迎使用 Kagi 翻译",
     "subtitle": "请输入您的 Kagi 会话链接以继续",
-    "logInto": "登录",
-    "openThreeLinesMenu": "打开屏幕右上方的三行菜单",
-    "copySessionLink": "点击“会话链接”标题下的“复制”按钮",
+    "logInto": "登录到",
+    "openThreeLinesMenu": "打开屏幕右上角的三条线菜单",
+    "copySessionLink": "点击“复制”，位于“会话链接”标题下方",
     "continueToTranslator": "继续到翻译器",
-    "disclaimer": "此应用为非官方应用，与 Kagi Inc. 无关",
-    "createdBy": "由",
-    "pasteSessionLink": "将您的会话链接粘贴到这里"
+    "disclaimer": "此应用是非官方的，与 Kagi Inc. 无关",
+    "createdBy": "由...",
+    "pasteSessionLink": "在此处粘贴您的会话链接"
   },
   "automatic": "自动",
   "auto": "自动",
   "detect": "检测",
-  "translationWillAppearHere": "翻译结果将显示在此处",
-  "failedToTranslate": "翻译失败"
+  "translationWillAppearHere": "翻译将显示在此处",
+  "failedToTranslate": "翻译失败",
+  "languages": "语言"
 }

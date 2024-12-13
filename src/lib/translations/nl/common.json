@@ -7,29 +7,29 @@
   "search": "Zoeken",
   "favorites": {
     "noFavoritesSearchResults": "Geen favorieten gevonden die aan uw zoekopdracht voldoen",
-    "noFavorites": "Druk op het hartpictogram op vertalingen om ze hier toe te voegen"
+    "noFavorites": "Druk op het hart-icoon op vertalingen om ze hier toe te voegen"
   },
   "settings": {
     "resetAppData": {
       "title": "App-gegevens resetten",
-      "description": "Hiermee worden alle uw favorieten en instellingen gewist.",
+      "description": "Hiermee worden al uw favorieten en instellingen gewist.",
       "button": "App-gegevens resetten",
       "confirm": "Weet u zeker dat u alle app-gegevens wilt resetten? Hiermee worden uw favorieten en instellingen gewist."
     },
     "sessionToken": {
-      "title": "Kagi Sessietoken",
-      "description": "Uw sessietoken verkrijgt u door het menu met de drie lijnen te openen en op 'Kopiëren' te klikken onder de kop 'Sessie-link' op",
-      "placeholder": "Voer uw Kagi sessietoken in"
+      "title": "Kagi Sessie-token",
+      "description": "Vraag uw sessie-token op door naar het menu met drie lijnen te gaan en op 'Kopiëren' te klikken onder de kop 'Sessie-link' op",
+      "placeholder": "Voer uw Kagi sessie-token in"
     }
   },
   "login": {
     "title": "Welkom bij Kagi Vertalen",
     "subtitle": "Voer uw Kagi sessie-link in om verder te gaan",
     "logInto": "Aanmelden bij",
-    "openThreeLinesMenu": "Open het menu met de drie lijnen in de rechterbovenhoek van het scherm",
+    "openThreeLinesMenu": "Open het menu met drie lijnen rechtsboven op het scherm",
     "copySessionLink": "Klik op 'Kopiëren' onder de kop 'Sessie-link'",
-    "continueToTranslator": "Doorgaan naar Vertaler",
-    "disclaimer": "Deze app is niet-officieel en is niet gelieerd aan Kagi Inc.",
+    "continueToTranslator": "Doorgaan naar de vertaler",
+    "disclaimer": "Deze app is niet-officieel en niet gelieerd aan Kagi Inc.",
     "createdBy": "Gemaakt door",
     "pasteSessionLink": "Plak hier uw sessie-link"
   },
@@ -37,5 +37,6 @@
   "auto": "Auto",
   "detect": "Detecteren",
   "translationWillAppearHere": "Vertaling verschijnt hier",
-  "failedToTranslate": "Vertaling mislukt"
+  "failedToTranslate": "Vertaling mislukt",
+  "languages": "talen"
 }

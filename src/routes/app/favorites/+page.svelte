@@ -64,7 +64,10 @@
   };
 </script>
 
-<SearchBar bind:searchQuery searchItemsName="favorites" />
+<SearchBar
+  bind:searchQuery
+  searchItemsName={$t("common.bottomNav.favorites").toLowerCase()}
+/>
 
 <div class="favorites-list">
   {#if favorites.length === 0}

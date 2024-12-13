@@ -1,7 +1,7 @@
 <script lang="ts">
   import { IconHeart, IconX, IconArrowsExchange } from "@tabler/icons-svelte";
   import { invoke } from "@tauri-apps/api/core";
-  import { languages } from "$lib/constants/languages";
+  import { type Language, languages } from "$lib/constants/languages";
   import { onDestroy, onMount } from "svelte";
   import Database from "@tauri-apps/plugin-sql";
   import { selectionFeedback } from "@tauri-apps/plugin-haptics";
@@ -10,8 +10,8 @@
   import CopyButton from "$lib/components/CopyButton.svelte";
   import { t } from "$lib/translations";
 
-  let sourceLanguage = $state("Automatic");
-  let targetLanguage = $state("German");
+  let sourceLanguage = $state<Language>(languages[0]);
+  let targetLanguage = $state<Language>(languages[1]);
   let sourceText = $state("");
   let translatedText = $state("");
   let debounceTimer: number;
@@ -52,8 +52,8 @@
       // Only update if this is still the most recent translation request
       if (thisTranslationId === currentTranslationId) {
         translatedText = await invoke("get_translation", {
-          sourceLanguage: "Automatic",
-          targetLanguage: targetLanguage,
+          sourceLanguage: sourceLanguage.apiName,
+          targetLanguage: targetLanguage.apiName,
           text: sourceText,
         });
       }
@@ -86,8 +86,14 @@
     const savedSourceText = window.localStorage.getItem("sourceText");
     const savedTranslatedText = window.localStorage.getItem("translatedText");
 
-    if (savedSourceLanguage) sourceLanguage = savedSourceLanguage;
-    if (savedTargetLanguage) targetLanguage = savedTargetLanguage;
+    if (savedSourceLanguage)
+      sourceLanguage =
+        languages.find((l) => l.apiName === savedSourceLanguage) ||
+        languages[0];
+    if (savedTargetLanguage)
+      targetLanguage =
+        languages.find((l) => l.apiName === savedTargetLanguage) ||
+        languages[1];
     if (savedSourceText) sourceText = savedSourceText;
     if (savedTranslatedText) translatedText = savedTranslatedText;
   };
@@ -116,10 +122,10 @@
           [
             sourceText,
             translatedText,
-            sourceLanguage === "Automatic"
+            sourceLanguage.apiName === "Automatic"
               ? detectedLanguage || "Unknown"
-              : sourceLanguage,
-            targetLanguage,
+              : sourceLanguage.apiName,
+            targetLanguage.apiName,
           ]
         );
         isFavorited = true;
@@ -130,7 +136,12 @@
            AND translated_text = $2 
            AND source_language = $3 
            AND target_language = $4`,
-          [sourceText, translatedText, sourceLanguage, targetLanguage]
+          [
+            sourceText,
+            translatedText,
+            sourceLanguage.apiName,
+            targetLanguage.apiName,
+          ]
         );
         isFavorited = false;
       }
@@ -146,7 +157,12 @@
          AND translated_text = $2 
          AND source_language = $3 
          AND target_language = $4`,
-      [sourceText, translatedText, sourceLanguage, targetLanguage]
+      [
+        sourceText,
+        translatedText,
+        sourceLanguage.apiName,
+        targetLanguage.apiName,
+      ]
     );
     isFavorited = result[0].count > 0;
   };
@@ -159,7 +175,7 @@
   });
 
   const swapLanguages = () => {
-    if (sourceLanguage !== "Automatic") {
+    if (sourceLanguage.apiName !== "Automatic") {
       const tempSource = sourceLanguage;
       sourceLanguage = targetLanguage;
       targetLanguage = tempSource;
@@ -168,8 +184,8 @@
   };
 
   $effect(() => {
-    window.localStorage.setItem("sourceLanguage", sourceLanguage);
-    window.localStorage.setItem("targetLanguage", targetLanguage);
+    window.localStorage.setItem("sourceLanguage", sourceLanguage.apiName);
+    window.localStorage.setItem("targetLanguage", targetLanguage.apiName);
   });
 
   onDestroy(() => {
@@ -184,15 +200,15 @@
       onclick={() => (showSourceModal = true)}
       disabled={isLoading}
     >
-      {sourceLanguage === "Automatic"
+      {sourceLanguage.apiName === "Automatic"
         ? `${$t("common.detect")} (${detectedLanguage || $t("common.auto")})`
-        : sourceLanguage}
+        : sourceLanguage.displayName}
     </button>
 
     <IconButton
       icon={IconArrowsExchange}
       onclick={swapLanguages}
-      disabled={sourceLanguage === "Automatic" || isLoading}
+      disabled={sourceLanguage.apiName === "Automatic" || isLoading}
     />
 
     <button
@@ -200,13 +216,13 @@
       onclick={() => (showTargetModal = true)}
       disabled={isLoading}
     >
-      {targetLanguage}
+      {targetLanguage.displayName}
     </button>
   </div>
 
   <div class="translation-area">
     <div class="source-text">
-      <div class="language-label">{sourceLanguage}</div>
+      <div class="language-label">{sourceLanguage.displayName}</div>
       <textarea
         class="text-content"
         placeholder="Enter text"
@@ -234,7 +250,7 @@
     </div>
 
     <div class="translated-text">
-      <div class="language-label">{targetLanguage}</div>
+      <div class="language-label">{targetLanguage.displayName}</div>
       {#if isLoading}
         <div class="skeleton-loader">
           <div class="skeleton-line"></div>

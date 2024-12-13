@@ -17,25 +17,26 @@
       "confirm": "Er du sikker på at du vil tilbakestille alle appdata? Dette vil slette dine favoritter og innstillinger."
     },
     "sessionToken": {
-      "title": "Kagi-økt-token",
-      "description": "Hent økt-tokenet ditt ved å navigere til menyen med tre linjer og klikke \"Kopier\" under overskriften \"Øktlenke\" på",
-      "placeholder": "Skriv inn ditt Kagi-økt-token"
+      "title": "Kagi-økter",
+      "description": "Hent økten din via menyens tre linjer til høyre og klikk 'Kopier' under 'lenke for økt' på",
+      "placeholder": "Skriv inn din Kagi-økten"
     }
   },
   "login": {
-    "title": "Velkommen til Kagi Translate",
-    "subtitle": "Skriv inn Kagi-øktlenken din for å fortsette",
+    "title": "Velkommen til Kagi Oversätt",
+    "subtitle": "Skriv inn din Kagi øktlenke for å fortsette",
     "logInto": "Logg inn på",
-    "openThreeLinesMenu": "Åpne menyen med tre linjer øverst til høyre på skjermen",
-    "copySessionLink": "Klikk \"Kopier\" under overskriften \"Øktlenke\"",
+    "openThreeLinesMenu": "Åpne menyens tre linjer øverst til høyre på skjermen",
+    "copySessionLink": "Klikk 'Kopier' under 'Øktlenke'-overskriften",
     "continueToTranslator": "Fortsett til oversetter",
     "disclaimer": "Denne appen er uoffisiell og er ikke tilknyttet Kagi Inc.",
     "createdBy": "Opprettet av",
-    "pasteSessionLink": "Lim inn øktlenken din her"
+    "pasteSessionLink": "Lim inn lenken din her"
   },
   "automatic": "Automatisk",
-  "auto": "Auto",
+  "auto": "Automatisk",
   "detect": "Oppdag",
-  "translationWillAppearHere": "Oversættelsen vil vises her",
-  "failedToTranslate": "Kunne ikke oversette"
+  "translationWillAppearHere": "Oversettelse vil vises her",
+  "failedToTranslate": "Oversettelsen mislyktes",
+  "languages": "språk"
 }

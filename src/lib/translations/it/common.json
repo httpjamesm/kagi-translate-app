@@ -6,28 +6,28 @@
   },
   "search": "Cerca",
   "favorites": {
-    "noFavoritesSearchResults": "Nessun preferito trovato corrispondente alla tua ricerca",
+    "noFavoritesSearchResults": "Nessun preferito trovato che corrisponda alla tua ricerca",
     "noFavorites": "Premi il pulsante cuore sulle traduzioni per aggiungerle qui"
   },
   "settings": {
     "resetAppData": {
-      "title": "Ripristina dati app",
+      "title": "Ripristina Dati App",
       "description": "Questo cancellerà tutti i tuoi preferiti e le impostazioni.",
-      "button": "Ripristina dati app",
+      "button": "Ripristina Dati App",
       "confirm": "Sei sicuro di voler ripristinare tutti i dati dell'app? Questo cancellerà i tuoi preferiti e le impostazioni."
     },
     "sessionToken": {
-      "title": "Token sessione Kagi",
-      "description": "Ottieni il tuo token di sessione accedendo al menu a tre righe e cliccando su 'Copia' sotto la voce 'Link sessione' su",
+      "title": "Token Sessione Kagi",
+      "description": "Ottieni il tuo token di sessione navigando nel menu a tre righe e cliccando su 'Copia' sotto l'intestazione 'Link Sessione' su",
       "placeholder": "Inserisci il tuo token di sessione Kagi"
     }
   },
   "login": {
-    "title": "Benvenuto in Kagi Traduci",
+    "title": "Benvenuto in Kagi Translate",
     "subtitle": "Inserisci il tuo link di sessione Kagi per continuare",
     "logInto": "Accedi a",
     "openThreeLinesMenu": "Apri il menu a tre righe nell'angolo in alto a destra dello schermo",
-    "copySessionLink": "Clicca su 'Copia' sotto la voce 'Link sessione'",
+    "copySessionLink": "Clicca su 'Copia' sotto l'intestazione 'Link Sessione'",
     "continueToTranslator": "Continua al Traduttore",
     "disclaimer": "Questa app è non ufficiale e non è affiliata a Kagi Inc.",
     "createdBy": "Creato da",
@@ -37,5 +37,6 @@
   "auto": "Auto",
   "detect": "Rileva",
   "translationWillAppearHere": "La traduzione apparirà qui",
-  "failedToTranslate": "Traduzione non riuscita"
+  "failedToTranslate": "Traduzione non riuscita",
+  "languages": "lingue"
 }

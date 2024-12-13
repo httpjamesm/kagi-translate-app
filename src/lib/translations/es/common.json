@@ -12,30 +12,31 @@
   "settings": {
     "resetAppData": {
       "title": "Restablecer datos de la aplicación",
-      "description": "Esto borrará todos tus favoritos y la configuración.",
+      "description": "Esto borrará todos sus favoritos y configuraciones.",
       "button": "Restablecer datos de la aplicación",
-      "confirm": "¿Estás seguro de que deseas restablecer todos los datos de la aplicación? Esto borrará tus favoritos y la configuración."
+      "confirm": "¿Está seguro de que desea restablecer todos los datos de la aplicación? Esto borrará sus favoritos y configuraciones."
     },
     "sessionToken": {
-      "title": "Token de sesión Kagi",
-      "description": "Obtén tu token de sesión navegando al menú de tres líneas y haciendo clic en 'Copiar' debajo del título 'Enlace de sesión' en",
-      "placeholder": "Introduce tu token de sesión Kagi"
+      "title": "Token de sesión de Kagi",
+      "description": "Obtenga su token de sesión navegando al menú de tres líneas y haciendo clic en 'Copiar' debajo del encabezado 'Enlace de sesión' en",
+      "placeholder": "Ingrese su token de sesión de Kagi"
     }
   },
   "login": {
     "title": "Bienvenido a Kagi Translate",
-    "subtitle": "Introduce tu enlace de sesión Kagi para continuar",
-    "logInto": "Iniciar sesión en",
-    "openThreeLinesMenu": "Abre el menú de tres líneas en la parte superior derecha de la pantalla",
-    "copySessionLink": "Haz clic en 'Copiar' debajo del título 'Enlace de sesión'",
+    "subtitle": "Ingrese su enlace de sesión de Kagi para continuar",
+    "logInto": "Acceder a",
+    "openThreeLinesMenu": "Abra el menú de tres líneas en la parte superior derecha de la pantalla",
+    "copySessionLink": "Haga clic en 'Copiar' debajo del encabezado 'Enlace de sesión'",
     "continueToTranslator": "Continuar al Traductor",
     "disclaimer": "Esta aplicación es no oficial y no está afiliada a Kagi Inc.",
     "createdBy": "Creado por",
-    "pasteSessionLink": "Pega tu enlace de sesión aquí"
+    "pasteSessionLink": "Pegue su enlace de sesión aquí"
   },
   "automatic": "Automático",
   "auto": "Auto",
   "detect": "Detectar",
   "translationWillAppearHere": "La traducción aparecerá aquí",
-  "failedToTranslate": "Error al traducir"
+  "failedToTranslate": "Traducción fallida",
+  "languages": "Idiomas"
 }

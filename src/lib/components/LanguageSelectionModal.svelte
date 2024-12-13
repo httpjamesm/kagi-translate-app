@@ -1,9 +1,10 @@
 <script lang="ts">
-  import { IconSearch, IconX } from "@tabler/icons-svelte";
+  import { IconX } from "@tabler/icons-svelte";
   import { selectionFeedback } from "@tauri-apps/plugin-haptics";
   import SearchBar from "./SearchBar.svelte";
-  import { fade, fly, slide } from "svelte/transition";
+  import { fade, slide } from "svelte/transition";
   import { t } from "$lib/translations";
+  import type { Language } from "$lib/constants/languages";
 
   let {
     show,
@@ -14,10 +15,10 @@
     onClose,
   }: {
     show: boolean;
-    languages: string[];
+    languages: Language[];
     includeAutomatic: boolean;
-    selectedLanguage: string;
-    onSelect: (language: string) => void;
+    selectedLanguage: Language;
+    onSelect: (language: Language) => void;
     onClose: () => void;
   } = $props();
 
@@ -26,14 +27,16 @@
   const filteredLanguages = () => {
     const languageList = includeAutomatic
       ? languages
-      : languages.filter((l) => l !== "Automatic");
+      : languages.filter((l) => l.apiName !== "Automatic");
     if (!searchTerm) return languageList;
-    return languageList.filter((lang) =>
-      lang.toLowerCase().includes(searchTerm.toLowerCase())
+    return languageList.filter(
+      (lang) =>
+        lang.displayName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        lang.apiName.toLowerCase().includes(searchTerm.toLowerCase())
     );
   };
 
-  const handleSelect = async (language: string) => {
+  const handleSelect = async (language: Language) => {
     try {
       await selectionFeedback();
     } catch {}
@@ -63,7 +66,7 @@
       <div class="modal-header">
         <SearchBar
           bind:searchQuery={searchTerm}
-          searchItemsName={$t("common.languages")}
+          searchItemsName={$t("common.languages").toLowerCase()}
         />
         <button class="icon-button" onclick={handleClose}>
           <IconX size={20} />
@@ -73,10 +76,10 @@
         {#each filteredLanguages() as language}
           <button
             class="language-option"
-            class:selected={language === selectedLanguage}
+            class:selected={language.apiName === selectedLanguage.apiName}
             onclick={() => handleSelect(language)}
           >
-            {language === "Automatic" ? "Detect" : language}
+            {language.apiName === "Automatic" ? "Detect" : language.displayName}
           </button>
         {/each}
       </div>

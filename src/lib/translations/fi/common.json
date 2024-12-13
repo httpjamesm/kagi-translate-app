@@ -6,36 +6,37 @@
   },
   "search": "Haku",
   "favorites": {
-    "noFavoritesSearchResults": "Et ole löytänyt suosikkeja, jotka vastaavat hakuasi",
+    "noFavoritesSearchResults": "Ei suosikkeja, jotka vastaavat hakuasi",
     "noFavorites": "Lisää käännökset suosikkeihin painamalla sydäntä"
   },
   "settings": {
     "resetAppData": {
-      "title": "Palauta sovellusdata",
+      "title": "Palauta sovelluksen tiedot",
       "description": "Tämä poistaa kaikki suosikkisi ja asetuksesi.",
-      "button": "Palauta sovellusdata",
+      "button": "Palauta sovelluksen tiedot",
       "confirm": "Oletko varma, että haluat palauttaa kaikki sovelluksen tiedot? Tämä poistaa suosikkisi ja asetuksesi."
     },
     "sessionToken": {
-      "title": "Kagi-istuntoavain",
-      "description": "Saat istuntoavaimesi siirtymällä kolmen rivin valikkoon ja napsauttamalla 'Kopioi' otsikon 'Istuntoviite' alla olevaa",
-      "placeholder": "Anna Kagi-istuntoavaimesi"
+      "title": "Kagi istunnon tunniste",
+      "description": "Hanki istunnon tunniste siirtymällä kolmen viivan valikkoon ja napsauttamalla 'Kopioi' kohdassa 'Istunnon linkki' ",
+      "placeholder": "Kirjoita Kagi istunnon tunniste"
     }
   },
   "login": {
-    "title": "Tervetuloa Kagi Translateen",
-    "subtitle": "Anna Kagi-istuntoviitteesi jatkaaksesi",
+    "title": "Tervetuloa Kagi Käännökseen",
+    "subtitle": "Kirjoita Kagi istunnon linkkisi jatkaaksesi",
     "logInto": "Kirjaudu sisään",
-    "openThreeLinesMenu": "Avaa kolmen rivin valikko näytön oikeassa yläkulmassa",
-    "copySessionLink": "Napsauttamalla 'Kopioi' otsikon 'Istuntoviite' alla",
-    "continueToTranslator": "Jatka kääntäjään",
-    "disclaimer": "Tämä sovellus on epävirallinen eikä se ole sidoksissa Kagi Inc:ään",
-    "createdBy": "Luonut",
-    "pasteSessionLink": "Liitä istuntoviitteesi tähän"
+    "openThreeLinesMenu": "Avaa kolmen viivan valikko näytön oikealta yläkulmasta",
+    "copySessionLink": "Napsautta 'Kopioi' kohdassa 'Istunnon linkki'",
+    "continueToTranslator": "Jatka käännökseen",
+    "disclaimer": "Tämä sovellus on virallinen ja ei ole yhteydessä Kagi Inc:iin",
+    "createdBy": "Luotu",
+    "pasteSessionLink": "Liitä istunnon linkkisi tänne"
   },
   "automatic": "Automaattinen",
   "auto": "Auto",
-  "detect": "Tunnista",
+  "detect": "Tunnisti",
   "translationWillAppearHere": "Käännös näkyy täällä",
-  "failedToTranslate": "Käännös epäonnistui"
+  "failedToTranslate": "Käännös epäonnistui",
+  "languages": "Kielet"
 }

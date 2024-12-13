@@ -7,18 +7,18 @@
   "search": "Tìm kiếm",
   "favorites": {
     "noFavoritesSearchResults": "Không tìm thấy mục yêu thích nào phù hợp với tìm kiếm của bạn",
-    "noFavorites": "Nhấn nút trái tim trên các bản dịch để thêm chúng vào đây"
+    "noFavorites": "Nhấn nút trái tim trên bản dịch để thêm vào đây"
   },
   "settings": {
     "resetAppData": {
-      "title": "Thiết lập lại dữ liệu ứng dụng",
+      "title": "Đặt lại dữ liệu ứng dụng",
       "description": "Điều này sẽ xóa tất cả mục yêu thích và cài đặt của bạn.",
-      "button": "Thiết lập lại dữ liệu ứng dụng",
-      "confirm": "Bạn có chắc chắn muốn thiết lập lại tất cả dữ liệu ứng dụng? Điều này sẽ xóa các mục yêu thích và cài đặt của bạn."
+      "button": "Đặt lại dữ liệu ứng dụng",
+      "confirm": "Bạn có chắc chắn muốn đặt lại tất cả dữ liệu ứng dụng? Điều này sẽ xóa mục yêu thích và cài đặt của bạn."
     },
     "sessionToken": {
       "title": "Mã phiên Kagi",
-      "description": "Nhận mã phiên của bạn bằng cách điều hướng đến trình đơn ba dòng và nhấp vào 'Sao chép' ở mục 'Liên kết phiên' trên",
+      "description": "Nhận mã phiên của bạn bằng cách điều hướng tới menu ba gạch ngang và nhấp vào \"Sao chép\" bên dưới tiêu đề \"Liên kết phiên\" trên",
       "placeholder": "Nhập mã phiên Kagi của bạn"
     }
   },
@@ -26,8 +26,8 @@
     "title": "Chào mừng đến với Kagi Translate",
     "subtitle": "Vui lòng nhập liên kết phiên Kagi của bạn để tiếp tục",
     "logInto": "Đăng nhập vào",
-    "openThreeLinesMenu": "Mở trình đơn ba dòng ở góc trên cùng bên phải của màn hình",
-    "copySessionLink": "Nhấp vào 'Sao chép' ở mục 'Liên kết phiên'",
+    "openThreeLinesMenu": "Mở menu ba gạch ngang ở góc trên cùng bên phải của màn hình",
+    "copySessionLink": "Nhấp vào \"Sao chép\" bên dưới tiêu đề \"Liên kết phiên\"",
     "continueToTranslator": "Tiếp tục đến Trình dịch",
     "disclaimer": "Ứng dụng này không chính thức và không liên kết với Kagi Inc.",
     "createdBy": "Được tạo bởi",
@@ -37,5 +37,6 @@
   "auto": "Tự động",
   "detect": "Phát hiện",
   "translationWillAppearHere": "Bản dịch sẽ xuất hiện ở đây",
-  "failedToTranslate": "Không thể dịch"
+  "failedToTranslate": "Thất bại trong việc dịch",
+  "languages": "ngôn ngữ"
 }

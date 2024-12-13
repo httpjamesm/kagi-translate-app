@@ -21,7 +21,7 @@
       onclick={() => handleClick("/app/translate")}
     >
       <IconLanguage size={24} />
-      {$t("common.translate")}
+      {$t("common.bottomNav.translate")}
     </button>
     <button
       class="nav-button favorites"
@@ -29,7 +29,7 @@
       onclick={() => handleClick("/app/favorites")}
     >
       <IconHeart size={24} />
-      {$t("common.favorites")}
+      {$t("common.bottomNav.favorites")}
     </button>
     <button
       class="nav-button settings"
@@ -37,7 +37,7 @@
       onclick={() => handleClick("/app/settings")}
     >
       <IconSettings size={24} />
-      {$t("common.settings")}
+      {$t("common.bottomNav.settings")}
     </button>
   </nav>
 </div>

@@ -4,9 +4,9 @@
     "favorites": "Favoris",
     "settings": "Paramètres"
   },
-  "search": "Rechercher",
+  "search": "Recherche",
   "favorites": {
-    "noFavoritesSearchResults": "Aucun favoris trouvé correspondant à votre recherche",
+    "noFavoritesSearchResults": "Aucun favori trouvé correspondant à votre recherche",
     "noFavorites": "Appuyez sur le bouton cœur sur les traductions pour les ajouter ici"
   },
   "settings": {
@@ -18,7 +18,7 @@
     },
     "sessionToken": {
       "title": "Jeton de session Kagi",
-      "description": "Obtenez votre jeton de session en accédant au menu à trois lignes et en cliquant sur \"Copier\" sous le titre \"Lien de session\" sur",
+      "description": "Obtenez votre jeton de session en accédant au menu à trois lignes et en cliquant sur \"Copier\" sous l'en-tête \"Lien de session\" sur",
       "placeholder": "Entrez votre jeton de session Kagi"
     }
   },
@@ -27,8 +27,8 @@
     "subtitle": "Veuillez entrer votre lien de session Kagi pour continuer",
     "logInto": "Se connecter à",
     "openThreeLinesMenu": "Ouvrez le menu à trois lignes en haut à droite de l'écran",
-    "copySessionLink": "Cliquez sur \"Copier\" sous le titre \"Lien de session\"",
-    "continueToTranslator": "Continuer vers le Traducteur",
+    "copySessionLink": "Cliquez sur \"Copier\" sous l'en-tête \"Lien de session\"",
+    "continueToTranslator": "Continuer vers le traducteur",
     "disclaimer": "Cette application est non officielle et n'est pas affiliée à Kagi Inc.",
     "createdBy": "Créé par",
     "pasteSessionLink": "Collez votre lien de session ici"
@@ -37,5 +37,6 @@
   "auto": "Auto",
   "detect": "Détecter",
   "translationWillAppearHere": "La traduction apparaîtra ici",
-  "failedToTranslate": "Traduction échouée"
+  "failedToTranslate": "Traduction échouée",
+  "languages": "Langues"
 }

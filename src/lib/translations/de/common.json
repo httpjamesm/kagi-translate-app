@@ -4,10 +4,10 @@
     "favorites": "Favoriten",
     "settings": "Einstellungen"
   },
-  "search": "Suchen",
+  "search": "Suche",
   "favorites": {
     "noFavoritesSearchResults": "Keine Favoriten gefunden, die Ihrer Suche entsprechen",
-    "noFavorites": "Drücken Sie das Herzsymbol auf Übersetzungen, um sie hier hinzuzufügen"
+    "noFavorites": "Drücken Sie auf das Herzsymbol bei Übersetzungen, um sie hier hinzuzufügen"
   },
   "settings": {
     "resetAppData": {
@@ -18,24 +18,25 @@
     },
     "sessionToken": {
       "title": "Kagi Sitzungstoken",
-      "description": "Erhalten Sie Ihr Sitzungstoken, indem Sie das Menü mit den drei Zeilen aufrufen und unter der Überschrift „Sitzungslink“ auf „Kopieren“ klicken",
-      "placeholder": "Geben Sie Ihr Kagi Sitzungstoken ein"
+      "description": "Erhalten Sie Ihr Sitzungstoken, indem Sie auf das Drei-Striche-Menü navigieren und unter der Überschrift „Sitzungslink“ auf „Kopieren“ klicken.",
+      "placeholder": "Geben Sie Ihren Kagi Sitzungstoken ein"
     }
   },
   "login": {
     "title": "Willkommen bei Kagi Translate",
     "subtitle": "Bitte geben Sie Ihren Kagi Sitzungslink ein, um fortzufahren",
-    "logInto": "Anmelden bei",
-    "openThreeLinesMenu": "Öffnen Sie das Menü mit den drei Zeilen oben rechts auf dem Bildschirm",
+    "logInto": "Einloggen in",
+    "openThreeLinesMenu": "Öffnen Sie das Drei-Striche-Menü oben rechts im Bildschirm",
     "copySessionLink": "Klicken Sie unter der Überschrift „Sitzungslink“ auf „Kopieren“",
-    "continueToTranslator": "Weiter zum Übersetzer",
+    "continueToTranslator": "Zum Übersetzer fortfahren",
     "disclaimer": "Diese App ist inoffiziell und nicht mit Kagi Inc. verbunden.",
     "createdBy": "Erstellt von",
-    "pasteSessionLink": "Fügen Sie Ihren Sitzungslink hier ein"
+    "pasteSessionLink": "Fügen Sie hier Ihren Sitzungslink ein"
   },
   "automatic": "Automatisch",
   "auto": "Auto",
   "detect": "Erkennen",
-  "translationWillAppearHere": "Die Übersetzung erscheint hier",
-  "failedToTranslate": "Übersetzung fehlgeschlagen"
+  "translationWillAppearHere": "Die Übersetzung wird hier angezeigt",
+  "failedToTranslate": "Übersetzung fehlgeschlagen",
+  "languages": "Sprachen"
 }

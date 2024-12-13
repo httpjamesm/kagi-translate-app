@@ -6,36 +6,37 @@
   },
   "search": "Pesquisar",
   "favorites": {
-    "noFavoritesSearchResults": "Nenhum favorito encontrado correspondendo à sua pesquisa",
-    "noFavorites": "Pressione o botão de coração nas traduções para adicioná-las aqui"
+    "noFavoritesSearchResults": "Nenhum favorito encontrado correspondente à sua pesquisa",
+    "noFavorites": "Pressione o botão do coração nas traduções para adicioná-los aqui"
   },
   "settings": {
     "resetAppData": {
       "title": "Redefinir Dados do App",
-      "description": "Isso irá limpar todos os seus favoritos e configurações.",
+      "description": "Isto irá limpar todos os seus favoritos e configurações.",
       "button": "Redefinir Dados do App",
-      "confirm": "Tem certeza que deseja redefinir todos os dados do app? Isso irá limpar seus favoritos e configurações."
+      "confirm": "Tem a certeza que deseja redefinir todos os dados do app? Isto irá limpar os seus favoritos e configurações."
     },
     "sessionToken": {
       "title": "Token de Sessão Kagi",
-      "description": "Obtenha seu token de sessão navegando no menu de três linhas e clicando em 'Copiar' abaixo do título 'Link de Sessão' em",
-      "placeholder": "Digite seu token de sessão Kagi"
+      "description": "Obtenha o seu token de sessão navegando até ao menu com três linhas e clicando em 'Copiar' em baixo do título 'Link de Sessão' em",
+      "placeholder": "Introduza o seu token de sessão Kagi"
     }
   },
   "login": {
-    "title": "Bem-vindo(a) ao Kagi Translate",
-    "subtitle": "Por favor, insira o seu link de sessão Kagi para continuar",
+    "title": "Bem-vindo ao Kagi Traduzir",
+    "subtitle": "Por favor, introduza o seu link de sessão Kagi para continuar",
     "logInto": "Entrar em",
-    "openThreeLinesMenu": "Abra o menu de três linhas no canto superior direito da tela",
-    "copySessionLink": "Clique em 'Copiar' abaixo do título 'Link de Sessão'",
+    "openThreeLinesMenu": "Abra o menu com três linhas no canto superior direito da ecrã",
+    "copySessionLink": "Clique em 'Copiar' em baixo do título 'Link de Sessão'",
     "continueToTranslator": "Continuar ao Tradutor",
-    "disclaimer": "Este app é não-oficial e não está afiliado à Kagi Inc.",
+    "disclaimer": "Este app é não oficial e não está afiliado à Kagi Inc.",
     "createdBy": "Criado por",
-    "pasteSessionLink": "Cole seu link de sessão aqui"
+    "pasteSessionLink": "Cole o seu link de sessão aqui"
   },
   "automatic": "Automático",
   "auto": "Auto",
   "detect": "Detectar",
   "translationWillAppearHere": "A tradução aparecerá aqui",
-  "failedToTranslate": "Falha na tradução"
+  "failedToTranslate": "Falha ao traduzir",
+  "languages": "línguas"
 }

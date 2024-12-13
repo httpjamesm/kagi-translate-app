@@ -6,36 +6,37 @@
   },
   "search": "Søg",
   "favorites": {
-    "noFavoritesSearchResults": "Ingen favoritter fundet der matcher din søgning",
-    "noFavorites": "Klik på hjerteknappen på oversættelser for at tilføje dem her"
+    "noFavoritesSearchResults": "Ingen favoritter fundet, der matcher din søgning",
+    "noFavorites": "Tryk på hjerteknappen på oversættelserne for at tilføje dem her"
   },
   "settings": {
     "resetAppData": {
       "title": "Nulstil appdata",
       "description": "Dette vil slette alle dine favoritter og indstillinger.",
       "button": "Nulstil appdata",
-      "confirm": "Er du sikker på at du ønsker at nulstille alle appdata? Dette vil slette dine favoritter og indstillinger."
+      "confirm": "Er du sikker på, at du vil nulstille alle appdata? Dette vil slette dine favoritter og indstillinger."
     },
     "sessionToken": {
-      "title": "Kagi sessiontoken",
-      "description": "Hent dit sessiontoken ved at navigere til menuen med tre linjer og klikke på 'Kopiér' under overskriften 'Session link' på",
-      "placeholder": "Indtast dit Kagi sessiontoken"
+      "title": "Kagi Session Token",
+      "description": "Hent din sessionstoken ved at navigere til menuknappen med tre linjer og klikke på 'Kopiér' under overskriften 'Sessionslink' på",
+      "placeholder": "Indtast din Kagi sessionstoken"
     }
   },
   "login": {
-    "title": "Velkommen til Kagi Translate",
+    "title": "Velkommen til Kagi Oversæt",
     "subtitle": "Indtast venligst din Kagi sessionlink for at fortsætte",
     "logInto": "Log ind på",
-    "openThreeLinesMenu": "Åbn menuen med tre linjer øverst til højre på skærmen",
+    "openThreeLinesMenu": "Åbn menuknappen med tre linjer i øverste højre hjørne af skærmen",
     "copySessionLink": "Klik på 'Kopiér' under overskriften 'Session Link'",
-    "continueToTranslator": "Fortsæt til oversætteren",
+    "continueToTranslator": "Fortsæt til oversætter",
     "disclaimer": "Denne app er uofficiel og ikke tilknyttet Kagi Inc.",
     "createdBy": "Oprettet af",
-    "pasteSessionLink": "Indsæt din sessionlink her"
+    "pasteSessionLink": "Indsæt din sessionslink her"
   },
   "automatic": "Automatisk",
   "auto": "Auto",
   "detect": "Bestem",
   "translationWillAppearHere": "Oversættelsen vises her",
-  "failedToTranslate": "Fejl ved oversættelse"
+  "failedToTranslate": "Oversættelsen mislykkedes",
+  "languages": "sprog"
 }
