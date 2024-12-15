@@ -36,4 +36,4 @@ jobs:
         run: cd scripts
 
       - name: Run build script
-        run: $HOME/.bun/bin/bun buildios.ts
+        run: $HOME/.bun/bin/bun run buildios.ts
