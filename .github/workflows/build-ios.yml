@@ -1,0 +1,25 @@
+name: Build iOS
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Bun
+        run: curl -fsSL https://bun.sh/install | bash
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Create .iosbuildopts.json
+        run: echo '{"signIdentity":"${{ secrets.SIGN_IDENTITY }}", "appStoreConnectApiKey":"${{ secrets.APP_STORE_CONNECT_API_KEY }}", "appStoreConnectIssuerId":"${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}"}' > scripts/.iosbuildopts.json
+
+      - name: Run build script
+        run: bun scripts/buildios.ts
