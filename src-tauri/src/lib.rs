@@ -127,10 +127,11 @@ struct AppState {
 }
 
 fn get_migrations() -> Vec<Migration> {
-    vec![Migration {
-        version: 1,
-        description: "create_favorites_table",
-        sql: "CREATE TABLE IF NOT EXISTS favorites (
+    vec![
+        Migration {
+            version: 1,
+            description: "create_favorites_table",
+            sql: "CREATE TABLE IF NOT EXISTS favorites (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 source_text TEXT NOT NULL,
                 translated_text TEXT NOT NULL,
@@ -138,8 +139,19 @@ fn get_migrations() -> Vec<Migration> {
                 target_language TEXT NOT NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             );",
-        kind: MigrationKind::Up,
-    }]
+            kind: MigrationKind::Up,
+        },
+        Migration {
+            version: 2,
+            description: "create_starred_languages_table",
+            sql: "CREATE TABLE IF NOT EXISTS starred_languages (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                language_api_name TEXT NOT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            );",
+            kind: MigrationKind::Up,
+        },
+    ]
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
