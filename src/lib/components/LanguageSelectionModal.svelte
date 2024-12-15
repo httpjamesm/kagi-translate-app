@@ -1,10 +1,19 @@
 <script lang="ts">
-  import { IconX } from "@tabler/icons-svelte";
+  import { IconStar, IconStarFilled, IconX } from "@tabler/icons-svelte";
   import { selectionFeedback } from "@tauri-apps/plugin-haptics";
   import SearchBar from "./SearchBar.svelte";
   import { fade, slide } from "svelte/transition";
   import { t } from "$lib/translations";
   import type { Language } from "$lib/constants/languages";
+  import Database from "@tauri-apps/plugin-sql";
+  import { onMount } from "svelte";
+
+  let db: any;
+  let starredLanguages = $state<string[]>([]);
+  onMount(async () => {
+    db = await Database.load("sqlite:kagi-translate.db");
+    loadStarredLanguages();
+  });
 
   let {
     show,
@@ -28,12 +37,23 @@
     const languageList = includeAutomatic
       ? languages
       : languages.filter((l) => l.apiName !== "Automatic");
-    if (!searchTerm) return languageList;
-    return languageList.filter(
-      (lang) =>
-        lang.displayName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        lang.apiName.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    if (!searchTerm)
+      return languageList.sort((a, b) => {
+        const isAStarred = starredLanguages.includes(a.apiName);
+        const isBStarred = starredLanguages.includes(b.apiName);
+        return isAStarred === isBStarred ? 0 : isAStarred ? -1 : 1;
+      });
+    return languageList
+      .filter(
+        (lang) =>
+          lang.displayName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          lang.apiName.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+      .sort((a, b) => {
+        const isAStarred = starredLanguages.includes(a.apiName);
+        const isBStarred = starredLanguages.includes(b.apiName);
+        return isAStarred === isBStarred ? 0 : isAStarred ? -1 : 1;
+      });
   };
 
   const handleSelect = async (language: Language) => {
@@ -47,6 +67,29 @@
   const handleClose = () => {
     searchTerm = "";
     onClose();
+  };
+
+  const handleStar = async (language: Language) => {
+    try {
+      if (starredLanguages.includes(language.apiName)) {
+        const query = `DELETE FROM starred_languages WHERE language_api_name = $1`;
+        const params = [language.apiName];
+        await db.execute(query, params);
+      } else {
+        const query = `INSERT INTO starred_languages (language_api_name) VALUES ($1)`;
+        const params = [language.apiName];
+        await db.execute(query, params);
+      }
+      await loadStarredLanguages();
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const loadStarredLanguages = async () => {
+    const query = `SELECT * FROM starred_languages`;
+    const _starredLanguages = await db.select(query);
+    starredLanguages = _starredLanguages.map((l: any) => l.language_api_name);
   };
 </script>
 
@@ -74,13 +117,37 @@
       </div>
       <div class="language-list">
         {#each filteredLanguages() as language}
-          <button
+          <div
+            role="button"
             class="language-option"
             class:selected={language.apiName === selectedLanguage.apiName}
             onclick={() => handleSelect(language)}
           >
-            {language.apiName === "Automatic" ? "Detect" : language.displayName}
-          </button>
+            <span>
+              {language.apiName === "Automatic"
+                ? "Detect"
+                : language.displayName}
+            </span>
+            <button
+              type="button"
+              class="star-button"
+              onclick={(e) => {
+                e.stopPropagation();
+                handleStar(language);
+              }}
+              style:color={starredLanguages.includes(language.apiName)
+                ? "yellow"
+                : language.apiName === selectedLanguage.apiName
+                  ? "white"
+                  : "var(--text-secondary)"}
+            >
+              {#if starredLanguages.includes(language.apiName)}
+                <IconStarFilled size={20} />
+              {:else}
+                <IconStar size={20} />
+              {/if}
+            </button>
+          </div>
         {/each}
       </div>
     </div>
@@ -141,6 +208,9 @@
     cursor: pointer;
     transition: all 0.2s ease;
     color: var(--text-primary);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
     &:hover {
       background: var(--surface-hover);
@@ -156,11 +226,15 @@
     }
   }
 
-  .icon-button {
+  .icon-button,
+  .star-button {
     background: none;
     border: none;
-    width: 2.5rem;
-    height: 2.5rem;
+    $size: 2.5rem;
+    width: $size;
+    height: $size;
+    min-width: $size;
+    min-height: $size;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -170,6 +244,18 @@
 
     &:hover {
       background: var(--button-hover);
+    }
+  }
+
+  .star-button {
+    $size: fit-content;
+    width: $size;
+    height: $size;
+    min-width: $size;
+    min-height: $size;
+
+    &:hover {
+      background: none;
     }
   }
 </style>
