@@ -1,0 +1,31 @@
+name: Build iOS
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Bun
+        run: curl -fsSL https://bun.sh/install | bash
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Create .iosbuildopts.json
+        run: echo '{"signIdentity":"${{ secrets.APPLE_SIGN_IDENTITY }}", "appStoreConnectApiKey":"${{ secrets.APP_STORE_CONNECT_API_KEY }}", "appStoreConnectIssuerId":"${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}"}' > scripts/.iosbuildopts.json
+
+      - name: Decode signing identity
+        run: echo "${{ secrets.APPLE_SIGNING_IDENTITY_BASE64 }}" | base64 --decode > signing_identity.p12 # decode base64 to .p12 file
+
+      - name: Import signing identity
+        run: security import signing_identity.p12 -P "${{ secrets.APPLE_SIGNING_IDENTITY_PASSWORD }}" -T /usr/bin/codesign
+
+      - name: Run build script
+        run: bun scripts/buildios.ts
