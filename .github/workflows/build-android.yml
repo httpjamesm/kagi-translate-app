@@ -45,7 +45,7 @@ jobs:
         run: $HOME/.bun/bin/bun install
 
       - name: Create keystore.properties
-        run: echo "keyAlias=upload\nstoreFile=$(pwd)/src-tauri/gen/android/upload-keystore.jks\npassword=${{ secrets.KEYSTORE_PASSWORD }}" > src-tauri/gen/android/keystore.properties
+        run: echo -e "keyAlias=upload\nstoreFile=$(pwd)/src-tauri/gen/android/upload-keystore.jks\npassword=${{ secrets.KEYSTORE_PASSWORD }}" > src-tauri/gen/android/keystore.properties
 
       - name: Create upload-keystore.jks
         run: echo "${{ secrets.KEYSTORE_CONTENT }}" | base64 --decode > src-tauri/gen/android/upload-keystore.jks
