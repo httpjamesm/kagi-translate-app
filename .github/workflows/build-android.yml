@@ -18,6 +18,9 @@ jobs:
       - name: Install dependencies
         run: bun install
 
+      - name: Activate Bun
+        run: source /home/runner/.bashrc
+
       - name: Create keystore.properties
         run: echo "keyAlias=upload\nstoreFile=$(pwd)/src-tauri/gen/android/upload-keystore.jks\npassword=${{ secrets.KEYSTORE_PASSWORD }}" > src-tauri/gen/android/keystore.properties
 
