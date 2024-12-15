@@ -30,8 +30,27 @@ jobs:
         uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
-          target: aarch64-linux-android
+          target: armv7-linux-androideabi
           profile: minimal
+          override: true
+
+      - name: Install additional Rust targets
+        run: |
+          rustup target add aarch64-linux-android
+          rustup target add x86_64-linux-android
+          rustup target add i686-linux-android
+
+      - name: Set Android NDK environment variables
+        run: |
+          echo "ANDROID_NDK_HOME=$ANDROID_SDK_ROOT/ndk/25.2.9519653" >> $GITHUB_ENV
+          echo "CARGO_TARGET_ARMV7_LINUX_ANDROIDEABI_LINKER=$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin/armv7a-linux-androideabi30-clang" >> $GITHUB_ENV
+          echo "CARGO_TARGET_AARCH64_LINUX_ANDROID_LINKER=$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android30-clang" >> $GITHUB_ENV
+
+      - name: Verify NDK installation
+        run: |
+          ls -la $ANDROID_SDK_ROOT/ndk/25.2.9519653
+          echo "NDK version installed:"
+          cat $ANDROID_SDK_ROOT/ndk/25.2.9519653/source.properties
 
       - name: Set up Bun
         run: curl -fsSL https://bun.sh/install | bash
