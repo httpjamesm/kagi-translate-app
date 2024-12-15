@@ -32,8 +32,6 @@ jobs:
       - name: Import signing identity
         run: security import signing_identity.p12 -P "${{ secrets.APPLE_SIGNING_IDENTITY_PASSWORD }}" -T /usr/bin/codesign
 
-      - name: Change into scripts dir
-        run: cd scripts
-
       - name: Run build script
+        working-directory: scripts
         run: $HOME/.bun/bin/bun run buildios.ts
