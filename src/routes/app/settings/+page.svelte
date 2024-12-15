@@ -5,10 +5,12 @@
   import { IconTrash } from "@tabler/icons-svelte";
   import { onMount } from "svelte";
   import { t } from "$lib/translations";
+  import { getVersion } from "@tauri-apps/api/app";
 
   let sessionToken = $state("");
   let isTokenVisible = $state(false);
   let db: Database | null = null;
+  let version = $state("");
 
   const loadToken = () => {
     const token = window.localStorage.getItem("kagiSession") || "";
@@ -37,6 +39,7 @@
   };
 
   onMount(async () => {
+    version = await getVersion();
     loadToken();
     db = await Database.load("sqlite:kagi-translate.db");
   });
@@ -67,6 +70,7 @@
         {$t("common.settings.resetAppData.button")}
       </button>
     </div>
+    <span class="muted" style:text-align="right">{version}</span>
   </div>
 </div>
 
