@@ -15,11 +15,11 @@ jobs:
       - name: Set up Bun
         run: curl -fsSL https://bun.sh/install | bash
 
-      - name: Install dependencies
-        run: bun install
-
       - name: Activate Bun
         run: source /Users/runner/.bashrc
+
+      - name: Install dependencies
+        run: bun install
 
       - name: Create .iosbuildopts.json
         run: echo '{"signIdentity":"${{ secrets.APPLE_SIGN_IDENTITY }}", "appStoreConnectApiKey":"${{ secrets.APP_STORE_CONNECT_API_KEY }}", "appStoreConnectIssuerId":"${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}"}' > scripts/.iosbuildopts.json
