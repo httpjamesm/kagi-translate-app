@@ -15,11 +15,13 @@ jobs:
       - name: Set up Bun
         run: curl -fsSL https://bun.sh/install | bash
 
-      - name: Activate Bun
-        run: source /home/runner/.bashrc
+      - name: Add Bun to PATH
+        run: |
+          echo "$HOME/.bun/bin" >> $GITHUB_PATH
+          echo "$HOME/.bun/bin" >> ~/.bashrc
 
       - name: Install dependencies
-        run: bun install
+        run: $HOME/.bun/bin/bun install
 
       - name: Create keystore.properties
         run: echo "keyAlias=upload\nstoreFile=$(pwd)/src-tauri/gen/android/upload-keystore.jks\npassword=${{ secrets.KEYSTORE_PASSWORD }}" > src-tauri/gen/android/keystore.properties
@@ -28,7 +30,7 @@ jobs:
         run: echo "${{ secrets.KEYSTORE_CONTENT }}" | base64 --decode > src-tauri/gen/android/upload-keystore.jks
 
       - name: Run Android build
-        run: bun run tauri android build --apk
+        run: $HOME/.bun/bin/bun run tauri android build --apk
 
       - name: Upload APK to release
         uses: actions/upload-release-asset@v1

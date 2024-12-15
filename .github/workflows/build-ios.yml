@@ -15,20 +15,22 @@ jobs:
       - name: Set up Bun
         run: curl -fsSL https://bun.sh/install | bash
 
-      - name: Activate Bun
-        run: source /Users/runner/.bashrc
+      - name: Add Bun to PATH
+        run: |
+          echo "$HOME/.bun/bin" >> $GITHUB_PATH
+          echo "$HOME/.bun/bin" >> ~/.bashrc
 
       - name: Install dependencies
-        run: bun install
+        run: $HOME/.bun/bin/bun install
 
       - name: Create .iosbuildopts.json
         run: echo '{"signIdentity":"${{ secrets.APPLE_SIGN_IDENTITY }}", "appStoreConnectApiKey":"${{ secrets.APP_STORE_CONNECT_API_KEY }}", "appStoreConnectIssuerId":"${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}"}' > scripts/.iosbuildopts.json
 
       - name: Decode signing identity
-        run: echo "${{ secrets.APPLE_SIGNING_IDENTITY_BASE64 }}" | base64 --decode > signing_identity.p12 # decode base64 to .p12 file
+        run: echo "${{ secrets.APPLE_SIGNING_IDENTITY_BASE64 }}" | base64 --decode > signing_identity.p12
 
       - name: Import signing identity
         run: security import signing_identity.p12 -P "${{ secrets.APPLE_SIGNING_IDENTITY_PASSWORD }}" -T /usr/bin/codesign
 
       - name: Run build script
-        run: bun scripts/buildios.ts
+        run: $HOME/.bun/bin/bun scripts/buildios.ts
