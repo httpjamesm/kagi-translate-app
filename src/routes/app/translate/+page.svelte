@@ -1,5 +1,12 @@
 <script lang="ts">
-  import { IconHeart, IconX, IconArrowsExchange } from "@tabler/icons-svelte";
+  import {
+    IconHeart,
+    IconX,
+    IconArrowsExchange,
+    IconVolume,
+    IconPlayerStop,
+    IconLoader2,
+  } from "@tabler/icons-svelte";
   import { invoke } from "@tauri-apps/api/core";
   import {
     type Language,
@@ -13,6 +20,11 @@
   import IconButton from "$lib/components/IconButton.svelte";
   import CopyButton from "$lib/components/CopyButton.svelte";
   import { t } from "$lib/translations";
+
+  interface SpeechResponse {
+    content_type: string;
+    data: number[];
+  }
 
   let sourceLanguage = $state<Language>(languages[0]);
   let targetLanguage = $state<Language>(languages[1]);
@@ -28,6 +40,10 @@
   let detectedLanguage = $state("");
   let previousText = $state("");
   let currentTranslationId = $state(0);
+
+  // Add state tracking for audio
+  let audioState = $state<"idle" | "loading" | "playing">("idle");
+  let currentPlayingText = $state<string | null>(null);
 
   const doLanguageDetection = async () => {
     try {
@@ -114,9 +130,78 @@
     if (savedTranslatedText) translatedText = savedTranslatedText;
   };
 
+  const PCM_PROCESSOR = `
+class PCMProcessor extends AudioWorkletProcessor {
+  constructor() {
+    super();
+    this.buffer = [];
+    this.hasStartedPlaying = false;
+    this.port.onmessage = (e) => {
+      if (e.data.command === 'clear') {
+        this.buffer = [];
+        this.hasStartedPlaying = false;
+      } else if (e.data.samples) {
+        this.buffer.push(...e.data.samples);
+        this.hasStartedPlaying = true;
+      }
+    };
+  }
+
+  process(inputs, outputs) {
+    const output = outputs[0][0];
+    for (let i = 0; i < output.length; i++) {
+      output[i] = this.buffer.shift() || 0;
+    }
+    
+    // Only send finished message if we've started playing and run out of samples
+    if (this.hasStartedPlaying && this.buffer.length === 0) {
+      this.port.postMessage({ status: 'finished' });
+      this.hasStartedPlaying = false;
+    }
+    
+    return true;
+  }
+}
+
+registerProcessor('pcm-processor', PCMProcessor);
+`;
+
+  let audioContext: AudioContext | null = null;
+  let audioWorkletNode: AudioWorkletNode | null = null;
+
   onMount(async () => {
     loadSavedState();
     db = await Database.load("sqlite:kagi-translate.db");
+
+    // Initialize audio context
+    audioContext = new (window.AudioContext ||
+      (window as any).webkitAudioContext)({
+      sampleRate: 24000,
+    });
+
+    // Add the audio worklet
+    const blob = new Blob([PCM_PROCESSOR], { type: "application/javascript" });
+    const url = URL.createObjectURL(blob);
+    await audioContext.audioWorklet.addModule(url);
+    URL.revokeObjectURL(url);
+
+    // Create and connect the worklet node
+    audioWorkletNode = new AudioWorkletNode(audioContext, "pcm-processor");
+    audioWorkletNode.port.onmessage = (e) => {
+      if (e.data.status === "finished") {
+        audioState = "idle";
+        currentPlayingText = null;
+      }
+    };
+    audioWorkletNode.connect(audioContext.destination);
+  });
+
+  onDestroy(() => {
+    clearTimeout(debounceTimer);
+    stopAudio();
+    if (audioContext) {
+      audioContext.close();
+    }
   });
 
   $effect(() => {
@@ -204,9 +289,68 @@
     window.localStorage.setItem("targetLanguage", targetLanguage.apiName);
   });
 
-  onDestroy(() => {
-    clearTimeout(debounceTimer);
-  });
+  const stopAudio = () => {
+    if (audioWorkletNode) {
+      audioWorkletNode.port.postMessage({ command: "clear" });
+      audioState = "idle";
+      currentPlayingText = null;
+    }
+  };
+
+  const playAudio = async (text: string, language: string) => {
+    // If already playing this text, stop it
+    if (audioState === "playing" && currentPlayingText === text) {
+      stopAudio();
+      return;
+    }
+
+    try {
+      await selectionFeedback();
+    } catch {}
+
+    try {
+      if (!audioContext || !audioWorkletNode) {
+        console.error("Audio context not initialized");
+        return;
+      }
+
+      audioState = "loading";
+      currentPlayingText = text;
+
+      const response = await invoke<SpeechResponse>("get_speech", {
+        text,
+        language,
+      });
+
+      // If the state changed while we were loading (user clicked stop), don't play
+      if (audioState !== "loading" || currentPlayingText !== text) {
+        return;
+      }
+
+      // Resume audio context if suspended
+      await audioContext.resume();
+
+      // Clear any existing audio
+      audioWorkletNode.port.postMessage({ command: "clear" });
+
+      // Convert the PCM data to float32 samples
+      const int16Data = new Int16Array(new Uint8Array(response.data).buffer);
+      const float32Data = new Float32Array(int16Data.length);
+
+      for (let i = 0; i < int16Data.length; i++) {
+        float32Data[i] = int16Data[i] / 32768;
+      }
+
+      audioState = "playing";
+
+      // Send the samples to the worklet
+      audioWorkletNode.port.postMessage({ samples: float32Data });
+    } catch (e) {
+      console.error("Speech synthesis error:", e);
+      audioState = "idle";
+      currentPlayingText = null;
+    }
+  };
 </script>
 
 <div class="translate-container">
@@ -261,6 +405,25 @@
             disabled={isLoading}
           />
         {/if}
+        <IconButton
+          icon={audioState === "playing" && currentPlayingText === sourceText
+            ? IconPlayerStop
+            : IconVolume}
+          loading={audioState === "loading" &&
+            currentPlayingText === sourceText}
+          onclick={() =>
+            playAudio(
+              sourceText,
+              sourceLanguage.apiName === "Automatic"
+                ? detectedLanguage
+                : sourceLanguage.apiName
+            )}
+          disabled={!sourceText ||
+            isLoading ||
+            (sourceLanguage.apiName === "Automatic" && !detectedLanguage) ||
+            (audioState === "loading" && currentPlayingText !== sourceText) ||
+            (audioState === "playing" && currentPlayingText !== sourceText)}
+        />
         <CopyButton text={sourceText} />
       </div>
     </div>
@@ -289,6 +452,20 @@
       {/if}
       <div class="actions">
         <CopyButton text={translatedText} />
+        <IconButton
+          icon={audioState === "playing" &&
+          currentPlayingText === translatedText
+            ? IconPlayerStop
+            : IconVolume}
+          loading={audioState === "loading" &&
+            currentPlayingText === translatedText}
+          onclick={() => playAudio(translatedText, targetLanguage.apiName)}
+          disabled={!translatedText ||
+            isLoading ||
+            (audioState === "loading" &&
+              currentPlayingText !== translatedText) ||
+            (audioState === "playing" && currentPlayingText !== translatedText)}
+        />
         <IconButton
           icon={IconHeart}
           color={isFavorited ? "var(--primary)" : undefined}
@@ -511,6 +688,19 @@
     }
     100% {
       background-position: -200% 0;
+    }
+  }
+
+  :global(.spin) {
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
     }
   }
 </style>

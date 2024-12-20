@@ -154,6 +154,53 @@ fn set_session_token(state: tauri::State<'_, Arc<Mutex<AppState>>>, session_toke
     state.lock().unwrap().session_token = Some(session_token.to_string());
 }
 
+#[derive(serde::Serialize)]
+struct SpeechResponse {
+    content_type: String,
+    data: Vec<u8>,
+}
+
+#[tauri::command]
+async fn get_speech(
+    app: tauri::AppHandle,
+    state: tauri::State<'_, Arc<Mutex<AppState>>>,
+    text: &str,
+    language: &str,
+) -> TAResult<SpeechResponse> {
+    let client = reqwest::Client::new();
+
+    let session_token = state
+        .lock()
+        .unwrap()
+        .session_token
+        .clone()
+        .ok_or_else(|| anyhow!("No login cookie"))?;
+
+    let response = client
+        .get(format!(
+            "https://translate.kagi.com/api/speech?text={}&language={}",
+            text, language
+        ))
+        .header("Cookie", format!("kagi_session={}", session_token))
+        .header("User-Agent", get_user_agent(&app))
+        .send()
+        .await
+        .map_err(|e| anyhow!(e))?;
+
+    let content_type = response
+        .headers()
+        .get("content-type")
+        .and_then(|h| h.to_str().ok())
+        .unwrap_or("audio/wav")
+        .to_string();
+
+    let bytes = response.bytes().await.map_err(|e| anyhow!(e))?;
+    Ok(SpeechResponse {
+        content_type,
+        data: bytes.to_vec(),
+    })
+}
+
 struct AppState {
     session_token: Option<String>,
     reqwest_client: reqwest::Client,
@@ -229,6 +276,7 @@ pub fn run() {
             get_translation,
             get_romanization,
             set_session_token,
+            get_speech,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
