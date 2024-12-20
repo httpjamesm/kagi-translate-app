@@ -1,7 +1,11 @@
 <script lang="ts">
   import { IconHeart, IconX, IconArrowsExchange } from "@tabler/icons-svelte";
   import { invoke } from "@tauri-apps/api/core";
-  import { type Language, languages } from "$lib/constants/languages";
+  import {
+    type Language,
+    languages,
+    needsRomanization,
+  } from "$lib/constants/languages";
   import { onDestroy, onMount } from "svelte";
   import Database from "@tauri-apps/plugin-sql";
   import { selectionFeedback } from "@tauri-apps/plugin-haptics";
@@ -14,6 +18,7 @@
   let targetLanguage = $state<Language>(languages[1]);
   let sourceText = $state("");
   let translatedText = $state("");
+  let romanization = $state("");
   let debounceTimer: number;
   let isLoading = $state(false);
   let isFavorited = $state(false);
@@ -42,6 +47,7 @@
   const doTranslation = async () => {
     const thisTranslationId = ++currentTranslationId;
     isLoading = true;
+    romanization = "";
 
     try {
       if (sourceText.length === 0) return;
@@ -56,10 +62,20 @@
           targetLanguage: targetLanguage.apiName,
           text: sourceText,
         });
+
+        // Only get romanization for languages that need it
+        if (needsRomanization(targetLanguage)) {
+          romanization = await invoke("get_romanization", {
+            text: translatedText,
+            language: targetLanguage.apiName,
+          });
+        }
       }
     } catch (e) {
+      console.error(e);
       if (thisTranslationId === currentTranslationId) {
         translatedText = $t("common.failedToTranslate");
+        romanization = "";
       }
     } finally {
       if (thisTranslationId === currentTranslationId) {
@@ -260,7 +276,10 @@
       {:else}
         <div class="text-content">
           {#if translatedText}
-            {translatedText}
+            <div>{translatedText}</div>
+            {#if romanization}
+              <div class="romanization">{romanization}</div>
+            {/if}
           {:else}
             <span class="placeholder"
               >{$t("common.translationWillAppearHere")}</span
@@ -396,6 +415,12 @@
     line-height: 1.4;
     color: var(--text-primary);
     overflow-y: auto;
+
+    .romanization {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      margin-top: 0.5rem;
+    }
 
     .placeholder {
       color: var(--text-placeholder);
