@@ -34,7 +34,7 @@
       const language: string = await invoke("detect_language", {
         text: sourceText,
       });
-      if (language === "Unknown" || language === "Undetermined") {
+      if (language === "undetermined") {
         throw new Error("Failed to detect language");
       } else {
         detectedLanguage = language;
