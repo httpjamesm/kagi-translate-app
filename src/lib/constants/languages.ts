@@ -3,6 +3,50 @@ export interface Language {
   displayName: string; // Native name or commonly used name
 }
 
+// Languages that use non-Latin scripts and benefit from romanization
+const LANGUAGES_NEEDING_ROMANIZATION = new Set([
+  "Japanese",
+  "Chinese (Simplified)",
+  "Chinese (Traditional)",
+  "Korean",
+  "Thai",
+  "Vietnamese",
+  "Hindi",
+  "Bengali",
+  "Tamil",
+  "Telugu",
+  "Kannada",
+  "Malayalam",
+  "Arabic",
+  "Persian",
+  "Urdu",
+  "Hebrew",
+  "Russian",
+  "Ukrainian",
+  "Belarusian",
+  "Bulgarian",
+  "Georgian",
+  "Armenian",
+  "Mongolian",
+  "Myanmar (Burmese)",
+  "Khmer",
+  "Lao",
+  "Tibetan",
+  "Nepali",
+  "Sinhala",
+  "Gujarati",
+  "Punjabi (Gurmukhi)",
+  "Punjabi (Shahmukhi)",
+  "Marathi",
+  "Sanskrit",
+  "Odia (Oriya)",
+  "Greek",
+]);
+
+export const needsRomanization = (language: Language): boolean => {
+  return LANGUAGES_NEEDING_ROMANIZATION.has(language.apiName);
+};
+
 export const languages: Language[] = [
   { apiName: "Automatic", displayName: "Automatic" },
   { apiName: "Abkhaz", displayName: "Аҧсуа" },
@@ -120,7 +164,7 @@ export const languages: Language[] = [
   { apiName: "Korean", displayName: "한국어" },
   { apiName: "Krio", displayName: "Krio" },
   { apiName: "Kurdish (Kurmanji)", displayName: "Kurdî (Kurmanjî)" },
-  { apiName: "Kurdish (Sorani)", displayName: "کوردی (سۆرانی)" },
+  { apiName: "Kurdish (Sorani)", displayName: "��وردی (سۆرانی)" },
   { apiName: "Kyrgyz", displayName: "Кыргыз" },
   { apiName: "Lao", displayName: "ລາວ" },
   { apiName: "Latgalian", displayName: "Latgaļu" },

@@ -4,7 +4,10 @@ use anyhow::anyhow;
 use anyhow_tauri::TAResult;
 use scraper::{Html, Selector};
 use serde_json::json;
-use tauri::Manager;
+use tauri::{
+    http::{HeaderMap, HeaderValue},
+    Manager,
+};
 use tauri_plugin_http::reqwest;
 use tauri_plugin_sql::{Migration, MigrationKind};
 
@@ -35,6 +38,11 @@ enum TranslationDataItem {
     Text(String),
 }
 
+#[derive(serde::Deserialize)]
+struct RomanizationResponse {
+    result: String,
+}
+
 fn get_user_agent(app: &tauri::AppHandle) -> String {
     let config = app.config();
     let identifier = config.identifier.clone();
@@ -49,23 +57,21 @@ async fn detect_language(
     state: tauri::State<'_, Arc<Mutex<AppState>>>,
     text: &str,
 ) -> TAResult<String> {
-    let client = reqwest::Client::new();
+    let (session_token, client) = {
+        let state = state.lock().unwrap();
+        (state.session_token.clone(), state.reqwest_client.clone())
+    };
+
+    let session_token = session_token.ok_or_else(|| anyhow!("No login cookie"))?;
 
     let json_body = json!({
         "text": text,
     });
 
-    let session_token = state
-        .lock()
-        .unwrap()
-        .session_token
-        .clone()
-        .ok_or_else(|| anyhow!("No login cookie"))?;
-
     let response = client
         .post("https://translate.kagi.com/api/detect")
         .json(&json_body)
-        .header("Cookie", format!("kagi_session={}", session_token,))
+        .header("Cookie", format!("kagi_session={}", session_token))
         .header("User-Agent", get_user_agent(&app))
         .send()
         .await
@@ -83,14 +89,12 @@ async fn get_translation(
     target_language: &str,
     text: &str,
 ) -> TAResult<String> {
-    let client = reqwest::Client::new();
+    let (session_token, client) = {
+        let state = state.lock().unwrap();
+        (state.session_token.clone(), state.reqwest_client.clone())
+    };
 
-    let session_token = state
-        .lock()
-        .unwrap()
-        .session_token
-        .clone()
-        .ok_or_else(|| anyhow!("No login cookie"))?;
+    let session_token = session_token.ok_or_else(|| anyhow!("No login cookie"))?;
 
     let response = client
         .post("https://translate.kagi.com/?/translate")
@@ -99,7 +103,7 @@ async fn get_translation(
             ("to", target_language),
             ("text", text),
         ])
-        .header("Cookie", format!("kagi_session={}", session_token,))
+        .header("Cookie", format!("kagi_session={}", session_token))
         .header("User-Agent", get_user_agent(&app))
         .send()
         .await
@@ -118,12 +122,41 @@ async fn get_translation(
 }
 
 #[tauri::command]
+async fn get_romanization(
+    app: tauri::AppHandle,
+    state: tauri::State<'_, Arc<Mutex<AppState>>>,
+    text: &str,
+    language: &str,
+) -> TAResult<String> {
+    let (session_token, client) = {
+        let state = state.lock().unwrap();
+        (state.session_token.clone(), state.reqwest_client.clone())
+    };
+
+    let session_token = session_token.ok_or_else(|| anyhow!("No login cookie"))?;
+
+    let response = client
+        .get("https://translate.kagi.com/api/romanize")
+        .query(&[("text", text), ("lang", language)])
+        .header("Cookie", format!("kagi_session={}", session_token))
+        .header("User-Agent", get_user_agent(&app))
+        .send()
+        .await
+        .map_err(|e| anyhow!(e))?;
+
+    let romanization_response: RomanizationResponse =
+        response.json().await.map_err(|e| anyhow!(e))?;
+    Ok(romanization_response.result)
+}
+
+#[tauri::command]
 fn set_session_token(state: tauri::State<'_, Arc<Mutex<AppState>>>, session_token: &str) {
     state.lock().unwrap().session_token = Some(session_token.to_string());
 }
 
 struct AppState {
     session_token: Option<String>,
+    reqwest_client: reqwest::Client,
 }
 
 fn get_migrations() -> Vec<Migration> {
@@ -164,8 +197,18 @@ pub fn run() {
                 .build(),
         )
         .setup(|app| {
+            let mut default_headers = HeaderMap::new();
+            default_headers.insert(
+                "User-Agent",
+                HeaderValue::from_str(&get_user_agent(app.handle())).unwrap(),
+            );
+            let reqwest_client = reqwest::Client::builder()
+                .default_headers(default_headers)
+                .build()
+                .unwrap();
             let state = AppState {
                 session_token: None,
+                reqwest_client,
             };
 
             app.manage(Arc::new(Mutex::new(state)));
@@ -184,6 +227,7 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             detect_language,
             get_translation,
+            get_romanization,
             set_session_token,
         ])
         .run(tauri::generate_context!())
