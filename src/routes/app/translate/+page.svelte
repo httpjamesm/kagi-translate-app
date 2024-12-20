@@ -1,5 +1,10 @@
 <script lang="ts">
-  import { IconHeart, IconX, IconArrowsExchange } from "@tabler/icons-svelte";
+  import {
+    IconHeart,
+    IconX,
+    IconArrowsExchange,
+    IconVolume,
+  } from "@tabler/icons-svelte";
   import { invoke } from "@tauri-apps/api/core";
   import { type Language, languages } from "$lib/constants/languages";
   import { onDestroy, onMount } from "svelte";
@@ -9,6 +14,11 @@
   import IconButton from "$lib/components/IconButton.svelte";
   import CopyButton from "$lib/components/CopyButton.svelte";
   import { t } from "$lib/translations";
+
+  interface SpeechResponse {
+    content_type: string;
+    data: number[];
+  }
 
   let sourceLanguage = $state<Language>(languages[0]);
   let targetLanguage = $state<Language>(languages[1]);
@@ -98,9 +108,61 @@
     if (savedTranslatedText) translatedText = savedTranslatedText;
   };
 
+  const PCM_PROCESSOR = `
+class PCMProcessor extends AudioWorkletProcessor {
+  constructor() {
+    super();
+    this.buffer = [];
+    this.port.onmessage = (e) => {
+      if (e.data.command === 'clear') {
+        this.buffer = [];
+      } else if (e.data.samples) {
+        this.buffer.push(...e.data.samples);
+      }
+    };
+  }
+
+  process(inputs, outputs) {
+    const output = outputs[0][0];
+    for (let i = 0; i < output.length; i++) {
+      output[i] = this.buffer.shift() || 0;
+    }
+    return true;
+  }
+}
+
+registerProcessor('pcm-processor', PCMProcessor);
+`;
+
+  let audioContext: AudioContext | null = null;
+  let audioWorkletNode: AudioWorkletNode | null = null;
+
   onMount(async () => {
     loadSavedState();
     db = await Database.load("sqlite:kagi-translate.db");
+
+    // Initialize audio context
+    audioContext = new (window.AudioContext ||
+      (window as any).webkitAudioContext)({
+      sampleRate: 24000,
+    });
+
+    // Add the audio worklet
+    const blob = new Blob([PCM_PROCESSOR], { type: "application/javascript" });
+    const url = URL.createObjectURL(blob);
+    await audioContext.audioWorklet.addModule(url);
+    URL.revokeObjectURL(url);
+
+    // Create and connect the worklet node
+    audioWorkletNode = new AudioWorkletNode(audioContext, "pcm-processor");
+    audioWorkletNode.connect(audioContext.destination);
+  });
+
+  onDestroy(() => {
+    clearTimeout(debounceTimer);
+    if (audioContext) {
+      audioContext.close();
+    }
   });
 
   $effect(() => {
@@ -188,9 +250,44 @@
     window.localStorage.setItem("targetLanguage", targetLanguage.apiName);
   });
 
-  onDestroy(() => {
-    clearTimeout(debounceTimer);
-  });
+  const playAudio = async (text: string, language: string) => {
+    try {
+      await selectionFeedback();
+    } catch {}
+    try {
+      if (!audioContext || !audioWorkletNode) {
+        console.error("Audio context not initialized");
+        return;
+      }
+
+      const response = await invoke<SpeechResponse>("get_speech", {
+        text,
+        language,
+      });
+
+      console.log("Content type from API:", response.content_type);
+      console.log("Data length:", response.data.length);
+
+      // Resume audio context if suspended
+      await audioContext.resume();
+
+      // Clear any existing audio
+      audioWorkletNode.port.postMessage({ command: "clear" });
+
+      // Convert the PCM data to float32 samples
+      const int16Data = new Int16Array(new Uint8Array(response.data).buffer);
+      const float32Data = new Float32Array(int16Data.length);
+
+      for (let i = 0; i < int16Data.length; i++) {
+        float32Data[i] = int16Data[i] / 32768;
+      }
+
+      // Send the samples to the worklet
+      audioWorkletNode.port.postMessage({ samples: float32Data });
+    } catch (e) {
+      console.error("Speech synthesis error:", e);
+    }
+  };
 </script>
 
 <div class="translate-container">
@@ -245,6 +342,19 @@
             disabled={isLoading}
           />
         {/if}
+        <IconButton
+          icon={IconVolume}
+          onclick={() =>
+            playAudio(
+              sourceText,
+              sourceLanguage.apiName === "Automatic"
+                ? detectedLanguage
+                : sourceLanguage.apiName
+            )}
+          disabled={!sourceText ||
+            isLoading ||
+            (sourceLanguage.apiName === "Automatic" && !detectedLanguage)}
+        />
         <CopyButton text={sourceText} />
       </div>
     </div>
@@ -270,6 +380,11 @@
       {/if}
       <div class="actions">
         <CopyButton text={translatedText} />
+        <IconButton
+          icon={IconVolume}
+          onclick={() => playAudio(translatedText, targetLanguage.apiName)}
+          disabled={!translatedText || isLoading}
+        />
         <IconButton
           icon={IconHeart}
           color={isFavorited ? "var(--primary)" : undefined}
