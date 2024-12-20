@@ -4,6 +4,8 @@
     IconX,
     IconArrowsExchange,
     IconVolume,
+    IconPlayerStop,
+    IconLoader2,
   } from "@tabler/icons-svelte";
   import { invoke } from "@tauri-apps/api/core";
   import { type Language, languages } from "$lib/constants/languages";
@@ -33,6 +35,10 @@
   let detectedLanguage = $state("");
   let previousText = $state("");
   let currentTranslationId = $state(0);
+
+  // Add state tracking for audio
+  let audioState = $state<"idle" | "loading" | "playing">("idle");
+  let currentPlayingText = $state<string | null>(null);
 
   const doLanguageDetection = async () => {
     try {
@@ -113,11 +119,14 @@ class PCMProcessor extends AudioWorkletProcessor {
   constructor() {
     super();
     this.buffer = [];
+    this.hasStartedPlaying = false;
     this.port.onmessage = (e) => {
       if (e.data.command === 'clear') {
         this.buffer = [];
+        this.hasStartedPlaying = false;
       } else if (e.data.samples) {
         this.buffer.push(...e.data.samples);
+        this.hasStartedPlaying = true;
       }
     };
   }
@@ -127,6 +136,13 @@ class PCMProcessor extends AudioWorkletProcessor {
     for (let i = 0; i < output.length; i++) {
       output[i] = this.buffer.shift() || 0;
     }
+    
+    // Only send finished message if we've started playing and run out of samples
+    if (this.hasStartedPlaying && this.buffer.length === 0) {
+      this.port.postMessage({ status: 'finished' });
+      this.hasStartedPlaying = false;
+    }
+    
     return true;
   }
 }
@@ -155,11 +171,18 @@ registerProcessor('pcm-processor', PCMProcessor);
 
     // Create and connect the worklet node
     audioWorkletNode = new AudioWorkletNode(audioContext, "pcm-processor");
+    audioWorkletNode.port.onmessage = (e) => {
+      if (e.data.status === "finished") {
+        audioState = "idle";
+        currentPlayingText = null;
+      }
+    };
     audioWorkletNode.connect(audioContext.destination);
   });
 
   onDestroy(() => {
     clearTimeout(debounceTimer);
+    stopAudio();
     if (audioContext) {
       audioContext.close();
     }
@@ -250,23 +273,43 @@ registerProcessor('pcm-processor', PCMProcessor);
     window.localStorage.setItem("targetLanguage", targetLanguage.apiName);
   });
 
+  const stopAudio = () => {
+    if (audioWorkletNode) {
+      audioWorkletNode.port.postMessage({ command: "clear" });
+      audioState = "idle";
+      currentPlayingText = null;
+    }
+  };
+
   const playAudio = async (text: string, language: string) => {
+    // If already playing this text, stop it
+    if (audioState === "playing" && currentPlayingText === text) {
+      stopAudio();
+      return;
+    }
+
     try {
       await selectionFeedback();
     } catch {}
+
     try {
       if (!audioContext || !audioWorkletNode) {
         console.error("Audio context not initialized");
         return;
       }
 
+      audioState = "loading";
+      currentPlayingText = text;
+
       const response = await invoke<SpeechResponse>("get_speech", {
         text,
         language,
       });
 
-      console.log("Content type from API:", response.content_type);
-      console.log("Data length:", response.data.length);
+      // If the state changed while we were loading (user clicked stop), don't play
+      if (audioState !== "loading" || currentPlayingText !== text) {
+        return;
+      }
 
       // Resume audio context if suspended
       await audioContext.resume();
@@ -282,10 +325,14 @@ registerProcessor('pcm-processor', PCMProcessor);
         float32Data[i] = int16Data[i] / 32768;
       }
 
+      audioState = "playing";
+
       // Send the samples to the worklet
       audioWorkletNode.port.postMessage({ samples: float32Data });
     } catch (e) {
       console.error("Speech synthesis error:", e);
+      audioState = "idle";
+      currentPlayingText = null;
     }
   };
 </script>
@@ -343,7 +390,11 @@ registerProcessor('pcm-processor', PCMProcessor);
           />
         {/if}
         <IconButton
-          icon={IconVolume}
+          icon={audioState === "loading" && currentPlayingText === sourceText
+            ? IconLoader2
+            : audioState === "playing" && currentPlayingText === sourceText
+              ? IconPlayerStop
+              : IconVolume}
           onclick={() =>
             playAudio(
               sourceText,
@@ -353,7 +404,9 @@ registerProcessor('pcm-processor', PCMProcessor);
             )}
           disabled={!sourceText ||
             isLoading ||
-            (sourceLanguage.apiName === "Automatic" && !detectedLanguage)}
+            (sourceLanguage.apiName === "Automatic" && !detectedLanguage) ||
+            (audioState === "loading" && currentPlayingText !== sourceText) ||
+            (audioState === "playing" && currentPlayingText !== sourceText)}
         />
         <CopyButton text={sourceText} />
       </div>
@@ -381,9 +434,18 @@ registerProcessor('pcm-processor', PCMProcessor);
       <div class="actions">
         <CopyButton text={translatedText} />
         <IconButton
-          icon={IconVolume}
+          icon={audioState === "loading" &&
+          currentPlayingText === translatedText
+            ? IconLoader2
+            : audioState === "playing" && currentPlayingText === translatedText
+              ? IconPlayerStop
+              : IconVolume}
           onclick={() => playAudio(translatedText, targetLanguage.apiName)}
-          disabled={!translatedText || isLoading}
+          disabled={!translatedText ||
+            isLoading ||
+            (audioState === "loading" &&
+              currentPlayingText !== translatedText) ||
+            (audioState === "playing" && currentPlayingText !== translatedText)}
         />
         <IconButton
           icon={IconHeart}
@@ -601,6 +663,19 @@ registerProcessor('pcm-processor', PCMProcessor);
     }
     100% {
       background-position: -200% 0;
+    }
+  }
+
+  :global(.spin) {
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
     }
   }
 </style>
