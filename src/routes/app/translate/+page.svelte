@@ -390,11 +390,11 @@ registerProcessor('pcm-processor', PCMProcessor);
           />
         {/if}
         <IconButton
-          icon={audioState === "loading" && currentPlayingText === sourceText
-            ? IconLoader2
-            : audioState === "playing" && currentPlayingText === sourceText
-              ? IconPlayerStop
-              : IconVolume}
+          icon={audioState === "playing" && currentPlayingText === sourceText
+            ? IconPlayerStop
+            : IconVolume}
+          loading={audioState === "loading" &&
+            currentPlayingText === sourceText}
           onclick={() =>
             playAudio(
               sourceText,
@@ -434,12 +434,12 @@ registerProcessor('pcm-processor', PCMProcessor);
       <div class="actions">
         <CopyButton text={translatedText} />
         <IconButton
-          icon={audioState === "loading" &&
+          icon={audioState === "playing" &&
           currentPlayingText === translatedText
-            ? IconLoader2
-            : audioState === "playing" && currentPlayingText === translatedText
-              ? IconPlayerStop
-              : IconVolume}
+            ? IconPlayerStop
+            : IconVolume}
+          loading={audioState === "loading" &&
+            currentPlayingText === translatedText}
           onclick={() => playAudio(translatedText, targetLanguage.apiName)}
           disabled={!translatedText ||
             isLoading ||
