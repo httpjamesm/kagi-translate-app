@@ -54,6 +54,13 @@ struct RomanizationResponse {
     result: String,
 }
 
+#[derive(serde::Deserialize)]
+struct TranscriptionResponse {
+    duration: f32,
+    language: String,
+    transcription: String,
+}
+
 fn get_user_agent(app: &tauri::AppHandle) -> String {
     let config = app.config();
     let identifier = config.identifier.clone();
@@ -256,6 +263,33 @@ async fn get_speech(
     })
 }
 
+#[tauri::command]
+async fn get_transcription(
+    app: tauri::AppHandle,
+    state: tauri::State<'_, Arc<Mutex<AppState>>>,
+    audio_data: Vec<u8>,
+) -> TAResult<String> {
+    let (session_token, client) = {
+        let state = state.lock().unwrap();
+        (state.session_token.clone(), state.reqwest_client.clone())
+    };
+
+    let session_token = session_token.ok_or_else(|| anyhow!("No login cookie"))?;
+
+    let response = client
+        .post("https://translate.kagi.com/api/transcribe")
+        .body(audio_data)
+        .header("Content-Type", "audio/mpeg")
+        .header("Cookie", format!("kagi_session={}", session_token))
+        .header("User-Agent", get_user_agent(&app))
+        .send()
+        .await
+        .map_err(|e| anyhow!(e))?;
+
+    let transcription: TranscriptionResponse = response.json().await.map_err(|e| anyhow!(e))?;
+    Ok(transcription.transcription)
+}
+
 struct AppState {
     session_token: Option<String>,
     reqwest_client: reqwest::Client,
@@ -335,6 +369,7 @@ pub fn run() {
             set_session_token,
             get_speech,
             get_translate_session_token,
+            get_transcription,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
