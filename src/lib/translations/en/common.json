@@ -38,5 +38,33 @@
   "detect": "Detect",
   "translationWillAppearHere": "Translation will appear here",
   "failedToTranslate": "Failed to translate",
-  "languages": "languages"
+  "languages": "languages",
+  "translationStyle": {
+    "title": "Translation Style",
+    "styles": {
+      "title": "Style",
+      "natural": "Natural",
+      "literal": "Literal"
+    },
+    "formality": {
+      "title": "Formality",
+      "standard": "Standard",
+      "formal": "Formal",
+      "informal": "Informal"
+    },
+    "genderPreferences": {
+      "title": "Gender Preferences",
+      "speaker": "Speaker",
+      "addressee": "Addressee"
+    },
+    "gender": {
+      "title": "Gender",
+      "unknown": "Unknown",
+      "neutral": "Neutral",
+      "feminine": "Feminine",
+      "masculine": "Masculine"
+    },
+    "context": "Context",
+    "contextPlaceholder": "Brief context for translation (optional)"
+  }
 }

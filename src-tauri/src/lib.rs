@@ -106,6 +106,7 @@ async fn get_translation(
     source_language: &str,
     target_language: &str,
     text: &str,
+    settings: &str,
 ) -> TAResult<String> {
     let (session_token, client, translate_session_token) = {
         let state = state.lock().unwrap();
@@ -125,6 +126,7 @@ async fn get_translation(
             ("to", target_language),
             ("text", text),
             ("session_token", &translate_session_token),
+            ("translationMode", settings),
         ])
         .header("Cookie", format!("kagi_session={}", session_token))
         .header("User-Agent", get_user_agent(&app))

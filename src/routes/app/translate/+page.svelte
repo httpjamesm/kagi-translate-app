@@ -5,7 +5,7 @@
     IconArrowsExchange,
     IconVolume,
     IconPlayerStop,
-    IconLoader2,
+    IconSettings,
     IconMicrophone,
   } from "@tabler/icons-svelte";
   import { invoke } from "@tauri-apps/api/core";
@@ -21,6 +21,7 @@
   import IconButton from "$lib/components/IconButton.svelte";
   import CopyButton from "$lib/components/CopyButton.svelte";
   import { t } from "$lib/translations";
+  import TranslationStyleModal from "$lib/components/TranslationStyleModal.svelte";
 
   interface SpeechResponse {
     content_type: string;
@@ -46,6 +47,7 @@
   let audioState = $state<"idle" | "loading" | "playing">("idle");
   let currentPlayingText = $state<string | null>(null);
 
+  let showStyleModal = $state(false);
   // Add new state variables after the other state declarations
   let recordingState = $state<"idle" | "recording" | "loading">("idle");
   let mediaRecorder: MediaRecorder | null = null;
@@ -82,6 +84,24 @@
               : sourceLanguage.apiName,
           targetLanguage: targetLanguage.apiName,
           text: sourceText,
+          settings: JSON.stringify({
+            speaker_gender:
+              window.localStorage
+                .getItem("translationSpeakerGender")
+                ?.toLowerCase() || "unknown",
+            addressee_gender:
+              window.localStorage
+                .getItem("translationAddresseeGender")
+                ?.toLowerCase() || "unknown",
+            translation_style:
+              window.localStorage.getItem("translationStyle")?.toLowerCase() ||
+              "natural",
+            formality_level:
+              window.localStorage
+                .getItem("translationFormality")
+                ?.toLowerCase() || "neutral",
+            context: window.localStorage.getItem("translationContext") || "",
+          }),
         });
 
         // Only get romanization for languages that need it
@@ -357,6 +377,12 @@ registerProcessor('pcm-processor', PCMProcessor);
     }
   };
 
+  const handleStyleSettingsChange = () => {
+    if (sourceText) {
+      doTranslation();
+    }
+  };
+
   // Add the recording functions after the other function declarations
   const startRecording = async () => {
     try {
@@ -481,6 +507,10 @@ registerProcessor('pcm-processor', PCMProcessor);
           />
         {/if}
         <IconButton
+          icon={IconSettings}
+          onclick={() => (showStyleModal = true)}
+        />
+        <IconButton
           icon={recordingState === "recording"
             ? IconPlayerStop
             : IconMicrophone}
@@ -590,6 +620,14 @@ registerProcessor('pcm-processor', PCMProcessor);
     doTranslation();
   }}
   onClose={() => (showTargetModal = false)}
+/>
+
+<TranslationStyleModal
+  show={showStyleModal}
+  onClose={() => {
+    showStyleModal = false;
+    handleStyleSettingsChange();
+  }}
 />
 
 <style lang="scss">
