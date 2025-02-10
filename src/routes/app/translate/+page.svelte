@@ -376,6 +376,12 @@ registerProcessor('pcm-processor', PCMProcessor);
       currentPlayingText = null;
     }
   };
+
+  const handleStyleSettingsChange = () => {
+    if (sourceText) {
+      doTranslation();
+    }
+  };
 </script>
 
 <div class="translate-container">
@@ -534,7 +540,10 @@ registerProcessor('pcm-processor', PCMProcessor);
 
 <TranslationStyleModal
   show={showStyleModal}
-  onClose={() => (showStyleModal = false)}
+  onClose={() => {
+    showStyleModal = false;
+    handleStyleSettingsChange();
+  }}
 />
 
 <style lang="scss">
