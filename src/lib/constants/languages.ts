@@ -1,5 +1,5 @@
 export interface Language {
-  apiName: string; // English name
+  apiName: string; // iso name
   displayName: string; // Native name or commonly used name
 }
 
@@ -48,248 +48,932 @@ export const needsRomanization = (language: Language): boolean => {
 };
 
 export const languages: Language[] = [
-  { apiName: "Automatic", displayName: "Automatic" },
-  { apiName: "Abkhaz", displayName: "Аҧсуа" },
-  { apiName: "Acehnese", displayName: "Aceh" },
-  { apiName: "Acholi", displayName: "Luo" },
-  { apiName: "Afar", displayName: "Afaraf" },
-  { apiName: "Afrikaans", displayName: "Afrikaans" },
-  { apiName: "Albanian", displayName: "Shqip" },
-  { apiName: "Alur", displayName: "Alur" },
-  { apiName: "Amharic", displayName: "አማርኛ" },
-  { apiName: "Arabic", displayName: "العربية" },
-  { apiName: "Armenian", displayName: "Հայերեն" },
-  { apiName: "Assamese", displayName: "অসমীয়া" },
-  { apiName: "Avar", displayName: "авар" },
-  { apiName: "Awadhi", displayName: "अवधी" },
-  { apiName: "Aymara", displayName: "Aymara" },
-  { apiName: "Azerbaijani", displayName: "Azərbaycanca" },
-  { apiName: "Balinese", displayName: "Bali" },
-  { apiName: "Baluchi", displayName: "بلوچی" },
-  { apiName: "Bambara", displayName: "Bamanankan" },
-  { apiName: "Baoulé", displayName: "Baoulé" },
-  { apiName: "Bashkir", displayName: "башҡорт" },
-  { apiName: "Basque", displayName: "Euskara" },
-  { apiName: "Batak Karo", displayName: "Karo Batak" },
-  { apiName: "Batak Simalungun", displayName: "Simalungun Batak" },
-  { apiName: "Batak Toba", displayName: "Toba Batak" },
-  { apiName: "Belarusian", displayName: "Беларуская" },
-  { apiName: "Bemba", displayName: "Icibemba" },
-  { apiName: "Bengali", displayName: "বাংলা" },
-  { apiName: "Betawi", displayName: "Betawi" },
-  { apiName: "Bhojpuri", displayName: "भोजपुरी" },
-  { apiName: "Bikol", displayName: "Bikol" },
-  { apiName: "Bosnian", displayName: "Bosanski" },
-  { apiName: "Breton", displayName: "Brezhoneg" },
-  { apiName: "Bulgarian", displayName: "Български" },
-  { apiName: "Buryat", displayName: "Буряад" },
-  { apiName: "Cantonese", displayName: "广东话" },
-  { apiName: "Catalan", displayName: "Català" },
-  { apiName: "Cebuano", displayName: "Cebuano" },
-  { apiName: "Chamorro", displayName: "Chamoru" },
-  { apiName: "Chechen", displayName: "Нохчийн" },
-  { apiName: "Chichewa", displayName: "Chichewa" },
-  { apiName: "Chinese (Simplified)", displayName: "简体中文" },
-  { apiName: "Chinese (Traditional)", displayName: "繁體中文" },
-  { apiName: "Chuukese", displayName: "Chukchi" },
-  { apiName: "Chuvash", displayName: "Чăваш" },
-  { apiName: "Corsican", displayName: "Corsu" },
-  { apiName: "Crimean Tatar", displayName: "Qırım Tatarca" },
-  { apiName: "Croatian", displayName: "Hrvatski" },
-  { apiName: "Czech", displayName: "Čeština" },
-  { apiName: "Danish", displayName: "Dansk" },
-  { apiName: "Dari", displayName: "دری" },
-  { apiName: "Dhivehi", displayName: "ދިވެހި" },
-  { apiName: "Dinka", displayName: "Dinka" },
-  { apiName: "Dogri", displayName: "डोगरी" },
-  { apiName: "Dombe", displayName: "Dombe" },
-  { apiName: "Dutch", displayName: "Nederlands" },
-  { apiName: "Dyula", displayName: "Jula" },
-  { apiName: "Dzongkha", displayName: "རྫོང་ཁ" },
-  { apiName: "English", displayName: "English" },
-  { apiName: "Esperanto", displayName: "Esperanto" },
-  { apiName: "Estonian", displayName: "Eesti" },
-  { apiName: "Ewe", displayName: "Eʋegbe" },
-  { apiName: "Faroese", displayName: "Føroyskt" },
-  { apiName: "Fijian", displayName: "Na Vosa Vakaviti" },
-  { apiName: "Filipino", displayName: "Filipino" },
-  { apiName: "Finnish", displayName: "Suomi" },
-  { apiName: "Fon", displayName: "Fɔngbè" },
-  { apiName: "French", displayName: "Français" },
-  { apiName: "Frisian", displayName: "Frysk" },
-  { apiName: "Friulian", displayName: "Furlan" },
-  { apiName: "Fulani", displayName: "Fulfulde" },
-  { apiName: "Ga", displayName: "Gã" },
-  { apiName: "Galician", displayName: "Galego" },
-  { apiName: "Georgian", displayName: "ქართული" },
-  { apiName: "German", displayName: "Deutsch" },
-  { apiName: "Greek", displayName: "Ελληνικά" },
-  { apiName: "Guarani", displayName: "Aña" },
-  { apiName: "Gujarati", displayName: "ગુજરાતી" },
-  { apiName: "Haitian Creole", displayName: "Kreyòl Ayisyen" },
-  { apiName: "Hakha Chin", displayName: "Hakha" },
-  { apiName: "Hausa", displayName: "Hausa" },
-  { apiName: "Hawaiian", displayName: "ʻŌlelo Hawaiʻi" },
-  { apiName: "Hebrew", displayName: "עברית" },
-  { apiName: "Hiligaynon", displayName: "Ilonggo" },
-  { apiName: "Hindi", displayName: "हिन्दी" },
-  { apiName: "Hmong", displayName: "Hmoob" },
-  { apiName: "Hungarian", displayName: "Magyar" },
-  { apiName: "Hunsrik", displayName: "Hunsrückisch" },
-  { apiName: "Iban", displayName: "Iban" },
-  { apiName: "Icelandic", displayName: "Íslenska" },
-  { apiName: "Igbo", displayName: "Igbo" },
-  { apiName: "Ilocano", displayName: "Ilokano" },
-  { apiName: "Indonesian", displayName: "Bahasa Indonesia" },
-  { apiName: "Irish", displayName: "Gaeilge" },
-  { apiName: "Italian", displayName: "Italiano" },
-  { apiName: "Jamaican Patois", displayName: "Jamaican Patois" },
-  { apiName: "Japanese", displayName: "日本語" },
-  { apiName: "Javanese", displayName: "ꦧꦱꦗꦮ" },
-  { apiName: "Jingpo", displayName: "Jinghpaw" },
-  { apiName: "Kalaallisut", displayName: "Kalaallisut" },
-  { apiName: "Kannada", displayName: "ಕನ್ನಡ" },
-  { apiName: "Kanuri", displayName: "Kanuri" },
-  { apiName: "Kapampangan", displayName: "Kapampangan" },
-  { apiName: "Kazakh", displayName: "Қазақ" },
-  { apiName: "Khasi", displayName: "Ka Khasi" },
-  { apiName: "Khmer", displayName: "ខ្មែរ" },
-  { apiName: "Kiga", displayName: "Ikiga" },
-  { apiName: "Kikongo", displayName: "Kikongo" },
-  { apiName: "Kinyarwanda", displayName: "Kinyarwanda" },
-  { apiName: "Kituba", displayName: "Kituba" },
-  { apiName: "Kokborok", displayName: "ꯀꯧꯇꯩ" },
-  { apiName: "Komi", displayName: "Коми" },
-  { apiName: "Konkani", displayName: "कोंकणी" },
-  { apiName: "Korean", displayName: "한국어" },
-  { apiName: "Krio", displayName: "Krio" },
-  { apiName: "Kurdish (Kurmanji)", displayName: "Kurdî (Kurmanjî)" },
-  { apiName: "Kurdish (Sorani)", displayName: "��وردی (سۆرانی)" },
-  { apiName: "Kyrgyz", displayName: "Кыргыз" },
-  { apiName: "Lao", displayName: "ລາວ" },
-  { apiName: "Latgalian", displayName: "Latgaļu" },
-  { apiName: "Latin", displayName: "Latina" },
-  { apiName: "Latvian", displayName: "Latviešu" },
-  { apiName: "Ligurian", displayName: "Ligurian" },
-  { apiName: "Limburgish", displayName: "Limburgs" },
-  { apiName: "Lingala", displayName: "Lingála" },
-  { apiName: "Lithuanian", displayName: "Lietuvių" },
-  { apiName: "Lombard", displayName: "Lombard" },
-  { apiName: "Luganda", displayName: "Luganda" },
-  { apiName: "Luo", displayName: "Dholuo" },
-  { apiName: "Luxembourgish", displayName: "Lëtzebuergesch" },
-  { apiName: "Macedonian", displayName: "Македонски" },
-  { apiName: "Madurese", displayName: "Madhura" },
-  { apiName: "Maithili", displayName: "मैथिली" },
-  { apiName: "Makassar", displayName: "Makasar" },
-  { apiName: "Malagasy", displayName: "Malagasy" },
-  { apiName: "Malay", displayName: "Bahasa Melayu" },
-  { apiName: "Malay (Jawi)", displayName: "بهاس ملايو" },
-  { apiName: "Malayalam", displayName: "മലയാളം" },
-  { apiName: "Maltese", displayName: "Malti" },
-  { apiName: "Mam", displayName: "Mam" },
-  { apiName: "Manx", displayName: "Gaelg" },
-  { apiName: "Maori", displayName: "Māori" },
-  { apiName: "Marathi", displayName: "मराठी" },
-  { apiName: "Marshallese", displayName: "Kajin Majōl" },
-  { apiName: "Marwadi", displayName: "मारवाड़ी" },
-  { apiName: "Mauritian Creole", displayName: "Kreol Morisyen" },
-  { apiName: "Meadow Mari", displayName: "Мари" },
-  { apiName: "Meiteilon (Manipuri)", displayName: "মৈতৈলোন" },
-  { apiName: "Minang", displayName: "Minangkabau" },
-  { apiName: "Mizo", displayName: "Mizo" },
-  { apiName: "Mongolian", displayName: "Монгол" },
-  { apiName: "Myanmar (Burmese)", displayName: "ဗမာစာ" },
-  { apiName: "Nahuatl (Eastern Huasteca)", displayName: "Nāhuatl" },
-  { apiName: "Ndau", displayName: "Ndau" },
-  { apiName: "Ndebele (South)", displayName: "isiNdebele" },
-  { apiName: "Nepalbhasa (Newari)", displayName: "नेपाल भाषा" },
-  { apiName: "Nepali", displayName: "नेपाली" },
-  { apiName: "NKo", displayName: "N'Ko" },
-  { apiName: "Norwegian", displayName: "Norsk" },
-  { apiName: "Nuer", displayName: "Nuer" },
-  { apiName: "Occitan", displayName: "Occitan" },
-  { apiName: "Odia (Oriya)", displayName: "ଓଡ଼ିଆ" },
-  { apiName: "Oromo", displayName: "Afaan Oromoo" },
-  { apiName: "Ossetian", displayName: "Ирон" },
-  { apiName: "Pangasinan", displayName: "Pangasinan" },
-  { apiName: "Papiamento", displayName: "Papiamentu" },
-  { apiName: "Pashto", displayName: "پښتو" },
-  { apiName: "Persian", displayName: "فارسی" },
-  { apiName: "Polish", displayName: "Polski" },
-  { apiName: "Portuguese (Brazil)", displayName: "Português (Brasil)" },
-  { apiName: "Portuguese (Portugal)", displayName: "Português (Portugal)" },
-  { apiName: "Punjabi (Gurmukhi)", displayName: "ਪੰਜਾਬੀ (ਗੁਰਮੁਖੀ)" },
-  { apiName: "Punjabi (Shahmukhi)", displayName: "پنجابی (شاہ مکھی)" },
-  { apiName: "Quechua", displayName: "Runa Simi" },
-  { apiName: "Qʼeqchiʼ", displayName: "Qʼeqchiʼ" },
-  { apiName: "Romani", displayName: "Romani" },
-  { apiName: "Romanian", displayName: "Română" },
-  { apiName: "Rundi", displayName: "Kirundi" },
-  { apiName: "Russian", displayName: "Русский" },
-  { apiName: "Sami (North)", displayName: "Sámegiella" },
-  { apiName: "Samoan", displayName: "Gagana Samoa" },
-  { apiName: "Sango", displayName: "Sängö" },
-  { apiName: "Sanskrit", displayName: "संस्कृतम्" },
-  { apiName: "Santali", displayName: "Santali" },
-  { apiName: "Scots Gaelic", displayName: "Gàidhlig" },
-  { apiName: "Sepedi", displayName: "Sepedi" },
-  { apiName: "Serbian", displayName: "Српски" },
-  { apiName: "Sesotho", displayName: "Sesotho" },
-  { apiName: "Seychellois Creole", displayName: "Kreol Seselwa" },
-  { apiName: "Shan", displayName: "ၽႃႇႈ" },
-  { apiName: "Shona", displayName: "ChiShona" },
-  { apiName: "Sicilian", displayName: "Sicilianu" },
-  { apiName: "Silesian", displayName: "Ślōnskŏ" },
-  { apiName: "Sindhi", displayName: "سنڌي" },
-  { apiName: "Sinhala", displayName: "සිංහල" },
-  { apiName: "Slovak", displayName: "Slovenčina" },
-  { apiName: "Slovenian", displayName: "Slovenščina" },
-  { apiName: "Somali", displayName: "Soomaali" },
-  { apiName: "Spanish", displayName: "Español" },
-  { apiName: "Sundanese", displayName: "Basa Sunda" },
-  { apiName: "Susu", displayName: "Susu" },
-  { apiName: "Swahili", displayName: "Kiswahili" },
-  { apiName: "Swati", displayName: "SiSwati" },
-  { apiName: "Swedish", displayName: "Svenska" },
-  { apiName: "Tahitian", displayName: "Reo Tahiti" },
-  { apiName: "Tajik", displayName: "Тоҷикӣ" },
-  { apiName: "Tamazight", displayName: "Tamazight" },
-  { apiName: "Tamazight (Tifinagh)", displayName: "ⵜⴰⵎⵣⵉⵖⵜ" },
-  { apiName: "Tamil", displayName: "தமிழ்" },
-  { apiName: "Tatar", displayName: "Татар" },
-  { apiName: "Telugu", displayName: "తెలుగు" },
-  { apiName: "Tetum", displayName: "Tetum" },
-  { apiName: "Thai", displayName: "ไทย" },
-  { apiName: "Tibetan", displayName: "བོད་ཡིག" },
-  { apiName: "Tigrinya", displayName: "ትግርኛ" },
-  { apiName: "Tiv", displayName: "Tiv" },
-  { apiName: "Tok Pisin", displayName: "Tok Pisin" },
-  { apiName: "Tongan", displayName: "Faka Tonga" },
-  { apiName: "Tsonga", displayName: "Xitsonga" },
-  { apiName: "Tswana", displayName: "Setswana" },
-  { apiName: "Tulu", displayName: "ತುಳು" },
-  { apiName: "Tumbuka", displayName: "Chitumbuka" },
-  { apiName: "Turkish", displayName: "Türkçe" },
-  { apiName: "Turkmen", displayName: "Türkmençe" },
-  { apiName: "Tuvan", displayName: "Тувин" },
-  { apiName: "Twi", displayName: "Twi" },
-  { apiName: "Udmurt", displayName: "Удмурт" },
-  { apiName: "Ukrainian", displayName: "Українська" },
-  { apiName: "Urdu", displayName: "اردو" },
-  { apiName: "Uyghur", displayName: "ئۇيغۇرچە" },
-  { apiName: "Uzbek", displayName: "O‘zbek" },
-  { apiName: "Venda", displayName: "Tshivenḓa" },
-  { apiName: "Venetian", displayName: "Vèneto" },
-  { apiName: "Vietnamese", displayName: "Tiếng Việt" },
-  { apiName: "Waray", displayName: "Winaray" },
-  { apiName: "Welsh", displayName: "Cymraeg" },
-  { apiName: "Wolof", displayName: "Wolof" },
-  { apiName: "Xhosa", displayName: "IsiXhosa" },
-  { apiName: "Yakut", displayName: "Саха" },
-  { apiName: "Yiddish", displayName: "ייִדיש" },
-  { apiName: "Yoruba", displayName: "Yorùbá" },
-  { apiName: "Yucatec Maya", displayName: "Maya Yucateco" },
-  { apiName: "Zapotec", displayName: "Zapoteco" },
-  { apiName: "Zulu", displayName: "isiZulu" },
+  {
+    apiName: "Automatic",
+    displayName: "Automatic",
+  },
+  {
+    apiName: "om",
+    displayName: "(Afan)/Oromoor/Oriya",
+  },
+  {
+    apiName: "ab",
+    displayName: "Abkhazian",
+  },
+  {
+    apiName: "aa",
+    displayName: "Afar",
+  },
+  {
+    apiName: "af",
+    displayName: "Afrikaans",
+  },
+  {
+    apiName: "ak",
+    displayName: "Akan",
+  },
+  {
+    apiName: "sq",
+    displayName: "Albanian",
+  },
+  {
+    apiName: "am",
+    displayName: "Amharic",
+  },
+  {
+    apiName: "ar",
+    displayName: "Arabic",
+  },
+  {
+    apiName: "an",
+    displayName: "Aragonese",
+  },
+  {
+    apiName: "hy",
+    displayName: "Armenian",
+  },
+  {
+    apiName: "as",
+    displayName: "Assamese",
+  },
+  {
+    apiName: "av",
+    displayName: "Avaric",
+  },
+  {
+    apiName: "ae",
+    displayName: "Avestan",
+  },
+  {
+    apiName: "ay",
+    displayName: "Aymara",
+  },
+  {
+    apiName: "az",
+    displayName: "Azeri",
+  },
+  {
+    apiName: "bm",
+    displayName: "Bambara",
+  },
+  {
+    apiName: "ba",
+    displayName: "Bashkir",
+  },
+  {
+    apiName: "eu",
+    displayName: "Basque",
+  },
+  {
+    apiName: "be",
+    displayName: "Belarusian",
+  },
+  {
+    apiName: "bn",
+    displayName: "Bengali",
+  },
+  {
+    apiName: "dz",
+    displayName: "Bhutani",
+  },
+  {
+    apiName: "bh",
+    displayName: "Bihari",
+  },
+  {
+    apiName: "bi",
+    displayName: "Bislama",
+  },
+  {
+    apiName: "bs",
+    displayName: "Bosnian",
+  },
+  {
+    apiName: "br",
+    displayName: "Breton",
+  },
+  {
+    apiName: "bg",
+    displayName: "Bulgarian",
+  },
+  {
+    apiName: "my",
+    displayName: "Burmese",
+  },
+  {
+    apiName: "km",
+    displayName: "Cambodian",
+  },
+  {
+    apiName: "yue",
+    displayName: "Cantonese",
+  },
+  {
+    apiName: "ca",
+    displayName: "Catalan",
+  },
+  {
+    apiName: "ch",
+    displayName: "Chamorro",
+  },
+  {
+    apiName: "ce",
+    displayName: "Chechen",
+  },
+  {
+    apiName: "ny",
+    displayName: "Chichewa",
+  },
+  {
+    apiName: "zh",
+    displayName: "Chinese",
+  },
+  {
+    apiName: "zh_cn",
+    displayName: "Chinese (Simplified)",
+  },
+  {
+    apiName: "zh_tw",
+    displayName: "Chinese (Traditional)",
+  },
+  {
+    apiName: "cu",
+    displayName: "Church Slavonic",
+  },
+  {
+    apiName: "cv",
+    displayName: "Chuvash",
+  },
+  {
+    apiName: "kw",
+    displayName: "Cornish",
+  },
+  {
+    apiName: "co",
+    displayName: "Corsican",
+  },
+  {
+    apiName: "cr",
+    displayName: "Cree",
+  },
+  {
+    apiName: "hr",
+    displayName: "Croatian",
+  },
+  {
+    apiName: "hr_ba",
+    displayName: "Croatian (Bosnia and Herzegovina)",
+  },
+  {
+    apiName: "hr_hr",
+    displayName: "Croatian (Croatia)",
+  },
+  {
+    apiName: "cs",
+    displayName: "Czech",
+  },
+  {
+    apiName: "da",
+    displayName: "Danish",
+  },
+  {
+    apiName: "div",
+    displayName: "Divehi",
+  },
+  {
+    apiName: "dv",
+    displayName: "Divehi",
+  },
+  {
+    apiName: "nl",
+    displayName: "Dutch",
+  },
+  {
+    apiName: "nl_be",
+    displayName: "Dutch (Belgium)",
+  },
+  {
+    apiName: "nl_nl",
+    displayName: "Dutch (Netherlands)",
+  },
+  {
+    apiName: "elvish",
+    displayName: "Elvish (Sindarin)",
+  },
+  {
+    apiName: "emoji",
+    displayName: "Emoji Speak",
+  },
+  {
+    apiName: "en",
+    displayName: "English",
+  },
+  {
+    apiName: "eo",
+    displayName: "Esperanto",
+  },
+  {
+    apiName: "et",
+    displayName: "Estonian",
+  },
+  {
+    apiName: "ee",
+    displayName: "Ewe",
+  },
+  {
+    apiName: "fo",
+    displayName: "Faroese",
+  },
+  {
+    apiName: "fa",
+    displayName: "Farsi",
+  },
+  {
+    apiName: "fj",
+    displayName: "Fiji",
+  },
+  {
+    apiName: "fi",
+    displayName: "Finnish",
+  },
+  {
+    apiName: "fr",
+    displayName: "French",
+  },
+  {
+    apiName: "fy",
+    displayName: "Frisian",
+  },
+  {
+    apiName: "ff",
+    displayName: "Fulah",
+  },
+  {
+    apiName: "mk",
+    displayName: "FYRO Macedonian",
+  },
+  {
+    apiName: "gd",
+    displayName: "Gaelic",
+  },
+  {
+    apiName: "gl",
+    displayName: "Galician",
+  },
+  {
+    apiName: "lg",
+    displayName: "Ganda",
+  },
+  {
+    apiName: "ka",
+    displayName: "Georgian",
+  },
+  {
+    apiName: "de",
+    displayName: "German",
+  },
+  {
+    apiName: "de_at",
+    displayName: "German (Austria)",
+  },
+  {
+    apiName: "de_de",
+    displayName: "German (Germany)",
+  },
+  {
+    apiName: "de_li",
+    displayName: "German (Liechtenstein)",
+  },
+  {
+    apiName: "de_lu",
+    displayName: "German (Luxembourg)",
+  },
+  {
+    apiName: "de_ch",
+    displayName: "German (Switzerland)",
+  },
+  {
+    apiName: "el",
+    displayName: "Greek",
+  },
+  {
+    apiName: "kl",
+    displayName: "Greenlandic",
+  },
+  {
+    apiName: "gn",
+    displayName: "Guarani",
+  },
+  {
+    apiName: "gu",
+    displayName: "Gujarati",
+  },
+  {
+    apiName: "ht",
+    displayName: "Haitian",
+  },
+  {
+    apiName: "ha",
+    displayName: "Hausa",
+  },
+  {
+    apiName: "he",
+    displayName: "Hebrew",
+  },
+  {
+    apiName: "iw",
+    displayName: "Hebrew",
+  },
+  {
+    apiName: "hz",
+    displayName: "Herero",
+  },
+  {
+    apiName: "hi",
+    displayName: "Hindi",
+  },
+  {
+    apiName: "ho",
+    displayName: "Hiri Motu",
+  },
+  {
+    apiName: "hu",
+    displayName: "Hungarian",
+  },
+  {
+    apiName: "is",
+    displayName: "Icelandic",
+  },
+  {
+    apiName: "io",
+    displayName: "Ido",
+  },
+  {
+    apiName: "ig",
+    displayName: "Igbo",
+  },
+  {
+    apiName: "id",
+    displayName: "Indonesian",
+  },
+  {
+    apiName: "in",
+    displayName: "Indonesian",
+  },
+  {
+    apiName: "ia",
+    displayName: "Interlingua",
+  },
+  {
+    apiName: "ie",
+    displayName: "Interlingue",
+  },
+  {
+    apiName: "iu",
+    displayName: "Inuktitut",
+  },
+  {
+    apiName: "ik",
+    displayName: "Inupiak",
+  },
+  {
+    apiName: "ga",
+    displayName: "Irish",
+  },
+  {
+    apiName: "it",
+    displayName: "Italian",
+  },
+  {
+    apiName: "it_it",
+    displayName: "Italian (Italy)",
+  },
+  {
+    apiName: "it_ch",
+    displayName: "Italian (Switzerland)",
+  },
+  {
+    apiName: "ja",
+    displayName: "Japanese",
+  },
+  {
+    apiName: "jv",
+    displayName: "Javanese",
+  },
+  {
+    apiName: "jw",
+    displayName: "Javanese",
+  },
+  {
+    apiName: "kn",
+    displayName: "Kannada",
+  },
+  {
+    apiName: "kr",
+    displayName: "Kanuri",
+  },
+  {
+    apiName: "ks",
+    displayName: "Kashmiri",
+  },
+  {
+    apiName: "kk",
+    displayName: "Kazakh",
+  },
+  {
+    apiName: "ki",
+    displayName: "Kikuyu",
+  },
+  {
+    apiName: "rw",
+    displayName: "Kinyarwanda",
+  },
+  {
+    apiName: "ky",
+    displayName: "Kirghiz",
+  },
+  {
+    apiName: "rn",
+    displayName: "Kirundi",
+  },
+  {
+    apiName: "klingon",
+    displayName: "Klingon",
+  },
+  {
+    apiName: "kv",
+    displayName: "Komi",
+  },
+  {
+    apiName: "kg",
+    displayName: "Kongo",
+  },
+  {
+    apiName: "kok",
+    displayName: "Konkani",
+  },
+  {
+    apiName: "ko",
+    displayName: "Korean",
+  },
+  {
+    apiName: "kj",
+    displayName: "Kuanyama",
+  },
+  {
+    apiName: "ku",
+    displayName: "Kurdish",
+  },
+  {
+    apiName: "kz",
+    displayName: "Kyrgyz",
+  },
+  {
+    apiName: "lo",
+    displayName: "Laothian",
+  },
+  {
+    apiName: "la",
+    displayName: "Latin",
+  },
+  {
+    apiName: "lv",
+    displayName: "Latvian",
+  },
+  {
+    apiName: "li",
+    displayName: "Limburgan",
+  },
+  {
+    apiName: "ln",
+    displayName: "Lingala",
+  },
+  {
+    apiName: "lt",
+    displayName: "Lithuanian",
+  },
+  {
+    apiName: "lu",
+    displayName: "Luba_Katanga",
+  },
+  {
+    apiName: "lb",
+    displayName: "Luxembourgish",
+  },
+  {
+    apiName: "mg",
+    displayName: "Malagasy",
+  },
+  {
+    apiName: "ms",
+    displayName: "Malay",
+  },
+  {
+    apiName: "ms_bn",
+    displayName: "Malay (Brunei Darussalam)",
+  },
+  {
+    apiName: "ms_my",
+    displayName: "Malay (Malaysia)",
+  },
+  {
+    apiName: "ml",
+    displayName: "Malayalam",
+  },
+  {
+    apiName: "mt",
+    displayName: "Maltese",
+  },
+  {
+    apiName: "gv",
+    displayName: "Manx",
+  },
+  {
+    apiName: "mi",
+    displayName: "Maori",
+  },
+  {
+    apiName: "mr",
+    displayName: "Marathi",
+  },
+  {
+    apiName: "mh",
+    displayName: "Marshallese",
+  },
+  {
+    apiName: "middle_english",
+    displayName: "Middle English",
+  },
+  {
+    apiName: "mo",
+    displayName: "Moldavian",
+  },
+  {
+    apiName: "mn",
+    displayName: "Mongolian",
+  },
+  {
+    apiName: "na",
+    displayName: "Nauru",
+  },
+  {
+    apiName: "nv",
+    displayName: "Navajo",
+  },
+  {
+    apiName: "ng",
+    displayName: "Ndonga",
+  },
+  {
+    apiName: "ne",
+    displayName: "Nepali (India)",
+  },
+  {
+    apiName: "nd",
+    displayName: "North Ndebele",
+  },
+  {
+    apiName: "ns",
+    displayName: "Northern Sotho",
+  },
+  {
+    apiName: "no",
+    displayName: "Norwegian",
+  },
+  {
+    apiName: "nb",
+    displayName: "Norwegian (Bokmal)",
+  },
+  {
+    apiName: "nn",
+    displayName: "Norwegian (Nynorsk)",
+  },
+  {
+    apiName: "oc",
+    displayName: "Occitan",
+  },
+  {
+    apiName: "oj",
+    displayName: "Ojibwa",
+  },
+  {
+    apiName: "or",
+    displayName: "Oriya",
+  },
+  {
+    apiName: "os",
+    displayName: "Ossetian",
+  },
+  {
+    apiName: "pi",
+    displayName: "Pali",
+  },
+  {
+    apiName: "ps",
+    displayName: "Pashto/Pushto",
+  },
+  {
+    apiName: "pirate",
+    displayName: "Pirate Speak",
+  },
+  {
+    apiName: "pl",
+    displayName: "Polish",
+  },
+  {
+    apiName: "pt",
+    displayName: "Portuguese",
+  },
+  {
+    apiName: "pt_br",
+    displayName: "Portuguese (Brazil)",
+  },
+  {
+    apiName: "pt_pt",
+    displayName: "Portuguese (Portugal)",
+  },
+  {
+    apiName: "pa",
+    displayName: "Punjabi",
+  },
+  {
+    apiName: "qu",
+    displayName: "Quechua",
+  },
+  {
+    apiName: "qu_bo",
+    displayName: "Quechua (Bolivia)",
+  },
+  {
+    apiName: "qu_ec",
+    displayName: "Quechua (Ecuador)",
+  },
+  {
+    apiName: "qu_pe",
+    displayName: "Quechua (Peru)",
+  },
+  {
+    apiName: "rm",
+    displayName: "Rhaeto_Romanic",
+  },
+  {
+    apiName: "ro",
+    displayName: "Romanian",
+  },
+  {
+    apiName: "ru",
+    displayName: "Russian",
+  },
+  {
+    apiName: "se",
+    displayName: "Sami",
+  },
+  {
+    apiName: "se_fi",
+    displayName: "Sami (Finland)",
+  },
+  {
+    apiName: "se_no",
+    displayName: "Sami (Norway)",
+  },
+  {
+    apiName: "se_se",
+    displayName: "Sami (Sweden)",
+  },
+  {
+    apiName: "sm",
+    displayName: "Samoan",
+  },
+  {
+    apiName: "sg",
+    displayName: "Sangro",
+  },
+  {
+    apiName: "sa",
+    displayName: "Sanskrit",
+  },
+  {
+    apiName: "sc",
+    displayName: "Sardinian",
+  },
+  {
+    apiName: "sr",
+    displayName: "Serbian",
+  },
+  {
+    apiName: "sr_ba",
+    displayName: "Serbian (Bosnia and Herzegovina)",
+  },
+  {
+    apiName: "sr_sp",
+    displayName: "Serbian (Serbia and Montenegro)",
+  },
+  {
+    apiName: "sh",
+    displayName: "Serbo_Croatian",
+  },
+  {
+    apiName: "st",
+    displayName: "Sesotho",
+  },
+  {
+    apiName: "sn",
+    displayName: "Shona",
+  },
+  {
+    apiName: "ii",
+    displayName: "Sichuan Yi",
+  },
+  {
+    apiName: "sd",
+    displayName: "Sindhi",
+  },
+  {
+    apiName: "si",
+    displayName: "Singhalese",
+  },
+  {
+    apiName: "ss",
+    displayName: "Siswati",
+  },
+  {
+    apiName: "sk",
+    displayName: "Slovak",
+  },
+  {
+    apiName: "ls",
+    displayName: "Slovenian",
+  },
+  {
+    apiName: "sl",
+    displayName: "Slovenian",
+  },
+  {
+    apiName: "so",
+    displayName: "Somali",
+  },
+  {
+    apiName: "sb",
+    displayName: "Sorbian",
+  },
+  {
+    apiName: "nr",
+    displayName: "South Ndebele",
+  },
+  {
+    apiName: "es",
+    displayName: "Spanish",
+  },
+  {
+    apiName: "su",
+    displayName: "Sundanese",
+  },
+  {
+    apiName: "sx",
+    displayName: "Sutu",
+  },
+  {
+    apiName: "sw",
+    displayName: "Swahili",
+  },
+  {
+    apiName: "sv",
+    displayName: "Swedish",
+  },
+  {
+    apiName: "sv_fi",
+    displayName: "Swedish (Finland)",
+  },
+  {
+    apiName: "sv_se",
+    displayName: "Swedish (Sweden)",
+  },
+  {
+    apiName: "syr",
+    displayName: "Syriac",
+  },
+  {
+    apiName: "tl",
+    displayName: "Tagalog",
+  },
+  {
+    apiName: "ty",
+    displayName: "Tahitian",
+  },
+  {
+    apiName: "tg",
+    displayName: "Tajik",
+  },
+  {
+    apiName: "ta",
+    displayName: "Tamil",
+  },
+  {
+    apiName: "tt",
+    displayName: "Tatar",
+  },
+  {
+    apiName: "te",
+    displayName: "Telugu",
+  },
+  {
+    apiName: "th",
+    displayName: "Thai",
+  },
+  {
+    apiName: "bo",
+    displayName: "Tibetan",
+  },
+  {
+    apiName: "ti",
+    displayName: "Tigrinya",
+  },
+  {
+    apiName: "to",
+    displayName: "Tonga",
+  },
+  {
+    apiName: "ts",
+    displayName: "Tsonga",
+  },
+  {
+    apiName: "tn",
+    displayName: "Tswana",
+  },
+  {
+    apiName: "tr",
+    displayName: "Turkish",
+  },
+  {
+    apiName: "tk",
+    displayName: "Turkmen",
+  },
+  {
+    apiName: "tw",
+    displayName: "Twi",
+  },
+  {
+    apiName: "ug",
+    displayName: "Uighur",
+  },
+  {
+    apiName: "uk",
+    displayName: "Ukrainian",
+  },
+  {
+    apiName: "ur",
+    displayName: "Urdu",
+  },
+  {
+    apiName: "uz",
+    displayName: "Uzbek",
+  },
+  {
+    apiName: "ve",
+    displayName: "Venda",
+  },
+  {
+    apiName: "vi",
+    displayName: "Vietnamese",
+  },
+  {
+    apiName: "vo",
+    displayName: "Volapuk",
+  },
+  {
+    apiName: "wa",
+    displayName: "Walloon",
+  },
+  {
+    apiName: "cy",
+    displayName: "Welsh",
+  },
+  {
+    apiName: "wo",
+    displayName: "Wolof",
+  },
+  {
+    apiName: "xh",
+    displayName: "Xhosa",
+  },
+  {
+    apiName: "ji",
+    displayName: "Yiddish",
+  },
+  {
+    apiName: "yi",
+    displayName: "Yiddish",
+  },
+  {
+    apiName: "yo",
+    displayName: "Yoruba",
+  },
+  {
+    apiName: "za",
+    displayName: "Zhuang",
+  },
+  {
+    apiName: "zu",
+    displayName: "Zulu",
+  },
 ];

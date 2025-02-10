@@ -74,7 +74,10 @@
       // Only update if this is still the most recent translation request
       if (thisTranslationId === currentTranslationId) {
         translatedText = await invoke("get_translation", {
-          sourceLanguage: sourceLanguage.apiName,
+          sourceLanguage:
+            sourceLanguage.apiName === "Automatic"
+              ? ""
+              : sourceLanguage.apiName,
           targetLanguage: targetLanguage.apiName,
           text: sourceText,
         });
@@ -361,7 +364,7 @@ registerProcessor('pcm-processor', PCMProcessor);
       disabled={isLoading}
     >
       {sourceLanguage.apiName === "Automatic"
-        ? `${$t("common.detect")} (${detectedLanguage || $t("common.auto")})`
+        ? `${$t("common.detect")} (${languages.find((l) => l.apiName === detectedLanguage)?.displayName || $t("common.auto")})`
         : sourceLanguage.displayName}
     </button>
 

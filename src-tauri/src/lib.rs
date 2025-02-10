@@ -14,7 +14,7 @@ use tauri_plugin_sql::{Migration, MigrationKind};
 #[derive(serde::Deserialize)]
 struct DetectLanguageResponse {
     iso: String,
-    language: String,
+    label: String,
 }
 
 #[derive(serde::Deserialize)]
@@ -89,7 +89,7 @@ async fn detect_language(
         .map_err(|e| anyhow!(e))?;
 
     let detect_response: DetectLanguageResponse = response.json().await.map_err(|e| anyhow!(e))?;
-    Ok(detect_response.language)
+    Ok(detect_response.iso)
 }
 
 #[tauri::command]

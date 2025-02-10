@@ -22,7 +22,7 @@ tauri = { version = "2", features = [] }
 tauri-plugin-shell = "2"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1.0.133"
-tauri-plugin-http = "2"
+tauri-plugin-http = { version = "2", features = ["json"] }
 anyhow-tauri = "1.0.0"
 anyhow = "1.0.93"
 scraper = "0.21.0"
