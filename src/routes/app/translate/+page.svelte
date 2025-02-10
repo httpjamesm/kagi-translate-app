@@ -395,6 +395,7 @@ registerProcessor('pcm-processor', PCMProcessor);
       mediaRecorder.onstop = async () => {
         stream.getTracks().forEach((track) => track.stop());
         recordingState = "loading";
+        isLoading = true;
 
         try {
           const audioBlob = new Blob(audioChunks, { type: "audio/mpeg" });
@@ -410,11 +411,13 @@ registerProcessor('pcm-processor', PCMProcessor);
           console.error("Transcription error:", error);
         } finally {
           recordingState = "idle";
+          isLoading = false;
         }
       };
     } catch (error) {
       console.error("Error accessing microphone:", error);
       recordingState = "idle";
+      isLoading = false;
     }
   };
 
