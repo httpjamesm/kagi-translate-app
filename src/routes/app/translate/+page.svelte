@@ -6,6 +6,7 @@
     IconVolume,
     IconPlayerStop,
     IconLoader2,
+    IconSettings,
   } from "@tabler/icons-svelte";
   import { invoke } from "@tauri-apps/api/core";
   import {
@@ -20,6 +21,7 @@
   import IconButton from "$lib/components/IconButton.svelte";
   import CopyButton from "$lib/components/CopyButton.svelte";
   import { t } from "$lib/translations";
+  import TranslationStyleModal from "$lib/components/TranslationStyleModal.svelte";
 
   interface SpeechResponse {
     content_type: string;
@@ -44,6 +46,8 @@
   // Add state tracking for audio
   let audioState = $state<"idle" | "loading" | "playing">("idle");
   let currentPlayingText = $state<string | null>(null);
+
+  let showStyleModal = $state(false);
 
   const doLanguageDetection = async () => {
     try {
@@ -409,6 +413,10 @@ registerProcessor('pcm-processor', PCMProcessor);
           />
         {/if}
         <IconButton
+          icon={IconSettings}
+          onclick={() => (showStyleModal = true)}
+        />
+        <IconButton
           icon={audioState === "playing" && currentPlayingText === sourceText
             ? IconPlayerStop
             : IconVolume}
@@ -504,6 +512,11 @@ registerProcessor('pcm-processor', PCMProcessor);
     doTranslation();
   }}
   onClose={() => (showTargetModal = false)}
+/>
+
+<TranslationStyleModal
+  show={showStyleModal}
+  onClose={() => (showStyleModal = false)}
 />
 
 <style lang="scss">
