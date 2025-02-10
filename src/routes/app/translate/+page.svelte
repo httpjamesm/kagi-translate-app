@@ -6,6 +6,7 @@
     IconVolume,
     IconPlayerStop,
     IconLoader2,
+    IconMicrophone,
   } from "@tabler/icons-svelte";
   import { invoke } from "@tauri-apps/api/core";
   import {
@@ -45,6 +46,11 @@
   let audioState = $state<"idle" | "loading" | "playing">("idle");
   let currentPlayingText = $state<string | null>(null);
 
+  // Add new state variables after the other state declarations
+  let recordingState = $state<"idle" | "recording" | "loading">("idle");
+  let mediaRecorder: MediaRecorder | null = null;
+  let audioChunks: Blob[] = [];
+
   const doLanguageDetection = async () => {
     try {
       const language: string = await invoke("detect_language", {
@@ -67,10 +73,6 @@
 
     try {
       if (sourceText.length === 0) return;
-      await invoke("set_session_token", {
-        sessionToken: window.localStorage.getItem("kagiSession") || "",
-      });
-
       // Only update if this is still the most recent translation request
       if (thisTranslationId === currentTranslationId) {
         translatedText = await invoke("get_translation", {
@@ -354,6 +356,76 @@ registerProcessor('pcm-processor', PCMProcessor);
       currentPlayingText = null;
     }
   };
+
+  // Add the recording functions after the other function declarations
+  const startRecording = async () => {
+    try {
+      await selectionFeedback();
+    } catch {}
+
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      console.error("getUserMedia not supported");
+      return;
+    }
+
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      recordingState = "recording";
+
+      mediaRecorder = new MediaRecorder(stream);
+      const currentRecorder = mediaRecorder;
+      audioChunks = [];
+
+      mediaRecorder.start();
+
+      // Auto-stop after 4 minutes 50 seconds
+      setTimeout(() => {
+        if (
+          currentRecorder === mediaRecorder &&
+          mediaRecorder?.state === "recording"
+        ) {
+          stopRecording();
+        }
+      }, 290000);
+
+      mediaRecorder.ondataavailable = (event) => {
+        audioChunks.push(event.data);
+      };
+
+      mediaRecorder.onstop = async () => {
+        stream.getTracks().forEach((track) => track.stop());
+        recordingState = "loading";
+        isLoading = true;
+
+        try {
+          const audioBlob = new Blob(audioChunks, { type: "audio/mpeg" });
+          const arrayBuffer = await audioBlob.arrayBuffer();
+          const uint8Array = new Uint8Array(arrayBuffer);
+
+          const transcription = await invoke<string>("get_transcription", {
+            audioData: Array.from(uint8Array),
+          });
+
+          sourceText = transcription;
+        } catch (error) {
+          console.error("Transcription error:", error);
+        } finally {
+          recordingState = "idle";
+          isLoading = false;
+        }
+      };
+    } catch (error) {
+      console.error("Error accessing microphone:", error);
+      recordingState = "idle";
+      isLoading = false;
+    }
+  };
+
+  const stopRecording = () => {
+    if (mediaRecorder && mediaRecorder.state === "recording") {
+      mediaRecorder.stop();
+    }
+  };
 </script>
 
 <div class="translate-container">
@@ -408,6 +480,20 @@ registerProcessor('pcm-processor', PCMProcessor);
             disabled={isLoading}
           />
         {/if}
+        <IconButton
+          icon={recordingState === "recording"
+            ? IconPlayerStop
+            : IconMicrophone}
+          onclick={() => {
+            if (recordingState === "recording") {
+              stopRecording();
+            } else {
+              startRecording();
+            }
+          }}
+          disabled={isLoading || recordingState === "loading"}
+          color={recordingState === "recording" ? "var(--primary)" : undefined}
+        />
         <IconButton
           icon={audioState === "playing" && currentPlayingText === sourceText
             ? IconPlayerStop

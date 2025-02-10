@@ -7,6 +7,9 @@
 
   onMount(async () => {
     try {
+      await invoke("set_session_token", {
+        sessionToken: window.localStorage.getItem("kagiSession") || "",
+      });
       await invoke("get_translate_session_token");
     } catch (e) {
       console.error(e);
