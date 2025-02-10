@@ -7,7 +7,6 @@
 
   onMount(async () => {
     try {
-      console.log("getting translate session token");
       await invoke("get_translate_session_token");
     } catch (e) {
       console.error(e);
