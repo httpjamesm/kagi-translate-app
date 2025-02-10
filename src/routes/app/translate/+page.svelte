@@ -84,6 +84,24 @@
               : sourceLanguage.apiName,
           targetLanguage: targetLanguage.apiName,
           text: sourceText,
+          settings: JSON.stringify({
+            speaker_gender:
+              window.localStorage
+                .getItem("translationSpeakerGender")
+                ?.toLowerCase() || "unknown",
+            addressee_gender:
+              window.localStorage
+                .getItem("translationAddresseeGender")
+                ?.toLowerCase() || "unknown",
+            translation_style:
+              window.localStorage.getItem("translationStyle")?.toLowerCase() ||
+              "natural",
+            formality_level:
+              window.localStorage
+                .getItem("translationFormality")
+                ?.toLowerCase() || "neutral",
+            context: window.localStorage.getItem("translationContext") || "",
+          }),
         });
 
         // Only get romanization for languages that need it
