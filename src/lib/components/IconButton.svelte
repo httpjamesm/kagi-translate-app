@@ -23,8 +23,11 @@
   .icon-button {
     background: none;
     border: none;
-    width: 2.5rem;
-    height: 2.5rem;
+    $size: 2.5rem;
+    width: $size;
+    height: $size;
+    min-width: $size;
+    min-height: $size;
     border-radius: 50%;
     display: flex;
     align-items: center;
