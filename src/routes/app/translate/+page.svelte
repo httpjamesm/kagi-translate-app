@@ -194,13 +194,6 @@
     }
   };
 
-  const selectAlternativeTranslation = async (translation: string) => {
-    try {
-      await selectionFeedback();
-    } catch {}
-    translatedText = translation;
-  };
-
   $effect(() => {
     if (sourceText === previousText) return;
     previousText = sourceText;
@@ -669,11 +662,7 @@ registerProcessor('pcm-processor', PCMProcessor);
                 {/if}
                 <div class="alternatives-list">
                   {#each alternativeTranslations as alt}
-                    <div
-                      class="alternative-item"
-                      onclick={() =>
-                        selectAlternativeTranslation(alt.translation)}
-                    >
+                    <div class="alternative-item">
                       <div class="alternative-translation">
                         {alt.translation}
                       </div>
