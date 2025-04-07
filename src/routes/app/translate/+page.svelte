@@ -72,6 +72,7 @@
   let detectedLanguage = $state("");
   let previousText = $state("");
   let currentTranslationId = $state(0);
+  let isUrl = $state(false);
 
   // Add state tracking for audio
   let audioState = $state<"idle" | "loading" | "playing">("idle");
@@ -97,6 +98,24 @@
 
   // Add mobile detection variable
   let isMobileDevice = $state(false);
+
+  // Function to check if text is a URL
+  const isValidUrl = (text: string): boolean => {
+    try {
+      const urlPattern = new RegExp(
+        "^(https?:\\/\\/)?" + // protocol
+          "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
+          "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
+          "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
+          "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
+          "(\\#[-a-z\\d_]*)?$", // fragment locator
+        "i"
+      );
+      return urlPattern.test(text);
+    } catch (e) {
+      return false;
+    }
+  };
 
   const doLanguageDetection = async () => {
     try {
@@ -124,8 +143,20 @@
     markedTranslation = "";
     selectedInsight = null;
 
+    // Check if source text is a URL
+    isUrl = isValidUrl(sourceText);
+
     try {
       if (sourceText.length === 0) return;
+
+      // Handle URLs differently
+      if (isUrl) {
+        // For URLs, just set the translated text to be the same as source
+        translatedText = sourceText;
+        isLoading = false;
+        return;
+      }
+
       // Only update if this is still the most recent translation request
       if (thisTranslationId === currentTranslationId) {
         translatedText = await invoke("get_translation", {
@@ -164,7 +195,7 @@
         }
 
         // Fetch both alternative translations and word insights after a successful translation
-        if (translatedText) {
+        if (translatedText && !isUrl) {
           Promise.all([getAlternativeTranslations(), getWordInsights()]);
         }
       }
@@ -811,17 +842,27 @@ registerProcessor('pcm-processor', PCMProcessor);
         >
           {#if translatedText}
             <div>
-              {#if wordInsights.length > 0 && markedTranslation}
+              {#if isUrl}
+                <a
+                  href="https://translate.kagi.com/translate/{targetLanguage.isoCode}/{encodeURIComponent(
+                    sourceText
+                  )}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {translatedText}
+                </a>
+              {:else if wordInsights.length > 0 && markedTranslation}
                 {@html renderMarkedTranslation()}
               {:else}
                 {translatedText}
               {/if}
             </div>
-            {#if romanization}
+            {#if romanization && !isUrl}
               <div class="romanization">{romanization}</div>
             {/if}
 
-            {#if isLoadingAlternatives || isLoadingInsights}
+            {#if !isUrl && (isLoadingAlternatives || isLoadingInsights)}
               <div class="alternatives-section">
                 <div class="skeleton-loader">
                   <div class="skeleton-line" style="width: 90%"></div>
@@ -842,7 +883,7 @@ registerProcessor('pcm-processor', PCMProcessor);
                   </div>
                 </div>
               </div>
-            {:else if alternativeTranslations.length > 0}
+            {:else if !isUrl && alternativeTranslations.length > 0}
               <div class="alternatives-section">
                 {#if alternativeTranslationsDescription}
                   <div class="alternatives-description">
@@ -883,6 +924,7 @@ registerProcessor('pcm-processor', PCMProcessor);
             currentPlayingText === translatedText}
           onclick={() => playAudio(translatedText, targetLanguage.apiName)}
           disabled={!translatedText ||
+            isUrl ||
             isLoading ||
             (audioState === "loading" &&
               currentPlayingText !== translatedText) ||
