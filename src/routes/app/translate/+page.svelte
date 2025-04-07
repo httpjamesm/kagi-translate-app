@@ -58,6 +58,29 @@
     insights: WordInsight[];
   }
 
+  interface DetectedLanguage {
+    iso: string;
+    label: string;
+  }
+
+  interface Definition {
+    word: string;
+    partOfSpeech?: string[];
+    usageLevel?: string[];
+    primaryMeaning?: string;
+    secondaryMeanings?: string[];
+    examples?: string[];
+    pronunciation?: string;
+    etymology?: string;
+    raw?: string;
+  }
+
+  interface TranslationResponse {
+    translation: string;
+    detectedLanguage: DetectedLanguage;
+    definition?: Definition;
+  }
+
   let sourceLanguage = $state<Language>(languages[0]);
   let targetLanguage = $state<Language>(languages[1]);
   let sourceText = $state("");
@@ -73,6 +96,7 @@
   let previousText = $state("");
   let currentTranslationId = $state(0);
   let isUrl = $state(false);
+  let definition = $state<Definition | null>(null);
 
   // Add state tracking for audio
   let audioState = $state<"idle" | "loading" | "playing">("idle");
@@ -142,6 +166,7 @@
     wordInsights = [];
     markedTranslation = "";
     selectedInsight = null;
+    definition = null;
 
     // Check if source text is a URL
     isUrl = isValidUrl(sourceText);
@@ -159,7 +184,7 @@
 
       // Only update if this is still the most recent translation request
       if (thisTranslationId === currentTranslationId) {
-        translatedText = await invoke("get_translation", {
+        const response: TranslationResponse = await invoke("get_translation", {
           sourceLanguage:
             sourceLanguage.apiName === "Automatic"
               ? ""
@@ -185,6 +210,11 @@
             context: window.localStorage.getItem("translationContext") || "",
           }),
         });
+
+        translatedText = response.translation;
+        if (response.definition) {
+          definition = response.definition;
+        }
 
         // Only get romanization for languages that need it
         if (needsRomanization(targetLanguage)) {
@@ -775,6 +805,60 @@ registerProcessor('pcm-processor', PCMProcessor);
         placeholder="Enter text"
         bind:value={sourceText}
       ></textarea>
+
+      {#if definition && !isUrl}
+        <div class="definition-section">
+          <div class="definition-word">
+            {definition.word}
+            {#if definition.pronunciation}
+              <span class="pronunciation">{definition.pronunciation}</span>
+            {/if}
+          </div>
+
+          {#if definition.partOfSpeech && definition.partOfSpeech.length > 0}
+            <div class="part-of-speech">
+              {definition.partOfSpeech.join(", ")}
+              {#if definition.usageLevel && definition.usageLevel.length > 0}
+                <span class="usage-level"
+                  >{definition.usageLevel.join(", ")}</span
+                >
+              {/if}
+            </div>
+          {/if}
+
+          {#if definition.primaryMeaning}
+            <div class="meaning-section">
+              <div class="primary-meaning">{definition.primaryMeaning}</div>
+
+              {#if definition.secondaryMeanings && definition.secondaryMeanings.length > 0}
+                <div class="secondary-meanings">
+                  <ul>
+                    {#each definition.secondaryMeanings as meaning}
+                      <li>{meaning}</li>
+                    {/each}
+                  </ul>
+                </div>
+              {/if}
+            </div>
+          {/if}
+
+          {#if definition.examples && definition.examples.length > 0}
+            <div class="examples-section">
+              <div class="examples-heading">Examples:</div>
+              <ul class="examples-list">
+                {#each definition.examples as example}
+                  <li>{example}</li>
+                {/each}
+              </ul>
+            </div>
+          {/if}
+
+          {#if definition.etymology}
+            <div class="etymology">{definition.etymology}</div>
+          {/if}
+        </div>
+      {/if}
+
       <div class="actions">
         {#if sourceText}
           <IconButton
@@ -786,6 +870,7 @@ registerProcessor('pcm-processor', PCMProcessor);
               } catch {}
               sourceText = "";
               translatedText = "";
+              definition = null;
               window.localStorage.removeItem("sourceText");
               window.localStorage.removeItem("translatedText");
             }}
@@ -1336,5 +1421,84 @@ registerProcessor('pcm-processor', PCMProcessor);
     font-size: 0.9rem;
     color: var(--text-secondary);
     line-height: 1.4;
+  }
+
+  .definition-section {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--text-primary);
+  }
+
+  .definition-word {
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+
+    .pronunciation {
+      font-weight: normal;
+      color: var(--text-secondary);
+      margin-left: 0.5rem;
+      font-size: 1rem;
+    }
+  }
+
+  .part-of-speech {
+    font-style: italic;
+    margin-bottom: 0.5rem;
+
+    .usage-level {
+      font-style: normal;
+      color: var(--text-secondary);
+      margin-left: 0.5rem;
+      font-size: 0.9rem;
+    }
+  }
+
+  .meaning-section {
+    margin-bottom: 1rem;
+  }
+
+  .primary-meaning {
+    margin-bottom: 0.5rem;
+  }
+
+  .secondary-meanings {
+    ul {
+      margin: 0;
+      padding-left: 1.5rem;
+
+      li {
+        margin-bottom: 0.25rem;
+      }
+    }
+  }
+
+  .examples-section {
+    margin-bottom: 1rem;
+  }
+
+  .examples-heading {
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+  }
+
+  .examples-list {
+    margin: 0;
+    padding-left: 1.5rem;
+
+    li {
+      margin-bottom: 0.25rem;
+      font-style: italic;
+      color: var(--text-secondary);
+    }
+  }
+
+  .etymology {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-style: italic;
   }
 </style>

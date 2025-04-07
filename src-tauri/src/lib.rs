@@ -73,13 +73,13 @@ struct TranscriptionResponse {
     transcription: String,
 }
 
-#[derive(serde::Deserialize)]
+#[derive(serde::Deserialize, serde::Serialize)]
 struct DetectedLanguage {
     iso: String,
     label: String,
 }
 
-#[derive(serde::Deserialize)]
+#[derive(serde::Deserialize, serde::Serialize)]
 struct NewTranslationResponse {
     translation: String,
     detectedLanguage: DetectedLanguage,
@@ -152,9 +152,16 @@ async fn get_translation(
     target_language: &str,
     text: &str,
     settings: &str,
-) -> TAResult<String> {
+) -> TAResult<NewTranslationResponse> {
     if text.is_empty() {
-        return Ok("".to_string());
+        return Ok(NewTranslationResponse {
+            translation: "".to_string(),
+            detectedLanguage: DetectedLanguage {
+                iso: "".to_string(),
+                label: "".to_string(),
+            },
+            definition: None,
+        });
     }
 
     let (session_token, client) = {
@@ -221,7 +228,7 @@ async fn get_translation(
     let translation_response: NewTranslationResponse =
         response.json().await.map_err(|e| anyhow!(e))?;
 
-    Ok(translation_response.translation)
+    Ok(translation_response)
 }
 
 #[tauri::command]
