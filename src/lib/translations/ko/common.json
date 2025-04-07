@@ -1,42 +1,70 @@
 {
   "bottomNav": {
     "translate": "번역",
-    "favorites": "즐겨찾기",
+    "favorites": "추적품",
     "settings": "설정"
   },
   "search": "검색",
   "favorites": {
-    "noFavoritesSearchResults": "검색 결과와 일치하는 즐겨찾기가 없습니다.",
-    "noFavorites": "번역에 하트 버튼을 눌러 여기에 추가하세요"
+    "noFavoritesSearchResults": "검색역에 일치하는 추적품이 없습니다",
+    "noFavorites": "연습을 추가하려면 번역에 대한 하이트 버튼을 눌러주세요"
   },
   "settings": {
     "resetAppData": {
-      "title": "앱 데이터 초기화",
-      "description": "이 작업을 수행하면 모든 즐겨찾기 및 설정이 삭제됩니다.",
-      "button": "앱 데이터 초기화",
-      "confirm": "모든 앱 데이터를 초기화하시겠습니까? 이 작업을 수행하면 즐겨찾기 및 설정이 삭제됩니다."
+      "title": "앱 데이터 재설정",
+      "description": "추적품와 설정이 모두 삭제됩니다.",
+      "button": "앱 데이터 재설정",
+      "confirm": "정말 앱 데이터를 재설정하시겠습니까? 추적품와 설정이 삭제됩니다."
     },
     "sessionToken": {
       "title": "Kagi 세션 토큰",
-      "description": "세 가지 줄 메뉴로 이동하여 \"세션 링크\" 제목 아래의 \"복사\"를 클릭하여 세션 토큰을 얻으세요.",
+      "description": "세션 토큰을 얻으러면 사용자 정보 사용자 메뉴의 '세션 저장' 추정 아래에 있는 'Copy' 를 클릭하세요",
       "placeholder": "Kagi 세션 토큰을 입력하세요"
     }
   },
   "login": {
-    "title": "Kagi Translate 환영합니다.",
-    "subtitle": "계속하려면 Kagi 세션 링크를 입력하세요",
-    "logInto": "로그인",
-    "openThreeLinesMenu": "화면 오른쪽 상단의 세 줄 메뉴를 열어주세요",
-    "copySessionLink": "\"세션 링크\" 제목 아래의 \"복사\"를 클릭하세요",
-    "continueToTranslator": "번역기로 이동",
-    "disclaimer": "이 앱은 비공식이며 Kagi Inc.와 제휴하지 않습니다.",
+    "title": "Kagi Translate에 오신 것을 환영합니다",
+    "subtitle": "이에 접속하기 위한 Kagi 세션 링크를 입력해주세요",
+    "logInto": "로그인중",
+    "openThreeLinesMenu": "화면 오른쪽 상위에 있는 세 가록 줄 메뉴를 열어주세요",
+    "copySessionLink": "'세션 링크' 헤이지 아래에 있는 'Copy' 를 클릭하세요",
+    "continueToTranslator": "번역기으로 이동",
+    "disclaimer": "이 앱은 비공식 앱이며 Kagi Inc와 관련이 없습니다.",
     "createdBy": "제작자",
-    "pasteSessionLink": "세션 링크를 여기에 붙여넣으세요"
+    "pasteSessionLink": "세션 링크를 여기에 붙여넣어 주세요"
   },
   "automatic": "자동",
   "auto": "자동",
-  "detect": "감지",
-  "translationWillAppearHere": "번역 결과가 여기에 표시됩니다.",
-  "failedToTranslate": "번역에 실패했습니다.",
-  "languages": "언어"
+  "detect": "검출",
+  "translationWillAppearHere": "번역 결과가 여기에 나타납니다",
+  "failedToTranslate": "번역에 실패하였습니다",
+  "languages": "언어",
+  "translationStyle": {
+    "title": "번역 스타일",
+    "styles": {
+      "title": "스타일",
+      "natural": "자연슷게",
+      "literal": "정확히"
+    },
+    "formality": {
+      "title": "규적 형식",
+      "standard": "표준",
+      "formal": "규적인",
+      "informal": "비규적인"
+    },
+    "genderPreferences": {
+      "title": "성비율 선호",
+      "speaker": "연사자",
+      "addressee": "수신자"
+    },
+    "gender": {
+      "title": "성비율",
+      "unknown": "알 수 없음",
+      "neutral": "눈인상",
+      "feminine": "여성",
+      "masculine": "남성"
+    },
+    "context": "원래",
+    "contextPlaceholder": "번역을 위한 정보 (선택 사항)"
+  }
 }

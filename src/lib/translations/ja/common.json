@@ -6,37 +6,65 @@
   },
   "search": "検索",
   "favorites": {
-    "noFavoritesSearchResults": "検索結果に一致するお気に入りは見つかりません",
-    "noFavorites": "翻訳にハートボタンを押して、ここに追加してください"
+    "noFavoritesSearchResults": "お気に入りとして登録された翻訳は見つかりませんでした",
+    "noFavorites": "翻訳結果のハートボタンを押してお気に入りに登録してください"
   },
   "settings": {
     "resetAppData": {
-      "title": "アプリデータをリセット",
-      "description": "これにより、すべてのブックマークと設定がクリアされます。",
-      "button": "アプリデータをリセット",
-      "confirm": "すべてのアプリデータをリセットしてもよろしいですか？これにより、ブックマークと設定がクリアされます。"
+      "title": "アプリケーションデータのリセット",
+      "description": "これはお気に入りと設定を全てクリアします。",
+      "button": "アプリケーションデータをリセット",
+      "confirm": "本当にすべてのアプリケーションデータをリセットしますか？お気に入りと設定がクリアされます。"
     },
     "sessionToken": {
-      "title": "Kagiセッショントークン",
-      "description": "セッショントークンは、画面右上にある３つの線のメニューを開き、「セッションリンク」見出しの下の「コピー」をクリックすることで取得できます。",
-      "placeholder": "Kagiセッショントークンを入力してください"
+      "title": "Kagi セッショントークン",
+      "description": "セッショントークンを取得する方法は、右上の3本線メニューを開き、'Session Link'ヘッダーの下の'Copy'をクリックすることです。",
+      "placeholder": "Kagi セッショントークンを入力"
     }
   },
   "login": {
-    "title": "Kagi翻訳へようこそ",
-    "subtitle": "続行するには、Kagiセッションリンクを入力してください",
-    "logInto": "ログイン",
-    "openThreeLinesMenu": "画面右上の３つの線のメニューを開きます",
-    "copySessionLink": "'セッションリンク'見出しの下の『コピー』をクリックします",
-    "continueToTranslator": "翻訳者へ進む",
-    "disclaimer": "このアプリは非公式であり、Kagi Inc.とは提携していません。",
+    "title": "Kagi Translate へょうこそ",
+    "subtitle": "続行するには Kagi セッションリンクを入力してください",
+    "logInto": "ログインする",
+    "openThreeLinesMenu": "画面右上の3本線メニューを開く",
+    "copySessionLink": "'Session Link'ヘッダーの下の'Copy'をクリック",
+    "continueToTranslator": "翻訳ツールと続行",
+    "disclaimer": "このアプリケーションは非公式のkagi Inc.とは関連ありません。",
     "createdBy": "作成者",
-    "pasteSessionLink": "セッションリンクをここに貼り付けてください"
+    "pasteSessionLink": "セッションリンクを貼り付けてください"
   },
   "automatic": "自動",
   "auto": "自動",
-  "detect": "検出",
-  "translationWillAppearHere": "翻訳はここに表示されます",
+  "detect": "自動検出",
+  "translationWillAppearHere": "翻訳結果はここに表示されます",
   "failedToTranslate": "翻訳に失敗しました",
-  "languages": "言語"
+  "languages": "言語",
+  "translationStyle": {
+    "title": "翻訳スタイル",
+    "styles": {
+      "title": "スタイル",
+      "natural": "自然な",
+      "literal": "反訳的な"
+    },
+    "formality": {
+      "title": "形式",
+      "standard": "標準",
+      "formal": "正式",
+      "informal": "非正式"
+    },
+    "genderPreferences": {
+      "title": "性別のヘルファレンス",
+      "speaker": "発話者",
+      "addressee": "相手"
+    },
+    "gender": {
+      "title": "性別",
+      "unknown": "不明",
+      "neutral": "ニュートラル",
+      "feminine": "女性",
+      "masculine": "男性"
+    },
+    "context": "コンテクスト",
+    "contextPlaceholder": "翻訳のための短いコンテクスト (オプション)"
+  }
 }

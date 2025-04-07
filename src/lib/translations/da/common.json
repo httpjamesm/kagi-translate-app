@@ -7,7 +7,7 @@
   "search": "Søg",
   "favorites": {
     "noFavoritesSearchResults": "Ingen favoritter fundet, der matcher din søgning",
-    "noFavorites": "Tryk på hjerteknappen på oversættelserne for at tilføje dem her"
+    "noFavorites": "Tryk på hjerteknappen på oversættelser for at tilføje dem her"
   },
   "settings": {
     "resetAppData": {
@@ -17,26 +17,54 @@
       "confirm": "Er du sikker på, at du vil nulstille alle appdata? Dette vil slette dine favoritter og indstillinger."
     },
     "sessionToken": {
-      "title": "Kagi Session Token",
-      "description": "Hent din sessionstoken ved at navigere til menuknappen med tre linjer og klikke på 'Kopiér' under overskriften 'Sessionslink' på",
-      "placeholder": "Indtast din Kagi sessionstoken"
+      "title": "Kagi-sessionstoken",
+      "description": "Hent din sessionstoken ved at navigere til menulinjen med tre streger og klikke på 'Kopier' under 'Sessionslink'-overskriften på",
+      "placeholder": "Indtast din Kagi-sessionstoken"
     }
   },
   "login": {
-    "title": "Velkommen til Kagi Oversæt",
-    "subtitle": "Indtast venligst din Kagi sessionlink for at fortsætte",
+    "title": "Velkommen til Kagi Translate",
+    "subtitle": "Indtast venligst din Kagi-sessionslink for at fortsætte",
     "logInto": "Log ind på",
-    "openThreeLinesMenu": "Åbn menuknappen med tre linjer i øverste højre hjørne af skærmen",
-    "copySessionLink": "Klik på 'Kopiér' under overskriften 'Session Link'",
+    "openThreeLinesMenu": "Åbn menulinjen med tre streger øverst til højre på skærmen",
+    "copySessionLink": "Klik på 'Kopier' under overskriften 'Sessionslink'",
     "continueToTranslator": "Fortsæt til oversætter",
     "disclaimer": "Denne app er uofficiel og ikke tilknyttet Kagi Inc.",
     "createdBy": "Oprettet af",
-    "pasteSessionLink": "Indsæt din sessionslink her"
+    "pasteSessionLink": "Indsæt dit sessionslink her"
   },
   "automatic": "Automatisk",
   "auto": "Auto",
-  "detect": "Bestem",
-  "translationWillAppearHere": "Oversættelsen vises her",
-  "failedToTranslate": "Oversættelsen mislykkedes",
-  "languages": "sprog"
+  "detect": "Opdag",
+  "translationWillAppearHere": "Oversættelse vises her",
+  "failedToTranslate": "Kunne ikke oversætte",
+  "languages": "sprog",
+  "translationStyle": {
+    "title": "Oversættelsesstil",
+    "styles": {
+      "title": "Stil",
+      "natural": "Naturlig",
+      "literal": "Bogstavelig"
+    },
+    "formality": {
+      "title": "Formalitet",
+      "standard": "Standard",
+      "formal": "Formel",
+      "informal": "Uformel"
+    },
+    "genderPreferences": {
+      "title": "Kønspræferencer",
+      "speaker": "Talende",
+      "addressee": "Adressat"
+    },
+    "gender": {
+      "title": "Køn",
+      "unknown": "Ukendt",
+      "neutral": "Neutral",
+      "feminine": "Kvindelig",
+      "masculine": "Mandlig"
+    },
+    "context": "Kontekst",
+    "contextPlaceholder": "Kort kontekst til oversættelse (valgfri)"
+  }
 }

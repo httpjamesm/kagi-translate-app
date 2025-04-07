@@ -6,37 +6,65 @@
   },
   "search": "Ara",
   "favorites": {
-    "noFavoritesSearchResults": "Aradığınız kriterlere uyan favori bulunamadı",
-    "noFavorites": "Çevirileri buraya eklemek için çevirilerin üzerindeki kalp simgesine tıklayın"
+    "noFavoritesSearchResults": "Aramanızla eşleşen favori bulunamadı",
+    "noFavorites": "Çevirileri buraya eklemek için kalp düğmesine basın"
   },
   "settings": {
     "resetAppData": {
       "title": "Uygulama Verilerini Sıfırla",
-      "description": "Bu, tüm favorilerinizi ve ayarlarınızı silecektir.",
+      "description": "Bu, tüm favorilerinizi ve ayarlarınızı temizleyecektir.",
       "button": "Uygulama Verilerini Sıfırla",
-      "confirm": "Tüm uygulama verilerini sıfırlamak istediğinizden emin misiniz? Bu, favorilerinizi ve ayarlarınızı silecektir."
+      "confirm": "Tüm uygulama verilerini sıfırlamak istediğinizden emin misiniz? Bu, favorilerinizi ve ayarlarınızı temizleyecektir."
     },
     "sessionToken": {
-      "title": "Kagi Oturum Kimliği",
-      "description": "Oturum kimliğinizi, ekranın sağ üst kısmındaki üç çizgi menüsüne giderek \"Oturum Bağlantısı\" başlığı altındaki 'Kopyala' düğmesine tıklayarak alabilirsiniz",
-      "placeholder": "Kagi oturum kimliğinizi girin"
+      "title": "Kagi Oturum Jetonu",
+      "description": "Oturum jetonunuzu almak için üç çizgili menüye gidin ve 'Oturum Bağlantısı' başlığı altındaki 'Kopyala'ya tıklayın",
+      "placeholder": "Kagi oturum jetonunuzu girin"
     }
   },
   "login": {
-    "title": "Kagi Çeviri'ne Hoş Geldiniz",
-    "subtitle": "Devam etmek için Kagi oturum bağlantınızı girin",
-    "logInto": "Giriş Yap",
-    "openThreeLinesMenu": "Ekranın sağ üst kısmındaki üç çizgi menüsünü açın",
-    "copySessionLink": "\"Oturum Bağlantısı\" başlığı altındaki 'Kopyala' düğmesine tıklayın",
-    "continueToTranslator": "Çevirmen'e Devam Et",
+    "title": "Kagi Çeviri'ye Hoş Geldiniz",
+    "subtitle": "Devam etmek için lütfen Kagi oturum bağlantınızı girin",
+    "logInto": "Giriş yap",
+    "openThreeLinesMenu": "Ekranın sağ üst köşesindeki üç çizgili menüyü açın",
+    "copySessionLink": "'Oturum Bağlantısı' başlığı altındaki 'Kopyala'ya tıklayın",
+    "continueToTranslator": "Çeviriciye devam et",
     "disclaimer": "Bu uygulama resmi değildir ve Kagi Inc. ile bağlantılı değildir.",
-    "createdBy": "Tarafından Oluşturuldu",
+    "createdBy": "Tarafından oluşturuldu",
     "pasteSessionLink": "Oturum bağlantınızı buraya yapıştırın"
   },
   "automatic": "Otomatik",
   "auto": "Otomatik",
   "detect": "Tespit Et",
-  "translationWillAppearHere": "Çeviri buraya görünecektir",
+  "translationWillAppearHere": "Çeviri burada görünecek",
   "failedToTranslate": "Çeviri başarısız oldu",
-  "languages": "diller"
+  "languages": "diller",
+  "translationStyle": {
+    "title": "Çeviri Stili",
+    "styles": {
+      "title": "Stil",
+      "natural": "Doğal",
+      "literal": "Kelimesi Kelimesine"
+    },
+    "formality": {
+      "title": "Resmiyet",
+      "standard": "Standart",
+      "formal": "Resmi",
+      "informal": "Gayri resmi"
+    },
+    "genderPreferences": {
+      "title": "Cinsiyet Tercihleri",
+      "speaker": "Konuşmacı",
+      "addressee": "Adreslenen"
+    },
+    "gender": {
+      "title": "Cinsiyet",
+      "unknown": "Bilinmeyen",
+      "neutral": "Nötr",
+      "feminine": "Dişil",
+      "masculine": "Erisil"
+    },
+    "context": "Bağlam",
+    "contextPlaceholder": "Çeviri için kısa bağlam (isteğe bağlı)"
+  }
 }

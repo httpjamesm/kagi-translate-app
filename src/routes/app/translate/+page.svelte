@@ -7,6 +7,7 @@
     IconPlayerStop,
     IconSettings,
     IconMicrophone,
+    IconArrowsRightLeft,
   } from "@tabler/icons-svelte";
   import { invoke } from "@tauri-apps/api/core";
   import {
@@ -14,7 +15,7 @@
     languages,
     needsRomanization,
   } from "$lib/constants/languages";
-  import { onDestroy, onMount } from "svelte";
+  import { onDestroy, onMount, tick } from "svelte";
   import Database from "@tauri-apps/plugin-sql";
   import { selectionFeedback } from "@tauri-apps/plugin-haptics";
   import LanguageSelectionModal from "$lib/components/LanguageSelectionModal.svelte";
@@ -22,10 +23,62 @@
   import CopyButton from "$lib/components/CopyButton.svelte";
   import { t } from "$lib/translations";
   import TranslationStyleModal from "$lib/components/TranslationStyleModal.svelte";
+  import LockCog from "@tabler/icons-svelte/icons/lock-cog";
+  import InsightDrawer from "$lib/components/InsightDrawer.svelte";
 
   interface SpeechResponse {
     content_type: string;
     data: number[];
+  }
+
+  interface AlternativeTranslation {
+    translation: string;
+    explanation: string;
+  }
+
+  interface AlternativeTranslationsResponse {
+    originalDescription: string;
+    elements: AlternativeTranslation[];
+  }
+
+  interface WordVariation {
+    text: string;
+    explanation: string;
+  }
+
+  interface WordInsight {
+    id: string;
+    originalText: string;
+    variations: WordVariation[];
+    type: string;
+  }
+
+  interface WordInsightsResponse {
+    markedTranslation: string;
+    insights: WordInsight[];
+  }
+
+  interface DetectedLanguage {
+    iso: string;
+    label: string;
+  }
+
+  interface Definition {
+    word: string;
+    partOfSpeech?: string[];
+    usageLevel?: string[];
+    primaryMeaning?: string;
+    secondaryMeanings?: string[];
+    examples?: string[];
+    pronunciation?: string;
+    etymology?: string;
+    raw?: string;
+  }
+
+  interface TranslationResponse {
+    translation: string;
+    detectedLanguage: DetectedLanguage;
+    definition?: Definition;
   }
 
   let sourceLanguage = $state<Language>(languages[0]);
@@ -42,6 +95,8 @@
   let detectedLanguage = $state("");
   let previousText = $state("");
   let currentTranslationId = $state(0);
+  let isUrl = $state(false);
+  let definition = $state<Definition | null>(null);
 
   // Add state tracking for audio
   let audioState = $state<"idle" | "loading" | "playing">("idle");
@@ -52,6 +107,39 @@
   let recordingState = $state<"idle" | "recording" | "loading">("idle");
   let mediaRecorder: MediaRecorder | null = null;
   let audioChunks: Blob[] = [];
+
+  // State for alternative translations
+  let isLoadingAlternatives = $state(false);
+  let alternativeTranslations = $state<AlternativeTranslation[]>([]);
+  let alternativeTranslationsDescription = $state("");
+
+  // State for word insights
+  let isLoadingInsights = $state(false);
+  let wordInsights = $state<WordInsight[]>([]);
+  let markedTranslation = $state("");
+  let selectedInsight = $state<WordInsight | null>(null);
+  let insightPosition = $state<{ top: number; left: number } | null>(null);
+
+  // Add mobile detection variable
+  let isMobileDevice = $state(false);
+
+  // Function to check if text is a URL
+  const isValidUrl = (text: string): boolean => {
+    try {
+      const urlPattern = new RegExp(
+        "^(https?:\\/\\/)?" + // protocol
+          "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
+          "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
+          "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
+          "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
+          "(\\#[-a-z\\d_]*)?$", // fragment locator
+        "i"
+      );
+      return urlPattern.test(text);
+    } catch (e) {
+      return false;
+    }
+  };
 
   const doLanguageDetection = async () => {
     try {
@@ -72,12 +160,31 @@
     const thisTranslationId = ++currentTranslationId;
     isLoading = true;
     romanization = "";
+    // Reset alternatives when doing a new translation
+    alternativeTranslations = [];
+    // Reset insights
+    wordInsights = [];
+    markedTranslation = "";
+    selectedInsight = null;
+    definition = null;
+
+    // Check if source text is a URL
+    isUrl = isValidUrl(sourceText);
 
     try {
       if (sourceText.length === 0) return;
+
+      // Handle URLs differently
+      if (isUrl) {
+        // For URLs, just set the translated text to be the same as source
+        translatedText = sourceText;
+        isLoading = false;
+        return;
+      }
+
       // Only update if this is still the most recent translation request
       if (thisTranslationId === currentTranslationId) {
-        translatedText = await invoke("get_translation", {
+        const response: TranslationResponse = await invoke("get_translation", {
           sourceLanguage:
             sourceLanguage.apiName === "Automatic"
               ? ""
@@ -104,12 +211,22 @@
           }),
         });
 
+        translatedText = response.translation;
+        if (response.definition) {
+          definition = response.definition;
+        }
+
         // Only get romanization for languages that need it
         if (needsRomanization(targetLanguage)) {
           romanization = await invoke("get_romanization", {
             text: translatedText,
             language: targetLanguage.apiName,
           });
+        }
+
+        // Fetch both alternative translations and word insights after a successful translation
+        if (translatedText && !isUrl) {
+          Promise.all([getAlternativeTranslations(), getWordInsights()]);
         }
       }
     } catch (e) {
@@ -125,11 +242,196 @@
     }
   };
 
+  const getAlternativeTranslations = async () => {
+    if (!sourceText || !translatedText) return;
+
+    isLoadingAlternatives = true;
+    try {
+      const response: AlternativeTranslationsResponse = await invoke(
+        "get_alternative_translations",
+        {
+          sourceLanguage:
+            sourceLanguage.apiName === "Automatic"
+              ? detectedLanguage
+              : sourceLanguage.apiName,
+          targetLanguage: targetLanguage.apiName,
+          originalText: sourceText,
+          existingTranslation: translatedText,
+          settings: JSON.stringify({
+            speaker_gender:
+              window.localStorage
+                .getItem("translationSpeakerGender")
+                ?.toLowerCase() || "unknown",
+            addressee_gender:
+              window.localStorage
+                .getItem("translationAddresseeGender")
+                ?.toLowerCase() || "unknown",
+            translation_style:
+              window.localStorage.getItem("translationStyle")?.toLowerCase() ||
+              "natural",
+            formality_level:
+              window.localStorage
+                .getItem("translationFormality")
+                ?.toLowerCase() || "neutral",
+            context: window.localStorage.getItem("translationContext") || "",
+          }),
+        }
+      );
+
+      alternativeTranslations = response.elements;
+      alternativeTranslationsDescription = response.originalDescription;
+    } catch (error) {
+      console.error("Failed to get alternative translations:", error);
+    } finally {
+      isLoadingAlternatives = false;
+    }
+  };
+
+  const getWordInsights = async () => {
+    if (!sourceText || !translatedText) return;
+
+    isLoadingInsights = true;
+    try {
+      const response: WordInsightsResponse = await invoke("get_word_insights", {
+        originalText: sourceText,
+        translatedText: translatedText,
+        targetExplanationLanguage:
+          sourceLanguage.apiName === "Automatic"
+            ? detectedLanguage
+            : sourceLanguage.apiName,
+        settings: JSON.stringify({
+          speaker_gender:
+            window.localStorage
+              .getItem("translationSpeakerGender")
+              ?.toLowerCase() || "unknown",
+          addressee_gender:
+            window.localStorage
+              .getItem("translationAddresseeGender")
+              ?.toLowerCase() || "unknown",
+          translation_style:
+            window.localStorage.getItem("translationStyle")?.toLowerCase() ||
+            "natural",
+          formality_level:
+            window.localStorage
+              .getItem("translationFormality")
+              ?.toLowerCase() || "neutral",
+          context: window.localStorage.getItem("translationContext") || "",
+        }),
+      });
+
+      wordInsights = response.insights;
+      // Check if markedTranslation contains proper HTML or just <>
+      if (response.markedTranslation.includes("<span data-insight-id=")) {
+        markedTranslation = response.markedTranslation;
+      } else {
+        // If markedTranslation doesn't contain proper spans, generate HTML manually
+        let text = translatedText;
+        // Sort insights by their position in the text to process from end to beginning
+        // This prevents offsets from changing when we insert HTML
+        const sortedInsights = [...wordInsights].sort((a, b) => {
+          const posA = text.indexOf(a.originalText);
+          const posB = text.indexOf(b.originalText);
+          return posB - posA; // Process from end to beginning
+        });
+
+        // Replace each word with a span
+        for (const insight of sortedInsights) {
+          const pos = text.indexOf(insight.originalText);
+          if (pos !== -1) {
+            text =
+              text.substring(0, pos) +
+              `<span data-insight-id="${insight.id}" class="insight-word">${insight.originalText}</span>` +
+              text.substring(pos + insight.originalText.length);
+          }
+        }
+        markedTranslation = text;
+      }
+    } catch (error) {
+      console.error("Failed to get word insights:", error);
+    } finally {
+      isLoadingInsights = false;
+    }
+  };
+
+  const showInsight = async (insightId: string, event: MouseEvent) => {
+    const insight = wordInsights.find((i) => i.id === insightId);
+    if (insight) {
+      // Reset first to ensure reactivity triggers popup rendering if needed
+      selectedInsight = null;
+      insightPosition = null;
+      await tick(); // Wait for Svelte to update the DOM
+
+      selectedInsight = insight;
+
+      // Only calculate position if not on mobile (drawer handles its own positioning)
+      if (!isMobileDevice) {
+        // Calculate initial position
+        const initialTop = event.clientY + 10;
+        const initialLeft = event.clientX - 100; // Center roughly under cursor
+
+        // Popup dimensions (adjust if CSS changes)
+        const popupWidth = 300 + 2 * 12 + 2 * 1; // width + padding*2 + border*2 = 326
+        // Height is variable, making bottom collision harder without measuring.
+        // We'll just prevent it going off the top/left/right for now.
+
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+
+        let finalLeft = initialLeft;
+        let finalTop = initialTop;
+
+        // Prevent going off the right edge
+        if (initialLeft + popupWidth > viewportWidth) {
+          finalLeft = viewportWidth - popupWidth - 10; // Adjust with margin
+        }
+
+        // Prevent going off the left edge
+        if (finalLeft < 0) {
+          finalLeft = 10; // Adjust with margin
+        }
+
+        // Prevent going off the top edge (unlikely with +10, but good practice)
+        if (finalTop < 0) {
+          finalTop = 10;
+        }
+
+        insightPosition = {
+          top: finalTop,
+          left: finalLeft,
+        };
+      }
+    }
+  };
+
+  const closeInsight = () => {
+    selectedInsight = null;
+    insightPosition = null;
+  };
+
+  const renderMarkedTranslation = () => {
+    if (!markedTranslation || wordInsights.length === 0) {
+      return translatedText;
+    }
+
+    return markedTranslation;
+  };
+
   $effect(() => {
     if (sourceText === previousText) return;
     previousText = sourceText;
 
     clearTimeout(debounceTimer);
+
+    if (!sourceText) {
+      translatedText = "";
+      romanization = "";
+      alternativeTranslations = [];
+      wordInsights = [];
+      markedTranslation = "";
+      selectedInsight = null;
+      return;
+    }
+
     debounceTimer = setTimeout(() => {
       doLanguageDetection();
       doTranslation();
@@ -198,6 +500,16 @@ registerProcessor('pcm-processor', PCMProcessor);
     loadSavedState();
     db = await Database.load("sqlite:kagi-translate.db");
 
+    // Check if user is on a mobile device
+    isMobileDevice = window.innerWidth < 768;
+
+    // Listen for resize events to update mobile detection
+    const handleResize = () => {
+      isMobileDevice = window.innerWidth < 768;
+    };
+
+    window.addEventListener("resize", handleResize);
+
     // Initialize audio context
     audioContext = new (window.AudioContext ||
       (window as any).webkitAudioContext)({
@@ -219,6 +531,10 @@ registerProcessor('pcm-processor', PCMProcessor);
       }
     };
     audioWorkletNode.connect(audioContext.destination);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   });
 
   onDestroy(() => {
@@ -301,7 +617,19 @@ registerProcessor('pcm-processor', PCMProcessor);
   });
 
   const swapLanguages = () => {
-    if (sourceLanguage.apiName !== "Automatic") {
+    if (sourceLanguage.apiName === "Automatic") {
+      // When in Automatic mode, use the detected language
+      if (detectedLanguage) {
+        const detectedLang = languages.find(
+          (l) => l.apiName === detectedLanguage
+        );
+        if (detectedLang) {
+          sourceLanguage = targetLanguage;
+          targetLanguage = detectedLang;
+          sourceText = translatedText;
+        }
+      }
+    } else {
       const tempSource = sourceLanguage;
       sourceLanguage = targetLanguage;
       targetLanguage = tempSource;
@@ -469,7 +797,7 @@ registerProcessor('pcm-processor', PCMProcessor);
     <IconButton
       icon={IconArrowsExchange}
       onclick={swapLanguages}
-      disabled={sourceLanguage.apiName === "Automatic" || isLoading}
+      disabled={isLoading}
     />
 
     <button
@@ -489,6 +817,60 @@ registerProcessor('pcm-processor', PCMProcessor);
         placeholder="Enter text"
         bind:value={sourceText}
       ></textarea>
+
+      {#if definition && !isUrl}
+        <div class="definition-section">
+          <div class="definition-word">
+            {definition.word}
+            {#if definition.pronunciation}
+              <span class="pronunciation">{definition.pronunciation}</span>
+            {/if}
+          </div>
+
+          {#if definition.partOfSpeech && definition.partOfSpeech.length > 0}
+            <div class="part-of-speech">
+              {definition.partOfSpeech.join(", ")}
+              {#if definition.usageLevel && definition.usageLevel.length > 0}
+                <span class="usage-level"
+                  >{definition.usageLevel.join(", ")}</span
+                >
+              {/if}
+            </div>
+          {/if}
+
+          {#if definition.primaryMeaning}
+            <div class="meaning-section">
+              <div class="primary-meaning">{definition.primaryMeaning}</div>
+
+              {#if definition.secondaryMeanings && definition.secondaryMeanings.length > 0}
+                <div class="secondary-meanings">
+                  <ul>
+                    {#each definition.secondaryMeanings as meaning}
+                      <li>{meaning}</li>
+                    {/each}
+                  </ul>
+                </div>
+              {/if}
+            </div>
+          {/if}
+
+          {#if definition.examples && definition.examples.length > 0}
+            <div class="examples-section">
+              <div class="examples-heading">Examples:</div>
+              <ul class="examples-list">
+                {#each definition.examples as example}
+                  <li>{example}</li>
+                {/each}
+              </ul>
+            </div>
+          {/if}
+
+          {#if definition.etymology}
+            <div class="etymology">{definition.etymology}</div>
+          {/if}
+        </div>
+      {/if}
+
       <div class="actions">
         {#if sourceText}
           <IconButton
@@ -500,6 +882,7 @@ registerProcessor('pcm-processor', PCMProcessor);
               } catch {}
               sourceText = "";
               translatedText = "";
+              definition = null;
               window.localStorage.removeItem("sourceText");
               window.localStorage.removeItem("translatedText");
             }}
@@ -556,11 +939,80 @@ registerProcessor('pcm-processor', PCMProcessor);
           <div class="skeleton-line"></div>
         </div>
       {:else}
-        <div class="text-content">
+        <div
+          class="text-content"
+          onclick={(e) => {
+            const target = e.target as HTMLElement;
+            if (target.hasAttribute("data-insight-id")) {
+              showInsight(target.getAttribute("data-insight-id")!, e);
+            }
+          }}
+        >
           {#if translatedText}
-            <div>{translatedText}</div>
-            {#if romanization}
+            <div>
+              {#if isUrl}
+                <a
+                  href="https://translate.kagi.com/translate/{targetLanguage.isoCode}/{encodeURIComponent(
+                    sourceText
+                  )}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {translatedText}
+                </a>
+              {:else if wordInsights.length > 0 && markedTranslation}
+                {@html renderMarkedTranslation()}
+              {:else}
+                {translatedText}
+              {/if}
+            </div>
+            {#if romanization && !isUrl}
               <div class="romanization">{romanization}</div>
+            {/if}
+
+            {#if !isUrl && (isLoadingAlternatives || isLoadingInsights)}
+              <div class="alternatives-section">
+                <div class="skeleton-loader">
+                  <div class="skeleton-line" style="width: 90%"></div>
+                  <div class="skeleton-line" style="width: 60%"></div>
+                </div>
+                <div class="alternatives-list">
+                  <div class="alternative-item skeleton">
+                    <div class="skeleton-line"></div>
+                    <div class="skeleton-line" style="width: 85%"></div>
+                  </div>
+                  <div class="alternative-item skeleton">
+                    <div class="skeleton-line"></div>
+                    <div class="skeleton-line" style="width: 70%"></div>
+                  </div>
+                  <div class="alternative-item skeleton">
+                    <div class="skeleton-line"></div>
+                    <div class="skeleton-line" style="width: 75%"></div>
+                  </div>
+                </div>
+              </div>
+            {:else if !isUrl && alternativeTranslations.length > 0}
+              <div class="alternatives-section">
+                {#if alternativeTranslationsDescription}
+                  <div class="alternatives-description">
+                    {alternativeTranslationsDescription}
+                  </div>
+                {/if}
+                <div class="alternatives-list">
+                  {#each alternativeTranslations as alt}
+                    <div class="alternative-item">
+                      <div class="alternative-translation">
+                        {alt.translation}
+                      </div>
+                      {#if alt.explanation}
+                        <div class="alternative-explanation">
+                          {alt.explanation}
+                        </div>
+                      {/if}
+                    </div>
+                  {/each}
+                </div>
+              </div>
             {/if}
           {:else}
             <span class="placeholder"
@@ -580,6 +1032,7 @@ registerProcessor('pcm-processor', PCMProcessor);
             currentPlayingText === translatedText}
           onclick={() => playAudio(translatedText, targetLanguage.apiName)}
           disabled={!translatedText ||
+            isUrl ||
             isLoading ||
             (audioState === "loading" &&
               currentPlayingText !== translatedText) ||
@@ -595,6 +1048,33 @@ registerProcessor('pcm-processor', PCMProcessor);
     </div>
   </div>
 </div>
+{#if isMobileDevice}
+  {#if selectedInsight}
+    <InsightDrawer insight={selectedInsight} onClose={closeInsight} />
+  {/if}
+{:else if selectedInsight}
+  {#if insightPosition}
+    <div
+      class="insight-popup"
+      style="top: {insightPosition.top}px; left: {insightPosition.left}px"
+    >
+      <div class="insight-header">
+        <div class="insight-word-text">{selectedInsight.originalText}</div>
+        <button class="insight-close" onclick={closeInsight}>
+          <IconX size={16} />
+        </button>
+      </div>
+      <div class="insight-variations">
+        {#each selectedInsight.variations as variation}
+          <div class="insight-variation">
+            <div class="variation-text">{variation.text}</div>
+            <div class="variation-explanation">{variation.explanation}</div>
+          </div>
+        {/each}
+      </div>
+    </div>
+  {/if}
+{/if}
 
 <LanguageSelectionModal
   show={showSourceModal}
@@ -829,5 +1309,208 @@ registerProcessor('pcm-processor', PCMProcessor);
     to {
       transform: rotate(360deg);
     }
+  }
+
+  .alternatives-section {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .alternatives-description {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    line-height: 1.4;
+  }
+
+  .alternatives-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .alternative-item {
+    padding: 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      border-color: var(--border-hover);
+      background-color: var(--surface-hover);
+    }
+  }
+
+  .alternative-translation {
+    font-size: 1rem;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+  }
+
+  .alternative-explanation {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+  }
+
+  .alternative-item.skeleton {
+    background: var(--surface);
+    border-color: var(--border);
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+
+    .skeleton-line {
+      height: 1rem;
+      margin-bottom: 0.5rem;
+
+      &:last-child {
+        height: 0.85rem;
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .insight-popup {
+    position: fixed;
+    z-index: 100;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    width: 300px;
+    max-width: 90vw;
+    max-height: 80vh;
+    overflow-y: auto;
+    padding: 0.75rem;
+  }
+
+  .insight-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .insight-word-text {
+    font-weight: bold;
+    font-size: 1.1rem;
+  }
+
+  .insight-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-secondary);
+    padding: 0.25rem;
+    line-height: 0;
+    border-radius: 50%;
+
+    &:hover {
+      background-color: var(--surface-hover);
+    }
+  }
+
+  .insight-variations {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .insight-variation {
+    padding: 0.5rem;
+    background-color: var(--surface-alt);
+    border-radius: 0.375rem;
+  }
+
+  .variation-text {
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+  }
+
+  .variation-explanation {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+  }
+
+  .definition-section {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--text-primary);
+  }
+
+  .definition-word {
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+
+    .pronunciation {
+      font-weight: normal;
+      color: var(--text-secondary);
+      margin-left: 0.5rem;
+      font-size: 1rem;
+    }
+  }
+
+  .part-of-speech {
+    font-style: italic;
+    margin-bottom: 0.5rem;
+
+    .usage-level {
+      font-style: normal;
+      color: var(--text-secondary);
+      margin-left: 0.5rem;
+      font-size: 0.9rem;
+    }
+  }
+
+  .meaning-section {
+    margin-bottom: 1rem;
+  }
+
+  .primary-meaning {
+    margin-bottom: 0.5rem;
+  }
+
+  .secondary-meanings {
+    ul {
+      margin: 0;
+      padding-left: 1.5rem;
+
+      li {
+        margin-bottom: 0.25rem;
+      }
+    }
+  }
+
+  .examples-section {
+    margin-bottom: 1rem;
+  }
+
+  .examples-heading {
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+  }
+
+  .examples-list {
+    margin: 0;
+    padding-left: 1.5rem;
+
+    li {
+      margin-bottom: 0.25rem;
+      font-style: italic;
+      color: var(--text-secondary);
+    }
+  }
+
+  .etymology {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-style: italic;
   }
 </style>
