@@ -4,39 +4,67 @@
     "favorites": "Suosikit",
     "settings": "Asetukset"
   },
-  "search": "Haku",
+  "search": "Hae",
   "favorites": {
-    "noFavoritesSearchResults": "Ei suosikkeja, jotka vastaavat hakuasi",
-    "noFavorites": "Lisää käännökset suosikkeihin painamalla sydäntä"
+    "noFavoritesSearchResults": "Suosikkeja ei löytynyt haulla",
+    "noFavorites": "Paina sydännappia käännöksissä lisätäksesi ne tähän"
   },
   "settings": {
     "resetAppData": {
-      "title": "Palauta sovelluksen tiedot",
-      "description": "Tämä poistaa kaikki suosikkisi ja asetuksesi.",
-      "button": "Palauta sovelluksen tiedot",
-      "confirm": "Oletko varma, että haluat palauttaa kaikki sovelluksen tiedot? Tämä poistaa suosikkisi ja asetuksesi."
+      "title": "Nollaa sovelluksen tiedot",
+      "description": "Tämä tyhjentää kaikki suosikit ja asetukset.",
+      "button": "Nollaa sovelluksen tiedot",
+      "confirm": "Haluatko varmasti nollata kaikki sovelluksen tiedot? Tämä tyhjentää suosikkisi ja asetukset."
     },
     "sessionToken": {
-      "title": "Kagi istunnon tunniste",
-      "description": "Hanki istunnon tunniste siirtymällä kolmen viivan valikkoon ja napsauttamalla 'Kopioi' kohdassa 'Istunnon linkki' ",
-      "placeholder": "Kirjoita Kagi istunnon tunniste"
+      "title": "Kagi-istunnon tunniste",
+      "description": "Hanki istunnon tunnisteesi siirtymällä kolmen rivin valikkoon ja napsauttamalla 'Kopioi' 'Istunto-osoite' -otsikon alla",
+      "placeholder": "Anna Kagi-istunnon tunniste"
     }
   },
   "login": {
-    "title": "Tervetuloa Kagi Käännökseen",
-    "subtitle": "Kirjoita Kagi istunnon linkkisi jatkaaksesi",
-    "logInto": "Kirjaudu sisään",
-    "openThreeLinesMenu": "Avaa kolmen viivan valikko näytön oikealta yläkulmasta",
-    "copySessionLink": "Napsautta 'Kopioi' kohdassa 'Istunnon linkki'",
-    "continueToTranslator": "Jatka käännökseen",
-    "disclaimer": "Tämä sovellus on virallinen ja ei ole yhteydessä Kagi Inc:iin",
-    "createdBy": "Luotu",
-    "pasteSessionLink": "Liitä istunnon linkkisi tänne"
+    "title": "Tervetuloa Kagi-kääntäjään",
+    "subtitle": "Ole hyvä ja anna Kagi-istunto-osoitteesi jatkaaksesi",
+    "logInto": "Kirjaudu",
+    "openThreeLinesMenu": "Avaa kolmen rivin valikko näytön oikeassa yläkulmassa",
+    "copySessionLink": "Napsauta 'Kopioi' 'Istunto-osoite' -otsikon alla",
+    "continueToTranslator": "Jatka kääntäjään",
+    "disclaimer": "Tämä sovellus on epävirallinen eikä liity Kagi Inc:iin.",
+    "createdBy": "Luonut",
+    "pasteSessionLink": "Liitä istunto-osoitteesi tähän"
   },
   "automatic": "Automaattinen",
   "auto": "Auto",
-  "detect": "Tunnisti",
-  "translationWillAppearHere": "Käännös näkyy täällä",
-  "failedToTranslate": "Käännös epäonnistui",
-  "languages": "Kielet"
+  "detect": "Tunnista",
+  "translationWillAppearHere": "Käännös näkyy tässä",
+  "failedToTranslate": "Kääntäminen epäonnistui",
+  "languages": "kielet",
+  "translationStyle": {
+    "title": "Käännöksen tyyli",
+    "styles": {
+      "title": "Tyyli",
+      "natural": "Luonnollinen",
+      "literal": "Kirjaimellinen"
+    },
+    "formality": {
+      "title": "Muotoilu",
+      "standard": "Vakio",
+      "formal": "Muodollinen",
+      "informal": "Epämuodollinen"
+    },
+    "genderPreferences": {
+      "title": "Sukupuoliasetukset",
+      "speaker": "Puhuja",
+      "addressee": "Vastaanottaja"
+    },
+    "gender": {
+      "title": "Sukupuoli",
+      "unknown": "Tuntematon",
+      "neutral": "Neutraali",
+      "feminine": "Feminini",
+      "masculine": "Maskuliini"
+    },
+    "context": "Konteksti",
+    "contextPlaceholder": "Lyhyt konteksti käännökselle (valinnainen)"
+  }
 }

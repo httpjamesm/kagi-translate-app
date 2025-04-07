@@ -4,21 +4,21 @@
     "favorites": "Favoris",
     "settings": "Paramètres"
   },
-  "search": "Recherche",
+  "search": "Rechercher",
   "favorites": {
-    "noFavoritesSearchResults": "Aucun favori trouvé correspondant à votre recherche",
-    "noFavorites": "Appuyez sur le bouton cœur sur les traductions pour les ajouter ici"
+    "noFavoritesSearchResults": "Aucun favori ne correspond à votre recherche",
+    "noFavorites": "Appuyez sur le bouton en forme de cœur sur les traductions pour les ajouter ici"
   },
   "settings": {
     "resetAppData": {
       "title": "Réinitialiser les données de l'application",
-      "description": "Cela effacera tous vos favoris et vos paramètres.",
+      "description": "Cela effacera tous vos favoris et paramètres.",
       "button": "Réinitialiser les données de l'application",
-      "confirm": "Êtes-vous sûr de vouloir réinitialiser toutes les données de l'application ? Cela effacera vos favoris et vos paramètres."
+      "confirm": "Êtes-vous certain de vouloir réinitialiser toutes les données de l'application ? Cela effacera vos favoris et paramètres."
     },
     "sessionToken": {
       "title": "Jeton de session Kagi",
-      "description": "Obtenez votre jeton de session en accédant au menu à trois lignes et en cliquant sur \"Copier\" sous l'en-tête \"Lien de session\" sur",
+      "description": "Obtenez votre jeton de session en accédant au menu à trois lignes et en cliquant sur 'Copier' sous l'en-tête 'Lien de session' sur",
       "placeholder": "Entrez votre jeton de session Kagi"
     }
   },
@@ -27,7 +27,7 @@
     "subtitle": "Veuillez entrer votre lien de session Kagi pour continuer",
     "logInto": "Se connecter à",
     "openThreeLinesMenu": "Ouvrez le menu à trois lignes en haut à droite de l'écran",
-    "copySessionLink": "Cliquez sur \"Copier\" sous l'en-tête \"Lien de session\"",
+    "copySessionLink": "Cliquez sur 'Copier' sous l'en-tête 'Lien de session'",
     "continueToTranslator": "Continuer vers le traducteur",
     "disclaimer": "Cette application est non officielle et n'est pas affiliée à Kagi Inc.",
     "createdBy": "Créé par",
@@ -37,6 +37,34 @@
   "auto": "Auto",
   "detect": "Détecter",
   "translationWillAppearHere": "La traduction apparaîtra ici",
-  "failedToTranslate": "Traduction échouée",
-  "languages": "Langues"
+  "failedToTranslate": "Échec de la traduction",
+  "languages": "langues",
+  "translationStyle": {
+    "title": "Style de traduction",
+    "styles": {
+      "title": "Style",
+      "natural": "Naturel",
+      "literal": "Littéral"
+    },
+    "formality": {
+      "title": "Formalité",
+      "standard": "Standard",
+      "formal": "Formel",
+      "informal": "Informel"
+    },
+    "genderPreferences": {
+      "title": "Préférences de genre",
+      "speaker": "Locuteur",
+      "addressee": "Destinataire"
+    },
+    "gender": {
+      "title": "Genre",
+      "unknown": "Inconnu",
+      "neutral": "Neutre",
+      "feminine": "Féminin",
+      "masculine": "Masculin"
+    },
+    "context": "Contexte",
+    "contextPlaceholder": "Contexte bref pour la traduction (facultatif)"
+  }
 }

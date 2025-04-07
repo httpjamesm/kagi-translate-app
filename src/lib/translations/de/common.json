@@ -4,39 +4,67 @@
     "favorites": "Favoriten",
     "settings": "Einstellungen"
   },
-  "search": "Suche",
+  "search": "Suchen",
   "favorites": {
     "noFavoritesSearchResults": "Keine Favoriten gefunden, die Ihrer Suche entsprechen",
-    "noFavorites": "Drücken Sie auf das Herzsymbol bei Übersetzungen, um sie hier hinzuzufügen"
+    "noFavorites": "Drücken Sie den Herzlappen auf Übersetzungen, um sie hier hinzuzufügen"
   },
   "settings": {
     "resetAppData": {
       "title": "App-Daten zurücksetzen",
       "description": "Dies löscht alle Ihre Favoriten und Einstellungen.",
       "button": "App-Daten zurücksetzen",
-      "confirm": "Sind Sie sicher, dass Sie alle App-Daten zurücksetzen möchten? Dadurch werden Ihre Favoriten und Einstellungen gelöscht."
+      "confirm": "Sind Sie sicher, dass Sie alle App-Daten zurücksetzen möchten? Dies löscht Ihre Favoriten und Einstellungen."
     },
     "sessionToken": {
-      "title": "Kagi Sitzungstoken",
-      "description": "Erhalten Sie Ihr Sitzungstoken, indem Sie auf das Drei-Striche-Menü navigieren und unter der Überschrift „Sitzungslink“ auf „Kopieren“ klicken.",
-      "placeholder": "Geben Sie Ihren Kagi Sitzungstoken ein"
+      "title": "Kagi-Sitzungstoken",
+      "description": "Erhalten Sie Ihr Sitzungstoken, indem Sie zum Drei-Linien-Menü navigieren und auf 'Kopieren' unter der Überschrift 'Sitzungslink' klicken auf",
+      "placeholder": "Geben Sie Ihr Kagi-Sitzungstoken ein"
     }
   },
   "login": {
     "title": "Willkommen bei Kagi Translate",
-    "subtitle": "Bitte geben Sie Ihren Kagi Sitzungslink ein, um fortzufahren",
-    "logInto": "Einloggen in",
-    "openThreeLinesMenu": "Öffnen Sie das Drei-Striche-Menü oben rechts im Bildschirm",
-    "copySessionLink": "Klicken Sie unter der Überschrift „Sitzungslink“ auf „Kopieren“",
-    "continueToTranslator": "Zum Übersetzer fortfahren",
+    "subtitle": "Bitte geben Sie Ihren Kagi-Sitzungslink ein, um fortzufahren",
+    "logInto": "Anmelden bei",
+    "openThreeLinesMenu": "Öffnen Sie das Drei-Linien-Menü oben rechts auf dem Bildschirm",
+    "copySessionLink": "Klicken Sie auf 'Kopieren' unter der Überschrift 'Sitzungslink'",
+    "continueToTranslator": "Weiter zum Übersetzer",
     "disclaimer": "Diese App ist inoffiziell und nicht mit Kagi Inc. verbunden.",
     "createdBy": "Erstellt von",
-    "pasteSessionLink": "Fügen Sie hier Ihren Sitzungslink ein"
+    "pasteSessionLink": "Fügen Sie Ihren Sitzungslink hier ein"
   },
   "automatic": "Automatisch",
   "auto": "Auto",
   "detect": "Erkennen",
-  "translationWillAppearHere": "Die Übersetzung wird hier angezeigt",
+  "translationWillAppearHere": "Übersetzung wird hier erscheinen",
   "failedToTranslate": "Übersetzung fehlgeschlagen",
-  "languages": "Sprachen"
+  "languages": "Sprachen",
+  "translationStyle": {
+    "title": "Übersetzungsstil",
+    "styles": {
+      "title": "Stil",
+      "natural": "Natürlich",
+      "literal": "Wörtlich"
+    },
+    "formality": {
+      "title": "Förmlichkeit",
+      "standard": "Standard",
+      "formal": "Formell",
+      "informal": "Informell"
+    },
+    "genderPreferences": {
+      "title": "Geschlechterpräferenzen",
+      "speaker": "Sprecher",
+      "addressee": "Angesprochener"
+    },
+    "gender": {
+      "title": "Geschlecht",
+      "unknown": "Unbekannt",
+      "neutral": "Neutral",
+      "feminine": "Weiblich",
+      "masculine": "Männlich"
+    },
+    "context": "Kontext",
+    "contextPlaceholder": "Kurzer Kontext für Übersetzung (optional)"
+  }
 }

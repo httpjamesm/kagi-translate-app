@@ -7,36 +7,64 @@
   "search": "Sök",
   "favorites": {
     "noFavoritesSearchResults": "Inga favoriter hittades som matchar din sökning",
-    "noFavorites": "Tryck på hjärtikonen på översättningarna för att lägga till dem här"
+    "noFavorites": "Tryck på hjärtknappen på översättningar för att lägga till dem här"
   },
   "settings": {
     "resetAppData": {
       "title": "Återställ appdata",
-      "description": "Detta kommer att rensa alla dina favoriter och inställningar.",
+      "description": "Detta raderar alla dina favoriter och inställningar.",
       "button": "Återställ appdata",
-      "confirm": "Är du säker på att du vill återställa alla appdata? Detta kommer att rensa dina favoriter och inställningar."
+      "confirm": "Är du säker på att du vill återställa all appdata? Detta raderar dina favoriter och inställningar."
     },
     "sessionToken": {
-      "title": "Kagi Session-token",
-      "description": "Hämta din session-token genom att öppna menyn med tre linjer och klicka på 'Kopiera' under rubriken 'Session-länk' på",
-      "placeholder": "Ange din Kagi session-token"
+      "title": "Kagi-sessionstoken",
+      "description": "Hämta din sessionstoken genom att navigera till meny med tre rader och klicka på 'Kopiera' under rubriken 'Sessionlänk' på",
+      "placeholder": "Ange din Kagi-sessionstoken"
     }
   },
   "login": {
     "title": "Välkommen till Kagi Översätt",
-    "subtitle": "Ange din Kagi session-länk för att fortsätta",
+    "subtitle": "Vänligen ange din Kagi-sessionlänk för att fortsätta",
     "logInto": "Logga in på",
-    "openThreeLinesMenu": "Öppna menyn med tre linjer i det övre högra hörnet av skärmen",
-    "copySessionLink": "Klicka på 'Kopiera' under rubriken 'Session-länk'",
-    "continueToTranslator": "Fortsätt till översättaren",
-    "disclaimer": "Denna app är oofficiell och inte ansluten till Kagi Inc.",
+    "openThreeLinesMenu": "Öppna menyn med tre rader längst upp till höger på skärmen",
+    "copySessionLink": "Klicka på 'Kopiera' under rubriken 'Sessionlänk'",
+    "continueToTranslator": "Fortsätt till Översättare",
+    "disclaimer": "Denna app är inofficiell och inte associerad med Kagi Inc.",
     "createdBy": "Skapad av",
-    "pasteSessionLink": "Klistra in din session-länk här"
+    "pasteSessionLink": "Klistra in din sessionlänk här"
   },
-  "automatic": "Automatisk",
+  "automatic": "Automatiskt",
   "auto": "Auto",
-  "detect": "Identifiera",
-  "translationWillAppearHere": "Översättningen visas här",
-  "failedToTranslate": "Misslyckades med att översätta",
-  "languages": "Språk"
+  "detect": "Upptäck",
+  "translationWillAppearHere": "Översättning kommer att visas här",
+  "failedToTranslate": "Misslyckades att översätta",
+  "languages": "språk",
+  "translationStyle": {
+    "title": "Översättningsstil",
+    "styles": {
+      "title": "Stil",
+      "natural": "Naturlig",
+      "literal": "Ordinär"
+    },
+    "formality": {
+      "title": "Formalitet",
+      "standard": "Standard",
+      "formal": "Formell",
+      "informal": "Informell"
+    },
+    "genderPreferences": {
+      "title": "Könspreferenser",
+      "speaker": "Talare",
+      "addressee": "Adressat"
+    },
+    "gender": {
+      "title": "Kön",
+      "unknown": "Okänd",
+      "neutral": "Neutral",
+      "feminine": "Kvinnlig",
+      "masculine": "Manlig"
+    },
+    "context": "Kontext",
+    "contextPlaceholder": "Kort kontext för översättning (valfritt)"
+  }
 }

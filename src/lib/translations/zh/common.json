@@ -1,42 +1,70 @@
 {
   "bottomNav": {
-    "translate": "翻译",
-    "favorites": "收藏夹",
-    "settings": "设置"
+    "translate": "",
+    "favorites": "",
+    "settings": ""
   },
-  "search": "搜索",
+  "search": "",
   "favorites": {
-    "noFavoritesSearchResults": "未找到与搜索匹配的收藏夹",
-    "noFavorites": "按翻译上的心形按钮添加至此处"
+    "noFavoritesSearchResults": "",
+    "noFavorites": ""
   },
   "settings": {
     "resetAppData": {
-      "title": "重置应用数据",
-      "description": "这将清除所有收藏夹和设置。",
-      "button": "重置应用数据",
-      "confirm": "您确定要重置所有应用数据吗？这将清除您的收藏夹和设置。"
+      "title": "",
+      "description": "",
+      "button": "",
+      "confirm": ""
     },
     "sessionToken": {
-      "title": "Kagi 会话令牌",
-      "description": "导航到屏幕右上方的三条线菜单，点击“复制”在“会话链接”标题下获取会话令牌",
-      "placeholder": "输入您的 Kagi 会话令牌"
+      "title": "",
+      "description": "",
+      "placeholder": ""
     }
   },
   "login": {
-    "title": "欢迎使用 Kagi 翻译",
-    "subtitle": "请输入您的 Kagi 会话链接以继续",
-    "logInto": "登录到",
-    "openThreeLinesMenu": "打开屏幕右上角的三条线菜单",
-    "copySessionLink": "点击“复制”，位于“会话链接”标题下方",
-    "continueToTranslator": "继续到翻译器",
-    "disclaimer": "此应用是非官方的，与 Kagi Inc. 无关",
-    "createdBy": "由...",
-    "pasteSessionLink": "在此处粘贴您的会话链接"
+    "title": "Kagi Translate",
+    "subtitle": "",
+    "logInto": "",
+    "openThreeLinesMenu": "",
+    "copySessionLink": "",
+    "continueToTranslator": "",
+    "disclaimer": "Kagi Inc.",
+    "createdBy": "",
+    "pasteSessionLink": ""
   },
-  "automatic": "自动",
-  "auto": "自动",
-  "detect": "检测",
-  "translationWillAppearHere": "翻译将显示在此处",
-  "failedToTranslate": "翻译失败",
-  "languages": "语言"
+  "automatic": "",
+  "auto": "",
+  "detect": "",
+  "translationWillAppearHere": "",
+  "failedToTranslate": "",
+  "languages": "",
+  "translationStyle": {
+    "title": "",
+    "styles": {
+      "title": "",
+      "natural": "",
+      "literal": ""
+    },
+    "formality": {
+      "title": "",
+      "standard": "",
+      "formal": "",
+      "informal": ""
+    },
+    "genderPreferences": {
+      "title": "",
+      "speaker": "",
+      "addressee": ""
+    },
+    "gender": {
+      "title": "",
+      "unknown": "",
+      "neutral": "",
+      "feminine": "",
+      "masculine": ""
+    },
+    "context": "",
+    "contextPlaceholder": ""
+  }
 }
