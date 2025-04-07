@@ -391,6 +391,17 @@
     previousText = sourceText;
 
     clearTimeout(debounceTimer);
+
+    if (!sourceText) {
+      translatedText = "";
+      romanization = "";
+      alternativeTranslations = [];
+      wordInsights = [];
+      markedTranslation = "";
+      selectedInsight = null;
+      return;
+    }
+
     debounceTimer = setTimeout(() => {
       doLanguageDetection();
       doTranslation();
