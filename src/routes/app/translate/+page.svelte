@@ -22,6 +22,7 @@
   import CopyButton from "$lib/components/CopyButton.svelte";
   import { t } from "$lib/translations";
   import TranslationStyleModal from "$lib/components/TranslationStyleModal.svelte";
+  import LockCog from "@tabler/icons-svelte/icons/lock-cog";
 
   interface SpeechResponse {
     content_type: string;
@@ -72,6 +73,8 @@
     const thisTranslationId = ++currentTranslationId;
     isLoading = true;
     romanization = "";
+
+    console.log(sourceText);
 
     try {
       if (sourceText.length === 0) return;
