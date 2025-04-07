@@ -40,6 +40,23 @@
     elements: AlternativeTranslation[];
   }
 
+  interface WordVariation {
+    text: string;
+    explanation: string;
+  }
+
+  interface WordInsight {
+    id: string;
+    originalText: string;
+    variations: WordVariation[];
+    type: string;
+  }
+
+  interface WordInsightsResponse {
+    markedTranslation: string;
+    insights: WordInsight[];
+  }
+
   let sourceLanguage = $state<Language>(languages[0]);
   let targetLanguage = $state<Language>(languages[1]);
   let sourceText = $state("");
@@ -70,6 +87,13 @@
   let alternativeTranslations = $state<AlternativeTranslation[]>([]);
   let alternativeTranslationsDescription = $state("");
 
+  // State for word insights
+  let isLoadingInsights = $state(false);
+  let wordInsights = $state<WordInsight[]>([]);
+  let markedTranslation = $state("");
+  let selectedInsight = $state<WordInsight | null>(null);
+  let insightPosition = $state<{ top: number; left: number } | null>(null);
+
   const doLanguageDetection = async () => {
     try {
       const language: string = await invoke("detect_language", {
@@ -91,6 +115,10 @@
     romanization = "";
     // Reset alternatives when doing a new translation
     alternativeTranslations = [];
+    // Reset insights
+    wordInsights = [];
+    markedTranslation = "";
+    selectedInsight = null;
 
     try {
       if (sourceText.length === 0) return;
@@ -131,9 +159,9 @@
           });
         }
 
-        // Automatically get alternative translations after a successful translation
+        // Fetch both alternative translations and word insights after a successful translation
         if (translatedText) {
-          getAlternativeTranslations();
+          Promise.all([getAlternativeTranslations(), getWordInsights()]);
         }
       }
     } catch (e) {
@@ -192,6 +220,97 @@
     } finally {
       isLoadingAlternatives = false;
     }
+  };
+
+  const getWordInsights = async () => {
+    if (!sourceText || !translatedText) return;
+
+    isLoadingInsights = true;
+    try {
+      const response: WordInsightsResponse = await invoke("get_word_insights", {
+        originalText: sourceText,
+        translatedText: translatedText,
+        targetExplanationLanguage:
+          sourceLanguage.apiName === "Automatic"
+            ? detectedLanguage
+            : sourceLanguage.apiName,
+        settings: JSON.stringify({
+          speaker_gender:
+            window.localStorage
+              .getItem("translationSpeakerGender")
+              ?.toLowerCase() || "unknown",
+          addressee_gender:
+            window.localStorage
+              .getItem("translationAddresseeGender")
+              ?.toLowerCase() || "unknown",
+          translation_style:
+            window.localStorage.getItem("translationStyle")?.toLowerCase() ||
+            "natural",
+          formality_level:
+            window.localStorage
+              .getItem("translationFormality")
+              ?.toLowerCase() || "neutral",
+          context: window.localStorage.getItem("translationContext") || "",
+        }),
+      });
+
+      wordInsights = response.insights;
+      // Check if markedTranslation contains proper HTML or just <>
+      if (response.markedTranslation.includes("<span data-insight-id=")) {
+        markedTranslation = response.markedTranslation;
+      } else {
+        // If markedTranslation doesn't contain proper spans, generate HTML manually
+        let text = translatedText;
+        // Sort insights by their position in the text to process from end to beginning
+        // This prevents offsets from changing when we insert HTML
+        const sortedInsights = [...wordInsights].sort((a, b) => {
+          const posA = text.indexOf(a.originalText);
+          const posB = text.indexOf(b.originalText);
+          return posB - posA; // Process from end to beginning
+        });
+
+        // Replace each word with a span
+        for (const insight of sortedInsights) {
+          const pos = text.indexOf(insight.originalText);
+          if (pos !== -1) {
+            text =
+              text.substring(0, pos) +
+              `<span data-insight-id="${insight.id}" class="insight-word">${insight.originalText}</span>` +
+              text.substring(pos + insight.originalText.length);
+          }
+        }
+        markedTranslation = text;
+      }
+    } catch (error) {
+      console.error("Failed to get word insights:", error);
+    } finally {
+      isLoadingInsights = false;
+    }
+  };
+
+  const showInsight = (insightId: string, event: MouseEvent) => {
+    const insight = wordInsights.find((i) => i.id === insightId);
+    if (insight) {
+      selectedInsight = insight;
+      // Position the insight popup near the clicked word
+      insightPosition = {
+        top: event.clientY + 10,
+        left: event.clientX - 100,
+      };
+    }
+  };
+
+  const closeInsight = () => {
+    selectedInsight = null;
+    insightPosition = null;
+  };
+
+  const renderMarkedTranslation = () => {
+    if (!markedTranslation || wordInsights.length === 0) {
+      return translatedText;
+    }
+
+    return markedTranslation;
   };
 
   $effect(() => {
@@ -625,14 +744,28 @@ registerProcessor('pcm-processor', PCMProcessor);
           <div class="skeleton-line"></div>
         </div>
       {:else}
-        <div class="text-content">
+        <div
+          class="text-content"
+          onclick={(e) => {
+            const target = e.target as HTMLElement;
+            if (target.hasAttribute("data-insight-id")) {
+              showInsight(target.getAttribute("data-insight-id")!, e);
+            }
+          }}
+        >
           {#if translatedText}
-            <div>{translatedText}</div>
+            <div>
+              {#if wordInsights.length > 0 && markedTranslation}
+                {@html renderMarkedTranslation()}
+              {:else}
+                {translatedText}
+              {/if}
+            </div>
             {#if romanization}
               <div class="romanization">{romanization}</div>
             {/if}
 
-            {#if isLoadingAlternatives}
+            {#if isLoadingAlternatives || isLoadingInsights}
               <div class="alternatives-section">
                 <div class="skeleton-loader">
                   <div class="skeleton-line" style="width: 90%"></div>
@@ -709,6 +842,28 @@ registerProcessor('pcm-processor', PCMProcessor);
     </div>
   </div>
 </div>
+
+{#if selectedInsight && insightPosition}
+  <div
+    class="insight-popup"
+    style="top: {insightPosition.top}px; left: {insightPosition.left}px"
+  >
+    <div class="insight-header">
+      <div class="insight-word-text">{selectedInsight.originalText}</div>
+      <button class="insight-close" onclick={closeInsight}>
+        <IconX size={16} />
+      </button>
+    </div>
+    <div class="insight-variations">
+      {#each selectedInsight.variations as variation}
+        <div class="insight-variation">
+          <div class="variation-text">{variation.text}</div>
+          <div class="variation-explanation">{variation.explanation}</div>
+        </div>
+      {/each}
+    </div>
+  </div>
+{/if}
 
 <LanguageSelectionModal
   show={showSourceModal}
@@ -1004,5 +1159,68 @@ registerProcessor('pcm-processor', PCMProcessor);
         margin-bottom: 0;
       }
     }
+  }
+
+  .insight-popup {
+    position: fixed;
+    z-index: 100;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    width: 300px;
+    max-width: 90vw;
+    max-height: 80vh;
+    overflow-y: auto;
+    padding: 0.75rem;
+  }
+
+  .insight-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .insight-word-text {
+    font-weight: bold;
+    font-size: 1.1rem;
+  }
+
+  .insight-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-secondary);
+    padding: 0.25rem;
+    line-height: 0;
+    border-radius: 50%;
+
+    &:hover {
+      background-color: var(--surface-hover);
+    }
+  }
+
+  .insight-variations {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .insight-variation {
+    padding: 0.5rem;
+    background-color: var(--surface-alt);
+    border-radius: 0.375rem;
+  }
+
+  .variation-text {
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+  }
+
+  .variation-explanation {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
   }
 </style>
