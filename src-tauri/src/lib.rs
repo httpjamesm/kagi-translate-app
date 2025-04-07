@@ -428,7 +428,7 @@ async fn get_alternative_translations(
         .text("sourceLanguage", source_language.to_string())
         .text("originalText", original_text.to_string())
         .text("existingTranslation", existing_translation.to_string())
-        .text("targetExplanationLanguage", target_language.to_string())
+        .text("targetExplanationLanguage", source_language.to_string())
         .text("partialTranslation", "false")
         .text("translationOptions", translation_options.to_string());
 
