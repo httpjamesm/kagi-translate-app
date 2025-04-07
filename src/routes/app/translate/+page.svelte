@@ -617,7 +617,19 @@ registerProcessor('pcm-processor', PCMProcessor);
   });
 
   const swapLanguages = () => {
-    if (sourceLanguage.apiName !== "Automatic") {
+    if (sourceLanguage.apiName === "Automatic") {
+      // When in Automatic mode, use the detected language
+      if (detectedLanguage) {
+        const detectedLang = languages.find(
+          (l) => l.apiName === detectedLanguage
+        );
+        if (detectedLang) {
+          sourceLanguage = targetLanguage;
+          targetLanguage = detectedLang;
+          sourceText = translatedText;
+        }
+      }
+    } else {
       const tempSource = sourceLanguage;
       sourceLanguage = targetLanguage;
       targetLanguage = tempSource;
@@ -785,7 +797,7 @@ registerProcessor('pcm-processor', PCMProcessor);
     <IconButton
       icon={IconArrowsExchange}
       onclick={swapLanguages}
-      disabled={sourceLanguage.apiName === "Automatic" || isLoading}
+      disabled={isLoading}
     />
 
     <button
