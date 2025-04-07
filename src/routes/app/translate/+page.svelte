@@ -15,7 +15,7 @@
     languages,
     needsRomanization,
   } from "$lib/constants/languages";
-  import { onDestroy, onMount } from "svelte";
+  import { onDestroy, onMount, tick } from "svelte";
   import Database from "@tauri-apps/plugin-sql";
   import { selectionFeedback } from "@tauri-apps/plugin-haptics";
   import LanguageSelectionModal from "$lib/components/LanguageSelectionModal.svelte";
@@ -24,6 +24,7 @@
   import { t } from "$lib/translations";
   import TranslationStyleModal from "$lib/components/TranslationStyleModal.svelte";
   import LockCog from "@tabler/icons-svelte/icons/lock-cog";
+  import InsightDrawer from "$lib/components/InsightDrawer.svelte";
 
   interface SpeechResponse {
     content_type: string;
@@ -93,6 +94,9 @@
   let markedTranslation = $state("");
   let selectedInsight = $state<WordInsight | null>(null);
   let insightPosition = $state<{ top: number; left: number } | null>(null);
+
+  // Add mobile detection variable
+  let isMobileDevice = $state(false);
 
   const doLanguageDetection = async () => {
     try {
@@ -288,15 +292,53 @@
     }
   };
 
-  const showInsight = (insightId: string, event: MouseEvent) => {
+  const showInsight = async (insightId: string, event: MouseEvent) => {
     const insight = wordInsights.find((i) => i.id === insightId);
     if (insight) {
+      // Reset first to ensure reactivity triggers popup rendering if needed
+      selectedInsight = null;
+      insightPosition = null;
+      await tick(); // Wait for Svelte to update the DOM
+
       selectedInsight = insight;
-      // Position the insight popup near the clicked word
-      insightPosition = {
-        top: event.clientY + 10,
-        left: event.clientX - 100,
-      };
+
+      // Only calculate position if not on mobile (drawer handles its own positioning)
+      if (!isMobileDevice) {
+        // Calculate initial position
+        const initialTop = event.clientY + 10;
+        const initialLeft = event.clientX - 100; // Center roughly under cursor
+
+        // Popup dimensions (adjust if CSS changes)
+        const popupWidth = 300 + 2 * 12 + 2 * 1; // width + padding*2 + border*2 = 326
+        // Height is variable, making bottom collision harder without measuring.
+        // We'll just prevent it going off the top/left/right for now.
+
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+
+        let finalLeft = initialLeft;
+        let finalTop = initialTop;
+
+        // Prevent going off the right edge
+        if (initialLeft + popupWidth > viewportWidth) {
+          finalLeft = viewportWidth - popupWidth - 10; // Adjust with margin
+        }
+
+        // Prevent going off the left edge
+        if (finalLeft < 0) {
+          finalLeft = 10; // Adjust with margin
+        }
+
+        // Prevent going off the top edge (unlikely with +10, but good practice)
+        if (finalTop < 0) {
+          finalTop = 10;
+        }
+
+        insightPosition = {
+          top: finalTop,
+          left: finalLeft,
+        };
+      }
     }
   };
 
@@ -386,6 +428,16 @@ registerProcessor('pcm-processor', PCMProcessor);
     loadSavedState();
     db = await Database.load("sqlite:kagi-translate.db");
 
+    // Check if user is on a mobile device
+    isMobileDevice = window.innerWidth < 768;
+
+    // Listen for resize events to update mobile detection
+    const handleResize = () => {
+      isMobileDevice = window.innerWidth < 768;
+    };
+
+    window.addEventListener("resize", handleResize);
+
     // Initialize audio context
     audioContext = new (window.AudioContext ||
       (window as any).webkitAudioContext)({
@@ -407,6 +459,10 @@ registerProcessor('pcm-processor', PCMProcessor);
       }
     };
     audioWorkletNode.connect(audioContext.destination);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   });
 
   onDestroy(() => {
@@ -842,27 +898,32 @@ registerProcessor('pcm-processor', PCMProcessor);
     </div>
   </div>
 </div>
-
-{#if selectedInsight && insightPosition}
-  <div
-    class="insight-popup"
-    style="top: {insightPosition.top}px; left: {insightPosition.left}px"
-  >
-    <div class="insight-header">
-      <div class="insight-word-text">{selectedInsight.originalText}</div>
-      <button class="insight-close" onclick={closeInsight}>
-        <IconX size={16} />
-      </button>
+{#if isMobileDevice}
+  {#if selectedInsight}
+    <InsightDrawer insight={selectedInsight} onClose={closeInsight} />
+  {/if}
+{:else if selectedInsight}
+  {#if insightPosition}
+    <div
+      class="insight-popup"
+      style="top: {insightPosition.top}px; left: {insightPosition.left}px"
+    >
+      <div class="insight-header">
+        <div class="insight-word-text">{selectedInsight.originalText}</div>
+        <button class="insight-close" onclick={closeInsight}>
+          <IconX size={16} />
+        </button>
+      </div>
+      <div class="insight-variations">
+        {#each selectedInsight.variations as variation}
+          <div class="insight-variation">
+            <div class="variation-text">{variation.text}</div>
+            <div class="variation-explanation">{variation.explanation}</div>
+          </div>
+        {/each}
+      </div>
     </div>
-    <div class="insight-variations">
-      {#each selectedInsight.variations as variation}
-        <div class="insight-variation">
-          <div class="variation-text">{variation.text}</div>
-          <div class="variation-explanation">{variation.explanation}</div>
-        </div>
-      {/each}
-    </div>
-  </div>
+  {/if}
 {/if}
 
 <LanguageSelectionModal
