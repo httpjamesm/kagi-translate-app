@@ -17,6 +17,18 @@ struct DetectLanguageResponse {
     label: String,
 }
 
+#[derive(serde::Deserialize, serde::Serialize)]
+struct AlternativeTranslation {
+    translation: String,
+    explanation: String,
+}
+
+#[derive(serde::Deserialize, serde::Serialize)]
+struct AlternativeTranslationsResponse {
+    originalDescription: String,
+    elements: Vec<AlternativeTranslation>,
+}
+
 #[derive(serde::Deserialize)]
 struct TranslationResponse {
     r#type: String,
@@ -336,6 +348,85 @@ async fn get_transcription(
     Ok(transcription.transcription)
 }
 
+#[tauri::command]
+async fn get_alternative_translations(
+    app: tauri::AppHandle,
+    state: tauri::State<'_, Arc<Mutex<AppState>>>,
+    source_language: &str,
+    target_language: &str,
+    original_text: &str,
+    existing_translation: &str,
+    settings: &str,
+) -> TAResult<AlternativeTranslationsResponse> {
+    let (session_token, client) = {
+        let state = state.lock().unwrap();
+        (state.session_token.clone(), state.reqwest_client.clone())
+    };
+
+    let session_token = session_token.ok_or_else(|| anyhow!("No login cookie"))?;
+
+    // Parse settings from stringified JSON
+    let settings_value: serde_json::Value =
+        serde_json::from_str(settings).map_err(|e| anyhow!("Failed to parse settings: {}", e))?;
+
+    // Extract settings with defaults if any are missing
+    let formality = settings_value
+        .get("formality_level")
+        .and_then(|v| v.as_str())
+        .unwrap_or("neutral");
+
+    let speaker_gender = settings_value
+        .get("speaker_gender")
+        .and_then(|v| v.as_str())
+        .unwrap_or("unknown");
+
+    let addressee_gender = settings_value
+        .get("addressee_gender")
+        .and_then(|v| v.as_str())
+        .unwrap_or("unknown");
+
+    let translation_style = settings_value
+        .get("translation_style")
+        .and_then(|v| v.as_str())
+        .unwrap_or("natural");
+
+    let context = settings_value
+        .get("context")
+        .and_then(|v| v.as_str())
+        .unwrap_or("");
+
+    let translation_options = json!({
+        "speakerGender": speaker_gender,
+        "addresseeGender": addressee_gender,
+        "formality": formality,
+        "style": translation_style,
+        "context": context
+    });
+
+    let form = reqwest::multipart::Form::new()
+        .text("targetLanguage", target_language.to_string())
+        .text("sourceLanguage", source_language.to_string())
+        .text("originalText", original_text.to_string())
+        .text("existingTranslation", existing_translation.to_string())
+        .text("targetExplanationLanguage", target_language.to_string())
+        .text("partialTranslation", "false")
+        .text("translationOptions", translation_options.to_string());
+
+    let response = client
+        .post("https://translate.kagi.com/api/alternative-translations")
+        .multipart(form)
+        .header("Cookie", format!("kagi_session={}", session_token))
+        .header("User-Agent", get_user_agent(&app))
+        .header("x-kagi-authorization", &session_token)
+        .send()
+        .await
+        .map_err(|e| anyhow!(e))?;
+
+    let alt_translations: AlternativeTranslationsResponse =
+        response.json().await.map_err(|e| anyhow!(e))?;
+    Ok(alt_translations)
+}
+
 struct AppState {
     session_token: Option<String>,
     reqwest_client: reqwest::Client,
@@ -416,6 +507,7 @@ pub fn run() {
             get_speech,
             get_translate_session_token,
             get_transcription,
+            get_alternative_translations,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

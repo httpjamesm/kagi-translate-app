@@ -7,6 +7,7 @@
     IconPlayerStop,
     IconSettings,
     IconMicrophone,
+    IconArrowsRightLeft,
   } from "@tabler/icons-svelte";
   import { invoke } from "@tauri-apps/api/core";
   import {
@@ -27,6 +28,16 @@
   interface SpeechResponse {
     content_type: string;
     data: number[];
+  }
+
+  interface AlternativeTranslation {
+    translation: string;
+    explanation: string;
+  }
+
+  interface AlternativeTranslationsResponse {
+    originalDescription: string;
+    elements: AlternativeTranslation[];
   }
 
   let sourceLanguage = $state<Language>(languages[0]);
@@ -54,6 +65,11 @@
   let mediaRecorder: MediaRecorder | null = null;
   let audioChunks: Blob[] = [];
 
+  // State for alternative translations
+  let isLoadingAlternatives = $state(false);
+  let alternativeTranslations = $state<AlternativeTranslation[]>([]);
+  let alternativeTranslationsDescription = $state("");
+
   const doLanguageDetection = async () => {
     try {
       const language: string = await invoke("detect_language", {
@@ -73,8 +89,8 @@
     const thisTranslationId = ++currentTranslationId;
     isLoading = true;
     romanization = "";
-
-    console.log(sourceText);
+    // Reset alternatives when doing a new translation
+    alternativeTranslations = [];
 
     try {
       if (sourceText.length === 0) return;
@@ -114,6 +130,11 @@
             language: targetLanguage.apiName,
           });
         }
+
+        // Automatically get alternative translations after a successful translation
+        if (translatedText) {
+          getAlternativeTranslations();
+        }
       }
     } catch (e) {
       console.error(e);
@@ -126,6 +147,58 @@
         isLoading = false;
       }
     }
+  };
+
+  const getAlternativeTranslations = async () => {
+    if (!sourceText || !translatedText) return;
+
+    isLoadingAlternatives = true;
+    try {
+      const response: AlternativeTranslationsResponse = await invoke(
+        "get_alternative_translations",
+        {
+          sourceLanguage:
+            sourceLanguage.apiName === "Automatic"
+              ? detectedLanguage
+              : sourceLanguage.apiName,
+          targetLanguage: targetLanguage.apiName,
+          originalText: sourceText,
+          existingTranslation: translatedText,
+          settings: JSON.stringify({
+            speaker_gender:
+              window.localStorage
+                .getItem("translationSpeakerGender")
+                ?.toLowerCase() || "unknown",
+            addressee_gender:
+              window.localStorage
+                .getItem("translationAddresseeGender")
+                ?.toLowerCase() || "unknown",
+            translation_style:
+              window.localStorage.getItem("translationStyle")?.toLowerCase() ||
+              "natural",
+            formality_level:
+              window.localStorage
+                .getItem("translationFormality")
+                ?.toLowerCase() || "neutral",
+            context: window.localStorage.getItem("translationContext") || "",
+          }),
+        }
+      );
+
+      alternativeTranslations = response.elements;
+      alternativeTranslationsDescription = response.originalDescription;
+    } catch (error) {
+      console.error("Failed to get alternative translations:", error);
+    } finally {
+      isLoadingAlternatives = false;
+    }
+  };
+
+  const selectAlternativeTranslation = async (translation: string) => {
+    try {
+      await selectionFeedback();
+    } catch {}
+    translatedText = translation;
   };
 
   $effect(() => {
@@ -565,6 +638,55 @@ registerProcessor('pcm-processor', PCMProcessor);
             {#if romanization}
               <div class="romanization">{romanization}</div>
             {/if}
+
+            {#if isLoadingAlternatives}
+              <div class="alternatives-section">
+                <div class="skeleton-loader">
+                  <div class="skeleton-line" style="width: 90%"></div>
+                  <div class="skeleton-line" style="width: 60%"></div>
+                </div>
+                <div class="alternatives-list">
+                  <div class="alternative-item skeleton">
+                    <div class="skeleton-line"></div>
+                    <div class="skeleton-line" style="width: 85%"></div>
+                  </div>
+                  <div class="alternative-item skeleton">
+                    <div class="skeleton-line"></div>
+                    <div class="skeleton-line" style="width: 70%"></div>
+                  </div>
+                  <div class="alternative-item skeleton">
+                    <div class="skeleton-line"></div>
+                    <div class="skeleton-line" style="width: 75%"></div>
+                  </div>
+                </div>
+              </div>
+            {:else if alternativeTranslations.length > 0}
+              <div class="alternatives-section">
+                {#if alternativeTranslationsDescription}
+                  <div class="alternatives-description">
+                    {alternativeTranslationsDescription}
+                  </div>
+                {/if}
+                <div class="alternatives-list">
+                  {#each alternativeTranslations as alt}
+                    <div
+                      class="alternative-item"
+                      onclick={() =>
+                        selectAlternativeTranslation(alt.translation)}
+                    >
+                      <div class="alternative-translation">
+                        {alt.translation}
+                      </div>
+                      {#if alt.explanation}
+                        <div class="alternative-explanation">
+                          {alt.explanation}
+                        </div>
+                      {/if}
+                    </div>
+                  {/each}
+                </div>
+              </div>
+            {/if}
           {:else}
             <span class="placeholder"
               >{$t("common.translationWillAppearHere")}</span
@@ -831,6 +953,67 @@ registerProcessor('pcm-processor', PCMProcessor);
     }
     to {
       transform: rotate(360deg);
+    }
+  }
+
+  .alternatives-section {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .alternatives-description {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    line-height: 1.4;
+  }
+
+  .alternatives-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .alternative-item {
+    padding: 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      border-color: var(--border-hover);
+      background-color: var(--surface-hover);
+    }
+  }
+
+  .alternative-translation {
+    font-size: 1rem;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+  }
+
+  .alternative-explanation {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+  }
+
+  .alternative-item.skeleton {
+    background: var(--surface);
+    border-color: var(--border);
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+
+    .skeleton-line {
+      height: 1rem;
+      margin-bottom: 0.5rem;
+
+      &:last-child {
+        height: 0.85rem;
+        margin-bottom: 0;
+      }
     }
   }
 </style>
